@@ -75,7 +75,7 @@ export class GglPathResponse {
         return percent_of_this_step * 100;
     }
 
-    private _info_at_time_compute_ETA_full(current_step_index: number, time: number): number {
+    private _info_at_time_compute_ETA_full(_current_step_index: number, time: number): number {
         const total_time_in_seconds = this.data.routes[0].legs[0].duration.value;
 
         return total_time_in_seconds - time;
