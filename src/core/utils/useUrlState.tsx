@@ -7,6 +7,14 @@ function useUrlState<T> (name: string, defaultValue: T) {
         const urlParams = new URLSearchParams(window.location.search);
         const urlValue = urlParams.get(name);
         if (urlValue) {
+
+            // Do not parse strings and numbers
+            if(typeof defaultValue === 'string' || typeof defaultValue === 'number') {
+                setValue(urlValue as unknown as T);
+                return;
+            }
+
+            // Complex cases must be parsed
             setValue(JSON.parse(urlValue));
         }
     }, [name]);
