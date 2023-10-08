@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 
-function useUrlState<T> (name: string, defaultValue: T) {
+function useUrlState<T> (name: string, defaultValue: T, validate: (value: string) => boolean = () => true) {
     const [value, setValue] = useState<T>(defaultValue);
     
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const urlValue = urlParams.get(name);
         if (urlValue) {
+
+            // Validate the value
+            if(!validate(urlValue)) {
+                setValue(defaultValue);
+                return;
+            }
 
             // Do not parse strings and numbers
             if(typeof defaultValue === 'string' || typeof defaultValue === 'number') {

@@ -12,10 +12,13 @@ import { Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, Tab
 import { MissionLeftPanel } from './Components/MissionPanel/MissionLeftPanel'
 import useUrlState from './core/utils/useUrlState';
 
+const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
+const validate_url_size= (value: string) => ['true', 'false'].includes(value)
+
 function App() {
 
-	const [tab, setTab] = useUrlState<string>('tab', 'tab_missions_to_hotel')
-	const [increasedMiddleSize, setIncreasedMiddleSize] = useUrlState<boolean>('all_missions', false)
+	const [tab, setTab] = useUrlState<string>('tab', 'tab_missions_to_hotel', validate_url_tab)
+	const [increasedMiddleSize, setIncreasedMiddleSize] = useUrlState<boolean>('all_missions', false, validate_url_size)
 
 	let allMissions = []
 	for (let i = 0; i < 50; i++) {
