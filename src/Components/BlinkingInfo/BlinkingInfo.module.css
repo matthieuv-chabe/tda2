@@ -1,0 +1,22 @@
+
+/* blinkingText animation */
+
+@keyframes blinkingText {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.blinkingText {
+  animation: blinkingText 3s infinite;
+}
+

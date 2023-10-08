@@ -1,0 +1,169 @@
+
+.page {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+
+  overflow: hidden;
+}
+
+.vertical-left {
+  background: rgb(6, 30, 58);
+  height: 100%;
+  width: 68px;
+  padding-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  z-index: 20;
+  box-shadow: 0px 0px 10px rgba(6, 30, 58, 1);
+}
+
+.vertical-left .logo {
+  filter: grayscale(100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.vertical-left .logo img {
+  width: 40px;
+  height: 40px;
+}
+
+.vertical-left .logo:hover {
+  filter: grayscale(0%);
+  transition: all 0.3s ease-in-out;
+}
+
+.vertical-left .logo p {
+  font-size: 12px;
+  font-weight: 500;
+  color: #FFF;
+  margin-top: 10px;
+}
+
+.vertical-left .menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.vertical-left .menu li {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: #FFF;
+  margin-bottom: 20px;
+  /* border-radius: 4px; */
+  padding: 10px;
+  font-size: 12px;
+}
+
+
+.vertical-left .menu li a {
+  color: #FFF;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.vertical-left .menu li.active {
+  background-color: #DE2B4E;
+}
+
+.vertical-left .menu li:hover {
+  background-color: rgba(156, 156, 156, 0.5);
+}
+
+.vertical-middle {
+  background: #ffffff;
+  height: 100%;
+  width: 500px;
+  padding: 40px;
+
+  z-index: 10;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+}
+
+.vertical-right {
+  background: #061E3A;
+  height: 100%;
+  flex:1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+
+  .vertical-left {
+    display: none;
+  }
+
+  .vertical-middle {
+    width: 100%;
+    left: 0;
+  }
+
+  .vertical-right {
+    display: none;
+  }
+}
+
+.livemissioncount {
+  color:#DE2B4E;
+  margin-left: 10px;
+}
+
+.iconfix {
+  transform: translate(0, 2px);
+}
+
+.tabflex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.missions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: 4px solid #061E3A;
+}
+
+.vertical-left .bottommenu li {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: #FFF;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 12px;
+}
+
+
+.vertical-left .bottommenu li a {
+  color: #FFF;
+  text-decoration: none;
+  cursor: pointer;
+}

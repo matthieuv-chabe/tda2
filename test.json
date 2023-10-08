@@ -1,0 +1,25 @@
+{
+    "rows": [
+        {
+            "elements": [
+                {
+                    "distance": {
+                        "text": "17,0 km",
+                        "value": 16981
+                    },
+                    "duration": {
+                        "text": "23 minutes",
+                        "value": 1380
+                    },
+                    "status": "OK"
+                }
+            ]
+        }
+    ],
+    "originAddresses": [
+        "33 Av. du Maréchal Maunoury, 75016 Paris, France"
+    ],
+    "destinationAddresses": [
+        "139 Rue de Bercy, 75012 Paris, France"
+    ]
+}
