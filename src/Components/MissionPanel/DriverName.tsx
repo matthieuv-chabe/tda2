@@ -16,7 +16,7 @@ export const DriverName = (props: { name: string }) => {
         }, 2000);
     };
 
-    const handleClose = (event: Event | React.SyntheticEvent<any, Event>, reason?: string) => {
+    const handleClose = (event: Event | React.SyntheticEvent<any, Event>, _reason?: string) => {
         setOpen(false);
         clearTimeout(callTimeout.current);
     };

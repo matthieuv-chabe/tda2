@@ -37,12 +37,12 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
     const [bgline, setBgline] = React.useState<google.maps.Polyline>(); // path of the car
     const [fullline, setFullline] = React.useState<google.maps.Polyline>(); // path of the car
 
-    const [mx, setMx] = React.useState<google.maps.Marker>(); // marker extrapolation
+    const [mx, _setMx] = React.useState<google.maps.Marker>(); // marker extrapolation
     const [linelabel, setLinelabel] = React.useState<google.maps.Marker>();
 
     const [iv, setIv] = React.useState<NodeJS.Timeout>(); // interval for extrapolation
 
-    const [pathR, setPathR] = React.useState<GglPathResponse>(new GglPathResponse(chemin));
+    const [pathR, _setPathR] = React.useState<GglPathResponse>(new GglPathResponse(chemin));
 
     // const distmatrix = new google.maps.DistanceMatrixService();
     // const directionsService = new google.maps.DirectionsService();

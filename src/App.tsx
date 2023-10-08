@@ -14,10 +14,6 @@ import { MissionLeftPanel } from './Components/MissionPanel/MissionLeftPanel'
 
 function App() {
 
-	const fx = (google: any) => {
-		console.log(google)
-	}
-
 	const [tab, setTab] = useState('one')
 	const [increasedMiddleSize, setIncreasedMiddleSize] = useState(false)
 

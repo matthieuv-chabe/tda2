@@ -1,5 +1,5 @@
 
-export const OverMapInformations = (props: {map?: google.maps.Map}) => {
+export const OverMapInformations = (_props: {map?: google.maps.Map}) => {
     return (<>
 {/*     
     <div style={{
