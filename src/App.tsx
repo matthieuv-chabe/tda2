@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import chabeLogo from '../public/logo_chabe_blanc_200.png'
 import './App.css'
 
