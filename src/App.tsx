@@ -14,12 +14,12 @@ import { ArrowForward } from '@mui/icons-material';
 import { LicencePlate } from "./Components/MissionPanel/LicencePlate"
 import { DriverName } from "./Components/MissionPanel/DriverName"
 
-const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
+// const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
 const validate_url_size = (value: string) => ['true', 'false'].includes(value)
 
 function App() {
 
-	const [tab, setTab] = useUrlState<string>('tab', 'tab_missions_to_hotel', validate_url_tab)
+	// const [tab, setTab] = useUrlState<string>('tab', 'tab_missions_to_hotel', validate_url_tab)
 	const [increasedMiddleSize, setIncreasedMiddleSize] = useUrlState<boolean>('all_missions', false, validate_url_size)
 
 	let allMissions = []
