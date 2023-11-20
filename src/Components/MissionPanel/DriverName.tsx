@@ -67,7 +67,7 @@ export const DriverName = (props: { name: string }) => {
                         If your browser doesnt support calling, please call
                         <br />
                         <PhoneEnabledIcon fontSize={"small"} />
-                        +33 6 12 34 56 78
+                        <a href="tel:+33 6 12 34 56 78">+33 6 12 34 56 78</a>
                     </Typography>
 
                 </Alert>

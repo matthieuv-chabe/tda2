@@ -1,4 +1,4 @@
-import { Card, CardContent, Chip, Avatar, Typography, CardActions, Button } from "@mui/material"
+import { Card, CardContent, Chip, Avatar, Typography } from "@mui/material"
 import { LicencePlate } from "./LicencePlate"
 import { DriverName } from "./DriverName"
 import { GeolocLostIcon } from "../GeolocLostIcon"
