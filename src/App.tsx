@@ -8,8 +8,7 @@ import LinkIcon from '@mui/icons-material/Link';
 import { Wrapper } from '@googlemaps/react-wrapper'
 import { Map } from './Components/Map'
 import { CarLoc } from './Components/CarLoc/CarLoc'
-import { Accordion, AccordionDetails, AccordionSummary, Avatar, Chip, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, ToggleButton, Typography } from '@mui/material'
-import { MissionLeftPanel } from './Components/MissionPanel/MissionLeftPanel'
+import { Accordion, AccordionDetails, AccordionSummary, Chip, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ToggleButton, Typography } from '@mui/material'
 import useUrlState from './core/utils/useUrlState';
 import { ArrowForward } from '@mui/icons-material';
 import { LicencePlate } from "./Components/MissionPanel/LicencePlate"
