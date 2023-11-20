@@ -23,6 +23,15 @@ export const DriverName = (props: { name: string }) => {
 
     return (<>
 
+        <Typography variant="body1" component="b">
+            {props.name}
+            <Link href="#" onClick={handleClick}>
+                <PhoneEnabledIcon fontSize={"small"}
+                    style={{ transform: "translateY(3px)", marginLeft: 5 }}
+                />
+            </Link>
+        </Typography>
+
         <Backdrop
             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
             open={open}
@@ -64,14 +73,5 @@ export const DriverName = (props: { name: string }) => {
                 </Alert>
             </Snackbar>
         </Backdrop>
-
-        <Typography variant="body1" component="div">
-            {props.name}
-            <Link href="#" onClick={handleClick}>
-                <PhoneEnabledIcon fontSize={"small"}
-                    style={{ transform: "translateY(3px)", marginLeft: 5 }}
-                />
-            </Link>
-        </Typography>
     </>)
 }

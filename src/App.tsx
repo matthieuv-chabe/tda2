@@ -8,12 +8,15 @@ import LinkIcon from '@mui/icons-material/Link';
 import { Wrapper } from '@googlemaps/react-wrapper'
 import { Map } from './Components/Map'
 import { CarLoc } from './Components/CarLoc/CarLoc'
-import { Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, ToggleButton } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Chip, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, ToggleButton, Typography } from '@mui/material'
 import { MissionLeftPanel } from './Components/MissionPanel/MissionLeftPanel'
 import useUrlState from './core/utils/useUrlState';
+import { ArrowForward } from '@mui/icons-material';
+import { LicencePlate } from "./Components/MissionPanel/LicencePlate"
+import { DriverName } from "./Components/MissionPanel/DriverName"
 
 const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
-const validate_url_size= (value: string) => ['true', 'false'].includes(value)
+const validate_url_size = (value: string) => ['true', 'false'].includes(value)
 
 function App() {
 
@@ -35,12 +38,21 @@ function App() {
 		)
 	};
 
+	const calculate_increased_middle_size = () => {
+		const viewport_width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+		if (viewport_width < 1000) {
+			return "100%"
+		}
+
+		return "calc(100% - 500px)"
+	}
+
 	return (
 		<>
 			<div className="page">
 				<div className="vertical-left">
 					<div className="logo">
-						<img src={chabeLogo} alt="React Logo" />
+						<img src={chabeLogo} alt="React Logo" style={{ scale: .8 }} />
 						<p>CHABE</p>
 					</div>
 
@@ -57,7 +69,7 @@ function App() {
 								}}>
 									<BsCarFront />
 								</div>
-								<a href="#">Realtime</a>									
+								<a href="#">Realtime</a>
 							</li>
 
 							<li>
@@ -77,12 +89,8 @@ function App() {
 										transform: 'translateY(2px) translateX(2px)',
 										color: 'grey',
 									}} />
-								</a>									
+								</a>
 							</li>
-
-							<li>Portfolio</li>
-							<li>Blog</li>
-							<li>Contact</li>
 						</ul>
 					</div>
 
@@ -110,7 +118,7 @@ function App() {
 				<div
 					className="vertical-middle"
 					style={{
-						width: increasedMiddleSize ? 'calc(100% - 500px)' : undefined,
+						width: increasedMiddleSize ? calculate_increased_middle_size() : undefined,
 						transition: 'width 0.5s',
 					}}
 				>
@@ -145,14 +153,16 @@ function App() {
 
 					{!increasedMiddleSize && (
 						<>
-							<p style={{ marginTop: 15 }}>
+							{/* <p style={{ marginTop: 15 }}>
 								<BsCarFront className="iconfix" />
 								<span className='livemissioncount'>7</span> missions en cours
-							</p>
+							</p> */}
 
-							<Tabs
+							{/* <Tabs
 								value={tab}
 								onChange={(_e, v) => setTab(v)}
+								centered={true}
+								variant='fullWidth'
 							>
 								<Tab value="tab_missions_to_hotel" label="Vers Hotel" />
 								<Tab value="tab_missions_from_hotel" label="Depuis Hotel" />
@@ -167,12 +177,485 @@ function App() {
 										overflowY: 'scroll',
 									}}
 								>
+									<MissionLeftPanel isVip={true} />
 									<MissionLeftPanel />
-									<MissionLeftPanel />
-									<MissionLeftPanel />
+									<MissionLeftPanel noLocation />
 									<MissionLeftPanel />
 								</div>
-							)}
+							)} */}
+						</>
+					)}
+
+					{!increasedMiddleSize && (
+						<>
+							<Accordion>
+								<AccordionSummary
+								>
+									<div style={{width: "100%"}}>
+										<div
+											style={{
+												display: "flex",
+												flexDirection: "row",
+												alignItems: "center",
+												marginBottom: 10,
+
+												// 5px space between chips
+												gap: 5,
+											}}
+										>
+											<Chip
+												label="VIP"
+												style={{ border: 'solid gold 2px' }}
+												size='small'
+											/>
+
+											<Chip
+												label="PMR"
+												size='small'
+											/>
+
+											<Chip
+												label="5 bagages"
+												size='small'
+											/>
+										</div>
+
+										<div style={{
+											display: "flex",
+											flexDirection: "row",
+											alignItems: "center",
+											justifyContent: "space-evenly",
+											marginBottom: 10,
+											width: "100%",
+										}}>
+											<div>
+												<Typography variant="h5" component="div">
+													Arrivée à 15h00
+												</Typography>
+												<Typography sx={{ mb: 1.5 }} color="text.secondary">
+													Dans 2h 30min
+												</Typography>
+											</div>
+
+											<div>
+												<Typography variant="h6" component="div">
+													M. DUPONT Jean
+												</Typography>
+												<Typography sx={{ mb: 1.5 }} color="text.secondary">
+													+33 6 12 34 56 78
+												</Typography>
+											</div>
+										</div>
+
+									</div>
+								</AccordionSummary>
+
+								<AccordionDetails>
+
+									<div
+										style={{
+											display: "flex",
+											flexDirection: "row",
+											alignItems: "center",
+											justifyContent: "space-evenly",
+
+											backgroundColor: "#f5f5f5",
+											padding: 10,
+											borderRadius: 10,
+
+											// Very slight shadow
+											boxShadow: "0 0 5px 0 rgba(0,0,0,0.2)",
+										}}
+									>
+
+										<div style={{ textAlign: "center" }}>
+											<Typography>Aéroport CDG</Typography>
+											<Typography variant='subtitle2'>12:00</Typography>
+										</div>
+
+										<div>
+											<ArrowForward />
+										</div>
+
+										<div style={{ textAlign: "center" }}>
+											<Typography>Hotel de la Paix</Typography>
+											<Typography variant='subtitle2'>15:00</Typography>
+										</div>
+
+									</div>
+
+									<div style={{
+										display: "flex",
+										flexDirection: "row",
+										alignItems: "center",
+										justifyContent: "space-evenly",
+										marginTop: 10,
+
+										backgroundColor: "#f5f5f5",
+										padding: 10,
+										borderRadius: 10,
+										boxShadow: "0 0 5px 0 rgba(10,10,10,0.2)",
+									}}>
+										<div style={{
+											textAlign: "center",
+										}}>
+											Mercedes S<br />
+											<LicencePlate platenum="AA-000-FF" />
+										</div>
+										<DriverName name="M. Macho FEUR" />
+									</div>
+
+
+								</AccordionDetails>
+							</Accordion>
+							<Accordion>
+								<AccordionSummary
+								>
+									<div style={{width: "100%"}}>
+										<div
+											style={{
+												display: "flex",
+												flexDirection: "row",
+												alignItems: "center",
+												marginBottom: 10,
+
+												// 5px space between chips
+												gap: 5,
+											}}
+										>
+											<Chip
+												label="VIP"
+												style={{ border: 'solid gold 2px' }}
+												size='small'
+											/>
+
+											<Chip
+												label="PMR"
+												size='small'
+											/>
+
+											<Chip
+												label="5 bagages"
+												size='small'
+											/>
+										</div>
+
+										<div style={{
+											display: "flex",
+											flexDirection: "row",
+											alignItems: "center",
+											justifyContent: "space-evenly",
+											marginBottom: 10,
+											width: "100%",
+										}}>
+											<div>
+												<Typography variant="h5" component="div">
+													Arrivée à 15h00
+												</Typography>
+												<Typography sx={{ mb: 1.5 }} color="text.secondary">
+													Dans 2h 30min
+												</Typography>
+											</div>
+
+											<div>
+												<Typography variant="h6" component="div">
+													M. DUPONT Jean
+												</Typography>
+												<Typography sx={{ mb: 1.5 }} color="text.secondary">
+													+33 6 12 34 56 78
+												</Typography>
+											</div>
+										</div>
+
+									</div>
+								</AccordionSummary>
+
+								<AccordionDetails>
+
+									<div
+										style={{
+											display: "flex",
+											flexDirection: "row",
+											alignItems: "center",
+											justifyContent: "space-evenly",
+
+											backgroundColor: "#f5f5f5",
+											padding: 10,
+											borderRadius: 10,
+
+											// Very slight shadow
+											boxShadow: "0 0 5px 0 rgba(0,0,0,0.2)",
+										}}
+									>
+
+										<div style={{ textAlign: "center" }}>
+											<Typography>Aéroport CDG</Typography>
+											<Typography variant='subtitle2'>12:00</Typography>
+										</div>
+
+										<div>
+											<ArrowForward />
+										</div>
+
+										<div>
+											<Typography>Hotel de la Paix</Typography>
+											<Typography variant='subtitle2'>15:00</Typography>
+										</div>
+
+									</div>
+
+									<div style={{
+										display: "flex",
+										flexDirection: "row",
+										alignItems: "center",
+										justifyContent: "space-evenly",
+										marginTop: 10,
+
+										backgroundColor: "#f5f5f5",
+										padding: 10,
+										borderRadius: 10,
+										boxShadow: "0 0 5px 0 rgba(10,10,10,0.2)",
+									}}>
+										<div>
+											Mercedes Classe S<br />
+											<LicencePlate platenum="AA-000-FF" />
+										</div>
+										<DriverName name="M. Macho FEUR" /><br />
+									</div>
+
+
+								</AccordionDetails>
+							</Accordion>
+							<Accordion>
+								<AccordionSummary
+								>
+									<div style={{width: "100%"}}>
+										<div
+											style={{
+												display: "flex",
+												flexDirection: "row",
+												alignItems: "center",
+												marginBottom: 10,
+
+												// 5px space between chips
+												gap: 5,
+											}}
+										>
+											<Chip
+												label="VIP"
+												style={{ border: 'solid gold 2px' }}
+												size='small'
+											/>
+
+											<Chip
+												label="PMR"
+												size='small'
+											/>
+
+											<Chip
+												label="5 bagages"
+												size='small'
+											/>
+										</div>
+
+										<div style={{
+											display: "flex",
+											flexDirection: "row",
+											alignItems: "center",
+											justifyContent: "space-evenly",
+											marginBottom: 10,
+											width: "100%",
+										}}>
+											<div>
+												<Typography variant="h5" component="div">
+													Arrivée à 15h00
+												</Typography>
+												<Typography sx={{ mb: 1.5 }} color="text.secondary">
+													Dans 2h 30min
+												</Typography>
+											</div>
+
+											<div>
+												<Typography variant="h6" component="div">
+													M. DUPONT Jean
+												</Typography>
+												<Typography sx={{ mb: 1.5 }} color="text.secondary">
+													+33 6 12 34 56 78
+												</Typography>
+											</div>
+										</div>
+
+									</div>
+								</AccordionSummary>
+
+								<AccordionDetails>
+
+									<div
+										style={{
+											display: "flex",
+											flexDirection: "row",
+											alignItems: "center",
+											justifyContent: "space-evenly",
+
+											backgroundColor: "#f5f5f5",
+											padding: 10,
+											borderRadius: 10,
+
+											// Very slight shadow
+											boxShadow: "0 0 5px 0 rgba(0,0,0,0.2)",
+										}}
+									>
+
+										<div style={{ textAlign: "center" }}>
+											<Typography>Aéroport CDG</Typography>
+											<Typography variant='subtitle2'>12:00</Typography>
+										</div>
+
+										<div>
+											<ArrowForward />
+										</div>
+
+										<div>
+											<Typography>Hotel de la Paix</Typography>
+											<Typography variant='subtitle2'>15:00</Typography>
+										</div>
+
+									</div>
+
+									<div style={{
+										display: "flex",
+										flexDirection: "row",
+										alignItems: "center",
+										justifyContent: "space-evenly",
+										marginTop: 10,
+
+										backgroundColor: "#f5f5f5",
+										padding: 10,
+										borderRadius: 10,
+										boxShadow: "0 0 5px 0 rgba(10,10,10,0.2)",
+									}}>
+										Mercedes Classe S<LicencePlate platenum="AA-000-FF" />
+										<DriverName name="M. Macho FEUR" /><br />
+									</div>
+
+
+								</AccordionDetails>
+							</Accordion>
+							<Accordion>
+								<AccordionSummary
+								>
+									<div style={{width: "100%"}}>
+										<div
+											style={{
+												display: "flex",
+												flexDirection: "row",
+												alignItems: "center",
+												marginBottom: 10,
+
+												// 5px space between chips
+												gap: 5,
+											}}
+										>
+											<Chip
+												label="VIP"
+												style={{ border: 'solid gold 2px' }}
+												size='small'
+											/>
+
+											<Chip
+												label="PMR"
+												size='small'
+											/>
+
+											<Chip
+												label="5 bagages"
+												size='small'
+											/>
+										</div>
+
+										<div style={{
+											display: "flex",
+											flexDirection: "row",
+											alignItems: "center",
+											justifyContent: "space-evenly",
+											marginBottom: 10,
+											width: "100%",
+										}}>
+											<div>
+												<Typography variant="h5" component="div">
+													Arrivée à 15h00
+												</Typography>
+												<Typography sx={{ mb: 1.5 }} color="text.secondary">
+													Dans 2h 30min
+												</Typography>
+											</div>
+
+											<div>
+												<Typography variant="h6" component="div">
+													M. DUPONT Jean
+												</Typography>
+												<Typography sx={{ mb: 1.5 }} color="text.secondary">
+													+33 6 12 34 56 78
+												</Typography>
+											</div>
+										</div>
+
+									</div>
+								</AccordionSummary>
+
+								<AccordionDetails>
+
+									<div
+										style={{
+											display: "flex",
+											flexDirection: "row",
+											alignItems: "center",
+											justifyContent: "space-evenly",
+
+											backgroundColor: "#f5f5f5",
+											padding: 10,
+											borderRadius: 10,
+
+											// Very slight shadow
+											boxShadow: "0 0 5px 0 rgba(0,0,0,0.2)",
+										}}
+									>
+
+										<div style={{ textAlign: "center" }}>
+											<Typography>Aéroport CDG</Typography>
+											<Typography variant='subtitle2'>12:00</Typography>
+										</div>
+
+										<div>
+											<ArrowForward />
+										</div>
+
+										<div>
+											<Typography>Hotel de la Paix</Typography>
+											<Typography variant='subtitle2'>15:00</Typography>
+										</div>
+
+									</div>
+
+									<div style={{
+										display: "flex",
+										flexDirection: "row",
+										alignItems: "center",
+										justifyContent: "space-evenly",
+										marginTop: 10,
+
+										backgroundColor: "#f5f5f5",
+										padding: 10,
+										borderRadius: 10,
+										boxShadow: "0 0 5px 0 rgba(10,10,10,0.2)",
+									}}>
+										Mercedes Classe S<LicencePlate platenum="AA-000-FF" />
+										<DriverName name="M. Macho FEUR" /><br />
+									</div>
+
+
+								</AccordionDetails>
+							</Accordion>
 						</>
 					)}
 

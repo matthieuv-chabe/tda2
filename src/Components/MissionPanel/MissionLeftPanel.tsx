@@ -3,21 +3,33 @@ import { LicencePlate } from "./LicencePlate"
 import { DriverName } from "./DriverName"
 import { GeolocLostIcon } from "../GeolocLostIcon"
 
-export const MissionLeftPanel = () => {
+export type MissionLeftPanelProps = {
+    isVip?: boolean
+    isPmr?: boolean
+    luggageCount?: number
+    noLocation?: boolean
+}
+
+export const MissionLeftPanel = (props: MissionLeftPanelProps) => {
     return (<>
 
         <Card sx={{ minWidth: 275 }} style={{ marginTop: 5 }}>
             
             <CardContent style={{position: "relative"}}>
-                <div
-                    style={{
-                        position: "absolute",
-                        top: 55,
-                        right: 0,
-                    }}
-                >
-                    <GeolocLostIcon />
-                </div>
+                
+                {
+                    props.noLocation && (
+                        <div
+                            style={{
+                                position: "absolute",
+                                top: 55,
+                                right: 0,
+                            }}
+                        >
+                            <GeolocLostIcon />
+                        </div>
+                    )
+                }
 
                 <div
                     style={{
@@ -30,42 +42,51 @@ export const MissionLeftPanel = () => {
                         gap: 5,
                     }}
                 >
-                    <Chip
-                        avatar={<Avatar style={{backgroundColor: "gold"}}>VIP</Avatar>}
-                        label="M. DUPONT Jean"
-                        style={{ border: 'solid gold 2px' }}
-                        size='small'
-                    />
+                    {
+                        props.isVip && (
+                            <Chip
+                                avatar={<Avatar>VIP</Avatar>}
+                                label="M. DUPONT Jean"
+                                style={{ border: 'solid gold 2px' }}
+                                size='small'
+                            />
+                        )
+                    }
 
                     <Chip
                         label="PMR"
-                        style={{ backgroundColor: 'orange' }}
                         size='small'
                     />
 
                     <Chip
-                        label="5 luggages"
-                        style={{ backgroundColor: 'lightgreen' }}
+                        label="5 bagages"
                         size='small'
                     />
                 </div>
 
                 <Typography variant="h5" component="div">
-                    ETA 15:00
+                    Arrivée à 15h00
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Arrival in 15 minutes
+                    Dans 2h 30min
                 </Typography>
-                <Typography variant="body2">
-                    Mercedes S-Class <LicencePlate platenum="AA-000-FF" /> <br />
-                    <br />
-                    Driver : <DriverName name="Jean DUPONT" /><br />
-                    Departure: AIRPORT CDG 14:00 <br />
-                </Typography>
+
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginTop: 10,
+                }}>
+
+                    <Typography variant="body2">
+                        <LicencePlate platenum="AA-000-FF" />
+                        <DriverName name="" /><br />
+                    </Typography>
+                </div>
+
+
             </CardContent>
-            <CardActions>
-                <Button>Show on map</Button>
-            </CardActions>
         </Card>
 
     </>)
