@@ -8,12 +8,11 @@ import LinkIcon from '@mui/icons-material/Link';
 import { Wrapper } from '@googlemaps/react-wrapper'
 import { Map } from './Components/Map'
 import { CarLoc } from './Components/CarLoc/CarLoc'
-import { Accordion, AccordionDetails, AccordionSummary, Chip, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, ToggleButton, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Chip, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ToggleButton, Typography } from '@mui/material'
 import useUrlState from './core/utils/useUrlState';
 import { ArrowForward } from '@mui/icons-material';
 import { LicencePlate } from "./Components/MissionPanel/LicencePlate"
 import { DriverName } from "./Components/MissionPanel/DriverName"
-import { MissionLeftPanel } from './Components/MissionPanel/MissionLeftPanel';
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
 const validate_url_size = (value: string) => ['true', 'false'].includes(value)
