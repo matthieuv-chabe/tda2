@@ -8,11 +8,12 @@ import LinkIcon from '@mui/icons-material/Link';
 import { Wrapper } from '@googlemaps/react-wrapper'
 import { Map } from './Components/Map'
 import { CarLoc } from './Components/CarLoc/CarLoc'
-import { Accordion, AccordionDetails, AccordionSummary, Chip, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ToggleButton, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Chip, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, ToggleButton, Typography } from '@mui/material'
 import useUrlState from './core/utils/useUrlState';
 import { ArrowForward } from '@mui/icons-material';
 import { LicencePlate } from "./Components/MissionPanel/LicencePlate"
 import { DriverName } from "./Components/MissionPanel/DriverName"
+import { MissionLeftPanel } from './Components/MissionPanel/MissionLeftPanel';
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
 const validate_url_size = (value: string) => ['true', 'false'].includes(value)
@@ -117,7 +118,7 @@ function App() {
 				<div
 					className="vertical-middle"
 					style={{
-						width: increasedMiddleSize ? calculate_increased_middle_size() : undefined,
+						width: increasedMiddleSize ? calculate_increased_middle_size() : "40%",
 						transition: 'width 0.5s',
 					}}
 				>
@@ -150,40 +151,42 @@ function App() {
 
 
 
-					{!increasedMiddleSize && (
-						<>
-							{/* <p style={{ marginTop: 15 }}>
-								<BsCarFront className="iconfix" />
-								<span className='livemissioncount'>7</span> missions en cours
-							</p> */}
+					{
+					// !increasedMiddleSize && (
+					// 	<>
+					// 		<p style={{ marginTop: 15 }}>
+					// 			<BsCarFront className="iconfix" />
+					// 			<span className='livemissioncount'>7</span> missions en cours
+					// 		</p>
 
-							{/* <Tabs
-								value={tab}
-								onChange={(_e, v) => setTab(v)}
-								centered={true}
-								variant='fullWidth'
-							>
-								<Tab value="tab_missions_to_hotel" label="Vers Hotel" />
-								<Tab value="tab_missions_from_hotel" label="Depuis Hotel" />
-								<Tab value="tab_missions_done" label="Terminées" />
-							</Tabs>
+					// 		<Tabs
+					// 			value={tab}
+					// 			onChange={(_e, v) => setTab(v)}
+					// 			centered={true}
+					// 			variant='fullWidth'
+					// 		>
+					// 			<Tab value="tab_missions_to_hotel" label="Vers Hotel" />
+					// 			<Tab value="tab_missions_from_hotel" label="Depuis Hotel" />
+					// 			<Tab value="tab_missions_done" label="Terminées" />
+					// 		</Tabs>
 
-							{tab === 'tab_missions_to_hotel' && (
-								<div className="mission"
-									style={{
-										marginTop: 10,
-										height: 'calc(100% - 10px)',
-										overflowY: 'scroll',
-									}}
-								>
-									<MissionLeftPanel isVip={true} />
-									<MissionLeftPanel />
-									<MissionLeftPanel noLocation />
-									<MissionLeftPanel />
-								</div>
-							)} */}
-						</>
-					)}
+					// 		{tab === 'tab_missions_to_hotel' && (
+					// 			<div className="mission"
+					// 				style={{
+					// 					marginTop: 10,
+					// 					height: 'calc(100% - 10px)',
+					// 					overflowY: 'scroll',
+					// 				}}
+					// 			>
+					// 				<MissionLeftPanel isVip={true} />
+					// 				<MissionLeftPanel />
+					// 				<MissionLeftPanel noLocation />
+					// 				<MissionLeftPanel />
+					// 			</div>
+					// 		)}
+					// 	</>
+					// )
+					}
 
 					{!increasedMiddleSize && (
 						<>
