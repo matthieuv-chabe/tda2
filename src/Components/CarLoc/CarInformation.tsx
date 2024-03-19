@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import {test2 as chemin} from "../../test2";
 
@@ -48,18 +48,6 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
     // const directionsService = new google.maps.DirectionsService();
 
     // From direction service, get the time of each step to define on which step the car is
-
-
-    useEffect(() => {
-        const listener = (e: MessageEvent) => {
-            console.log(e)
-        };
-
-        window.addEventListener("message", listener);
-        return () => {
-            window.removeEventListener("message", listener);
-        }
-    }, []);
 
 const str_to_polyline = (str: string) => {
     return google.maps.geometry.encoding.decodePath(str);

@@ -14,6 +14,9 @@ import { ArrowForward } from '@mui/icons-material';
 import { LicencePlate } from "./Components/MissionPanel/LicencePlate"
 import { DriverName } from "./Components/MissionPanel/DriverName"
 
+import { GeolocActualizer } from './Components/GeolocActualizer';
+GeolocActualizer.hi();
+
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
 const validate_url_size = (value: string) => ['true', 'false'].includes(value)
 
