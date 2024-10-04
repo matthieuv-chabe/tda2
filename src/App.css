@@ -1,5 +1,114 @@
+@font-face {
+  font-family: "EuclidCircularA-Regular";
+  src:
+    local("EuclidCircularA-Regular"),
+    url(https://agreeable-hill-038a64303.4.azurestaticapps.net/static/media/Euclid%20Circular%20A%20Regular.d54600880dc63db716f2.ttf)
+}
+
+@font-face {
+  font-family: "EuclidCircularA-Semibold";
+  src: local("EuclidCircularA-Semibold"),
+      url('/public/EuclidSemibold.ttf')
+}
+
+@font-face {
+  font-family: "EuclidCircularA-Bold";
+  src:
+    local("EuclidCircularA-Bold")
+    url(https://agreeable-hill-038a64303.4.azurestaticapps.net/static/media/Euclid%20Circular%20A%20Bold.b4788f2f8f64a74fe6d6.ttf)
+}
+
+h1 {
+  color: #001c40;
+  font-weight: 500;
+  font-family: "EuclidCircularA-Semibold";
+  text-transform: uppercase;
+}
+
+.css-b62m3t-container {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.css-hlgwow {
+  -webkit-box-align: center;
+  align-items: center;
+  display: grid;
+  flex: 1 1 0%;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+  padding: 2px 8px;
+  box-sizing: border-box;
+}
+
+.react-select-container-lang .react-select__control {
+  border: none;
+  width: 7rem;
+}
+
+.justify-content-between {
+  justify-content: space-between !important;
+}
+
+.header-chabe {
+  margin: 0;
+  height: 4.9rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 0 2rem;
+  justify-content: space-around;
+}
+
+.header-item {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.header-home {
+  margin-right: auto;
+}
+
+.header-item li {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+}
+
+.baseline {
+  text-transform: uppercase;
+  font-size: 16px;
+  font-family:
+    'EuclidCircularA-Semibold',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-weight: 500;
+  line-height: 100%;
+  color: white;
+}
 
 
+/* Header */
+
+
+#ipx {
+  color: inherit;
+  background: 0px center;
+  opacity: 1;
+  width: 100%;
+  grid-area: 1 / 2;
+  font: inherit;
+  min-width: 2px;
+  border: 0px;
+  margin: 0px;
+  outline: 0px;
+  padding: 0px;
+}
 
 .navbar-chabe {
   width: 3.5rem;
@@ -67,7 +176,7 @@ menu img {
   align-items: center;
 
   z-index: 20;
-  box-shadow: 0px 0px 10px rgba(6, 30, 58, 1);
+  /* box-shadow: 0px 0px 10px rgba(6, 30, 58, 1); */
 }
 
 .vertical-left .logo {
@@ -131,19 +240,19 @@ menu img {
 }
 
 .vertical-middle {
-  background: #ffffff;
+  background: #f5f5f5;
   height: 100%;
   width: 700px;
   padding: 40px;
 
   z-index: 10;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 1); */
 }
 
 .vertical-right {
   background: #061E3A;
   height: 100%;
-  flex:1;
+  flex: 1;
 
   display: flex;
   flex-direction: column;
@@ -168,7 +277,7 @@ menu img {
 }
 
 .livemissioncount {
-  color:#DE2B4E;
+  color: #DE2B4E;
   margin-left: 10px;
 }
 
