@@ -1,4 +1,49 @@
 
+
+
+.navbar-chabe {
+  width: 3.5rem;
+  display: inline-flex;
+  padding: 1.5rem 0.75rem;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  background-color: #001c40;
+  height: 100%;
+}
+
+.navbar-logo {
+  margin-top: auto;
+}
+
+menu {
+  padding: 0;
+  margin-top: 15px;
+}
+
+menu li {
+  margin-bottom: 1.5rem;
+  color: #001c40
+}
+
+menu img {
+  vertical-align: middle;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem !important;
+}
+
+.is-active {
+  border-radius: 7px;
+  background-color: #385273;
+}
+
+
+/*
+*/
+
 .page {
   display: flex;
   flex-direction: row;

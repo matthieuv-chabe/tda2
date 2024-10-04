@@ -52,7 +52,25 @@ function App() {
 	return (
 		<>
 			<div className="page">
-				<div className="vertical-left">
+			<nav
+				id="navbar"
+				className="navbar-chabe"
+			>
+				<menu>
+					<li>
+						<a id="nav-dashboard" className="nav-link is-active" href="/dashboard" aria-current="page">
+							<img src="https://agreeable-hill-038a64303.4.azurestaticapps.net//static/media/nav-home-icon.e0d99f32dc8c1b2787e29f865cbf6da1.svg" alt="Clickable Dashboard button side navigation bar" />
+						</a>
+					</li>
+					<li>
+						<a id="nav-passenger" className="nav-link" href="/passenger">
+							<img src="https://agreeable-hill-038a64303.4.azurestaticapps.net//static/media/passenger-icon.c910ce52b2c01a277e279004e67c770e.svg" alt="Clickable Dashboard button side navigation bar" />
+						</a>
+					</li>
+				</menu>
+				<img className="navbar-logo" src="https://agreeable-hill-038a64303.4.azurestaticapps.net//static/media/chabe-logo.d6fdbca61b47529a918259752dada744.svg" alt="Chabé logo side navigation bar" />
+			</nav>
+				{/* <div className="vertical-left">
 					<div className="logo">
 						<img src={chabeLogo} alt="React Logo" style={{ scale: .8 }} />
 						<p>CHABE</p>
@@ -116,7 +134,7 @@ function App() {
 						</li>
 					</div>
 
-				</div>
+				</div> */}
 				<div
 					className="vertical-middle"
 					style={{
