@@ -318,6 +318,7 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 
 							// Set marker color to green if the car is at the end of the path
 							if (true) {
+                                console.log("curpath.percent_of_current_path", curpath.percent_of_current_path)
 								line.setOptions({
 									strokeColor: "#FFFFFF",
 									icons: [
