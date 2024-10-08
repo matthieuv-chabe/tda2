@@ -42,7 +42,7 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 	const [trafficLayer, setTrafficLayer] =
 		React.useState<google.maps.TrafficLayer>(); // traffic layer
 
-	const [marker, setMarker] = React.useState<google.maps.AdvancedMarkerElement>(); // marker on the map, test
+	const [marker, setMarker] = React.useState<google.maps.Marker>(); // marker on the map, test
 	const [infoWindow, setInfoWindow] =
 		React.useState<google.maps.InfoWindow>(); // marker on the map, test
 
