@@ -11,12 +11,12 @@ import { LicencePlate } from "./MissionPanel/LicencePlate";
 import { PinIcon } from "./PinIcon";
 import { MissionT } from "../App";
 
-const shortName = (name: string) => {
-	if (name.length <= 20) {
+const shortName = (name: string, maxLen = 20) => {
+	if (name.length <= maxLen) {
 		return name;
 	}
 
-	return name.slice(0, 20) + "...";
+	return name.slice(0, maxLen) + "...";
 };
 
 export const OneMission = (props: { 
@@ -101,14 +101,15 @@ export const OneMission = (props: {
 									component="div"
 									style={{
 										textAlign: "right",
-										maxWidth: "100%",
+										maxWidth: "90%",
 										overflow: "hidden",
 										textOverflow: "ellipsis",
 									}}
 								>
 									M.{" "}
 									{shortName(
-										"DUPONTDUPONTDUPONTDUPONTDUPONTDUPONTDUPONTDUPONTDUPONT"
+										"DUPONTDUPONTDUPONTDUPONTDUPONTDUPONTDUPONTDUPONTDUPONT",
+                                        20
 									)}{" "}
 									JeanJeanJeanJeanJeanJean
 								</Typography>
