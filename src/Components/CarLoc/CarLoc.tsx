@@ -7,7 +7,6 @@ import { GglPathResponse } from "../../core/utils/maps";
 import { polyline_and_percent_to_latlng } from "../../core/utils/maps/polyline";
 import { seconds_to_human } from "../../core/utils/stringutils";
 
-const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
 let i = 0;
 

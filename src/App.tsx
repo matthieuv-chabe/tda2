@@ -4,10 +4,6 @@ import { Wrapper } from "@googlemaps/react-wrapper";
 import { Map } from "./Components/Map";
 import { CarLoc } from "./Components/CarLoc/CarLoc";
 import {
-	Accordion,
-	AccordionDetails,
-	AccordionSummary,
-	Chip,
 	FormControlLabel,
 	FormGroup,
 	Paper,
@@ -19,15 +15,10 @@ import {
 	TableHead,
 	TableRow,
 	ToggleButton,
-	Typography,
 } from "@mui/material";
 import useUrlState from "./core/utils/useUrlState";
-import { ArrowForward } from "@mui/icons-material";
-import { LicencePlate } from "./Components/MissionPanel/LicencePlate";
-import { DriverName } from "./Components/MissionPanel/DriverName";
 
 import { GeolocActualizer } from "./Components/GeolocActualizer";
-import { PinIcon } from "./Components/PinIcon";
 import { OneMission } from "./Components/OneMission";
 import { useState } from "react";
 GeolocActualizer.hi();
