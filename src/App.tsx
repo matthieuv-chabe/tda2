@@ -10,11 +10,21 @@ import { LicencePlate } from "./Components/MissionPanel/LicencePlate"
 import { DriverName } from "./Components/MissionPanel/DriverName"
 
 import { GeolocActualizer } from './Components/GeolocActualizer';
-import { OverMapInformations } from './Components/OverMapInformations'
+import { PinIcon } from './Components/PinIcon'
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
 const validate_url_size = (value: string) => ['true', 'false'].includes(value)
+
+const shortName = (name: string) => {
+	if (name.length <= 20) {
+		return name
+	}
+
+	return name.slice(0, 20) + '...'
+}
+
+
 
 function App() {
 
@@ -195,6 +205,7 @@ function App() {
 														gap: 5,
 													}}
 												>
+													<PinIcon color="green" />
 													<Chip
 														label="VIP"
 														style={{ border: 'solid gold 2px' }}
@@ -216,27 +227,49 @@ function App() {
 													display: "flex",
 													flexDirection: "row",
 													alignItems: "center",
-													justifyContent: "space-evenly",
+													justifyContent: "space-between",
 													marginBottom: 10,
 													width: "100%",
 												}}>
-													<div>
-														<Typography variant="h5" component="div">
+													<div style={{flex:1}}>
+														{/* <Typography variant="h5" component="div">
 															Arrivée à 15h00
-														</Typography>
+														</Typography> */}
+														<p>
+														Arrivée à <Typography variant="h5" component="b">15h00</Typography>
+														</p>
 														<Typography sx={{ mb: 1.5 }} color="text.secondary">
 															Dans 2h 30min
 														</Typography>
 													</div>
 
-													<div>
-														<Typography variant="h6" component="div">
-															M. DUPONT Jean
+													<div style={{flex:1}}>
+														<Typography
+															variant="h6"
+															component="div"
+															style={{
+																textAlign:'right',
+																maxWidth: '100%',
+																overflow: 'hidden',
+																textOverflow: 'ellipsis',
+															}}>
+															M. {shortName("DUPONTDUPONTDUPONTDUPONTDUPONTDUPONTDUPONTDUPONTDUPONT")} JeanJeanJeanJeanJeanJean
 														</Typography>
-														<Typography sx={{ mb: 1.5 }} color="text.secondary">
+														<Typography sx={{ mb: 1.5 }} color="text.secondary" style={{textAlign:'right'}}>
 															+33 6 12 34 56 78
 														</Typography>
 													</div>
+												</div>
+
+												<div
+													style={{
+														width: '100%',
+														textAlign:'center',
+														fontSize: 14,
+														color: 'rgba(0, 0, 0, 0.54)',
+													}}
+												>
+													Voir plus
 												</div>
 
 											</div>

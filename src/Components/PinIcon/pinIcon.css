@@ -1,0 +1,9 @@
+
+.pinIcon {
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.pinIcon:hover {
+    background-color: #9b9b9b;
+}
