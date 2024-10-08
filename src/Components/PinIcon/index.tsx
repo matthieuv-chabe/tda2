@@ -1,13 +1,15 @@
 
-import { useState } from "react"
 import "./pinIcon.css"
 
-export const PinIcon = (props:{color:string}) => {
+export const PinIcon = (props:{
+    color:string,
+    pinned: boolean
+    onPinChange: (pinned:boolean) => void
+}) => {
 
-    const [isPinned, setIsPinned] = useState(false)
 
     const handleClick:React.MouseEventHandler<HTMLSpanElement> = (event) => {
-        setIsPinned(!isPinned)
+        props.onPinChange(!props.pinned)
         event.stopPropagation()
         event.preventDefault()
     }
@@ -18,7 +20,7 @@ export const PinIcon = (props:{color:string}) => {
             style={{color: props.color}}
             onClick={handleClick}
         >
-			{isPinned ? "keep" : "keep_off"}
+			{props.pinned ? "keep" : "keep_off"}
 		</span>
 	)
 
