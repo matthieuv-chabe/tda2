@@ -373,7 +373,7 @@ function App() {
 
 								// All other missions
 								...allMissions
-									.filter((mission) => mission.pinned)
+									.filter((mission) => !mission.pinned)
 									.map((mission) => (
 										<OneMission
 											mission={mission}
