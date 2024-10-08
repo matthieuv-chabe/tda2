@@ -30,6 +30,8 @@ const mission_start_time = new Date();
 
 export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 
+    const [trafficLayer, setTrafficLayer] = React.useState<google.maps.TrafficLayer>(); // traffic layer
+
     const [marker, setMarker] = React.useState<google.maps.Marker>(); // marker on the map, test
     const [infoWindow, setInfoWindow] = React.useState<google.maps.InfoWindow>(); // marker on the map, test
 
@@ -120,8 +122,14 @@ const str_to_polyline = (str: string) => {
             setMarker(new google.maps.Marker());
         }
 
+        if(!trafficLayer) {
+            const tl = new google.maps.TrafficLayer();
+            setTrafficLayer(tl);
+        }
+
         if(!infoWindow) {
-            setInfoWindow(new google.maps.InfoWindow());
+            const iw = new google.maps.InfoWindow();
+            setInfoWindow(iw);
         }
 
         if(!fullline) {
@@ -142,7 +150,7 @@ const str_to_polyline = (str: string) => {
                 opacity: 1,
                 label: {
                     text: "[loading]",
-                    color: "#061E3A",
+                    color: "#061E3A", // dark blue
                     fontSize: "16px",
                     fontWeight: "bold",
                     className: styles.label
@@ -222,6 +230,9 @@ const str_to_polyline = (str: string) => {
 
             // @ts-ignore
                 fullline?.setMap(marker?.getMap());
+
+                // @ts-ignore
+                trafficLayer?.setMap(marker?.getMap());
             }
 
             // if (marker && circle) {
@@ -272,8 +283,10 @@ const str_to_polyline = (str: string) => {
 
                         marker.setPosition(polyline_and_percent_to_latlng(curpath.polylinepos, curpath.percent_of_current_path!));
                         infoWindow.setPosition(marker.getPosition());
+                        // infoWindow.bindTo('anchor', marker, 'anchor');
+                        infoWindow.set
                         infoWindow.setContent(`
-                            <div style="font-size: 16px; font-weight: bold; color: #061E3A;">
+                            <div style="font-size: 16px; font-weight: bold; color: #061E3A; width:100%">
                                 ETA ${seconds_to_human(curpath.ETA_in_seconds || 0)}
                             </div>
                         `);
@@ -284,6 +297,25 @@ const str_to_polyline = (str: string) => {
                 }
             }
         }, 100));
+
+
+        setInterval(() => {
+
+            // Every 10 seconds, zoom and pan to fit the whole path
+            // @ts-ignore
+            if(marker?.getMap()) {
+                
+                const bounds = new google.maps.LatLngBounds();
+                drivePlanCoordinates.forEach((coord) => {
+                    bounds.extend(coord);
+                });
+                
+
+                (marker?.getMap() as  google.maps.Map).fitBounds(bounds);
+
+            }
+
+        }, 1000)
 
         // remove marker from map on unmount
         return () => {

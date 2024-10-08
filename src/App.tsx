@@ -10,6 +10,7 @@ import { LicencePlate } from "./Components/MissionPanel/LicencePlate"
 import { DriverName } from "./Components/MissionPanel/DriverName"
 
 import { GeolocActualizer } from './Components/GeolocActualizer';
+import { OverMapInformations } from './Components/OverMapInformations'
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -65,71 +66,7 @@ function App() {
 					</menu>
 					<img className="navbar-logo" src="https://agreeable-hill-038a64303.4.azurestaticapps.net//static/media/chabe-logo.d6fdbca61b47529a918259752dada744.svg" alt="Chabé logo side navigation bar" />
 				</nav>
-				{/* <div className="vertical-left">
-					<div className="logo">
-						<img src={chabeLogo} alt="React Logo" style={{ scale: .8 }} />
-						<p>CHABE</p>
-					</div>
-
-					<div className="menu">
-						<ul>
-
-							<li className='active'>
-								<div style={{
-									display: "flex",
-									flexDirection: "row",
-									alignItems: "center",
-									justifyContent: "center",
-									fontSize: "25px",
-								}}>
-									<BsCarFront />
-								</div>
-								<a href="#">Realtime</a>
-							</li>
-
-							<li>
-								<div style={{
-									display: "flex",
-									flexDirection: "row",
-									alignItems: "center",
-									justifyContent: "center",
-									fontSize: "25px",
-								}}>
-									<BsReceipt />
-								</div>
-								<a href="#">
-									Orders
-									<LinkIcon style={{
-										fontSize: 12,
-										transform: 'translateY(2px) translateX(2px)',
-										color: 'grey',
-									}} />
-								</a>
-							</li>
-						</ul>
-					</div>
-
-					<div></div>
-					<div></div>
-					<div></div>
-
-					<div className="bottommenu">
-						<li>
-							<a href="#">
-								<div style={{
-									display: "flex",
-									flexDirection: "row",
-									alignItems: "center",
-									justifyContent: "center",
-								}}>
-									<LogoutIcon />
-								</div>
-								<span>Logout</span>
-							</a>
-						</li>
-					</div>
-
-				</div> */}
+				
 				<div style={{ flex: '1', height: '100%' }}>
 
 					{/* Header */}
@@ -240,44 +177,6 @@ function App() {
 								</h1>
 							</div>
 
-
-
-							{
-								// !increasedMiddleSize && (
-								// 	<>
-								// 		<p style={{ marginTop: 15 }}>
-								// 			<BsCarFront className="iconfix" />
-								// 			<span className='livemissioncount'>7</span> missions en cours
-								// 		</p>
-
-								// 		<Tabs
-								// 			value={tab}
-								// 			onChange={(_e, v) => setTab(v)}
-								// 			centered={true}
-								// 			variant='fullWidth'
-								// 		>
-								// 			<Tab value="tab_missions_to_hotel" label="Vers Hotel" />
-								// 			<Tab value="tab_missions_from_hotel" label="Depuis Hotel" />
-								// 			<Tab value="tab_missions_done" label="Terminées" />
-								// 		</Tabs>
-
-								// 		{tab === 'tab_missions_to_hotel' && (
-								// 			<div className="mission"
-								// 				style={{
-								// 					marginTop: 10,
-								// 					height: 'calc(100% - 10px)',
-								// 					overflowY: 'scroll',
-								// 				}}
-								// 			>
-								// 				<MissionLeftPanel isVip={true} />
-								// 				<MissionLeftPanel />
-								// 				<MissionLeftPanel noLocation />
-								// 				<MissionLeftPanel />
-								// 			</div>
-								// 		)}
-								// 	</>
-								// )
-							}
 
 							{!increasedMiddleSize && (
 								<>
