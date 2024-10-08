@@ -6,7 +6,8 @@ import styles from "./CarLoc.module.css";
 import { GglPathResponse } from "../../core/utils/maps";
 import { polyline_and_percent_to_latlng } from "../../core/utils/maps/polyline";
 import { seconds_to_human } from "../../core/utils/stringutils";
-import { use } from "chai";
+
+const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
 
 let i = 0;
 
@@ -42,7 +43,7 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 	const [trafficLayer, setTrafficLayer] =
 		React.useState<google.maps.TrafficLayer>(); // traffic layer
 
-	const [marker, setMarker] = React.useState<google.maps.Marker>(); // marker on the map, test
+	const [marker, setMarker] = React.useState<google.maps.AdvancedMarkerElement>(); // marker on the map, test
 	const [infoWindow, setInfoWindow] =
 		React.useState<google.maps.InfoWindow>(); // marker on the map, test
 
@@ -320,7 +321,6 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 							if (true) {
                                 console.log("curpath.percent_of_current_path", curpath.percent_of_current_path)
 								line.setOptions({
-									strokeColor: "#FFFFFF",
 									icons: [
 										{
 											icon: {
