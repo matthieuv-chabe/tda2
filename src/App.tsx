@@ -1,9 +1,4 @@
-import chabeLogo from '../public/logo_chabe_blanc_200.png'
 import './App.css'
-
-import { BsCarFront, BsReceipt } from 'react-icons/bs'
-import LogoutIcon from '@mui/icons-material/Logout';
-import LinkIcon from '@mui/icons-material/Link';
 
 import { Wrapper } from '@googlemaps/react-wrapper'
 import { Map } from './Components/Map'
@@ -164,8 +159,8 @@ function App() {
 															<div className="react-select__input-container css-19bb58m" data-value="">
 																<input
 																	id="ipx"
-																	className="react-select__input" autoCapitalize="none" autocomplete="off" autocorrect="off" id="react-select-2-input"
-																	spellcheck="false" tabindex="0" type="text" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true"
+																	className="react-select__input" autoCapitalize="none" autoComplete="off" autoCorrect="off"
+																	spellCheck="false" tabIndex={0} type="text" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true"
 																	role="combobox" value=""
 																	control-id="ControlID-1" />
 															</div>
@@ -188,7 +183,7 @@ function App() {
 							</li>
 							<li>
 								<div className="notifications" data-testid="notifications">
-									<div className="notifications__icon" id="notifications-icon-button" data-testid="notifications-icon-button" tabindex="0">
+									<div className="notifications__icon" id="notifications-icon-button" data-testid="notifications-icon-button" tabIndex={0}>
 										<img src="https://agreeable-hill-038a64303.4.azurestaticapps.net//static/media/notification.810dac206be6943a4c4d743922becbde.svg" alt="bell" />
 									</div>
 								</div>
