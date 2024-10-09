@@ -16,8 +16,8 @@ export const PinIcon = (props:{
 	
 	return (
 		<span
-            className="material-symbols-outlined pinIcon"
-            style={{color: props.color}}
+            className={`material-symbols-outlined pinIcon ${props.pinned ? "pinned" : ""}`}
+            // style={{color: props.color}}
             onClick={handleClick}
         >
 			{props.pinned ? "keep" : "keep_off"}

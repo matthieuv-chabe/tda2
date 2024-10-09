@@ -7,3 +7,9 @@
 .pinIcon:hover {
     background-color: #9b9b9b;
 }
+
+.pinIcon.pinned {
+    background-color: #d0d0d0;
+    color: white;
+    transform: rotate(45deg);
+}

@@ -6,6 +6,7 @@ import { CarLoc } from "./Components/CarLoc/CarLoc";
 import {
 	FormControlLabel,
 	FormGroup,
+	Input,
 	Paper,
 	Switch,
 	Table,
@@ -340,10 +341,18 @@ function App() {
 									</ToggleButton>
 									<br />
 									<FormGroup>
+										<div
+											style={{
+												display: "flex",
+												alignItems: "center",
+											}}
+										>
+										<Input style={{flex:1}} placeholder="Rechercher" />
 										<FormControlLabel
 											control={<Switch defaultChecked />}
 											label="Afficher les accueils"
 										/>
+										</div>
 									</FormGroup>
 								</h1>
 							</div>

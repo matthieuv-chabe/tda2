@@ -51,7 +51,7 @@ export const OneMission = (props: {
 									}}
 								>
 									<PinIcon
-                                        color="green"
+                                        color="grey"
                                         pinned={props.mission.pinned}
                                         onPinChange={(pinned) => {
                                             console.log("Pin change", pinned)
