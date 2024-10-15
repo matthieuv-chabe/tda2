@@ -179,7 +179,7 @@ function App() {
 								/>
 							</li>
 							<li>
-								<div>
+								{/* <div>
 									<div
 										id="language-selector"
 										data-testid="language-selector"
@@ -264,7 +264,7 @@ function App() {
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> */}
 							</li>
 							<li>
 								<div
