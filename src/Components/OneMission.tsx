@@ -106,12 +106,16 @@ export const OneMission = (props: {
 										textOverflow: "ellipsis",
 									}}
 								>
-									M.{" "}
+									{" "}
 									{shortName(
-										"DUPONTDUPONTDUPONTDUPONTDUPONTDUPONTDUPONTDUPONTDUPONT",
+										props.mission.passenger.split(" ")[1],
+                                        25
+									)}
+									{" "}
+									{shortName(
+										props.mission.passenger.split(" ")[0].toUpperCase(),
                                         20
-									)}{" "}
-									JeanJeanJeanJeanJeanJean
+									)}
 								</Typography>
 								<Typography
 									sx={{ mb: 1.5 }}

@@ -22,6 +22,7 @@ import useUrlState from "./core/utils/useUrlState";
 import { GeolocActualizer } from "./Components/GeolocActualizer";
 import { OneMission } from "./Components/OneMission";
 import { useState } from "react";
+import { random_car, random_firstname, random_lastname, random_tags } from "./random";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -46,7 +47,19 @@ export type MissionT = {
 	license_plate: string;
 };
 
+function MissionFilter(mission: MissionT, search: string) {
+	if(search === "") {
+		return true;
+	}
+
+	const fulltext = JSON.stringify(mission).toLowerCase();
+	return fulltext.includes(search.toLowerCase());
+}
+
 function App() {
+
+	const [search, setSearch] = useState<string>("");
+
 	// const [tab, setTab] = useUrlState<string>('tab', 'tab_missions_to_hotel', validate_url_tab)
 	const [increasedMiddleSize, setIncreasedMiddleSize] = useUrlState<boolean>(
 		"all_missions",
@@ -78,8 +91,8 @@ function App() {
 	const [allMissions, setAllMissions] = useState<MissionT[]>(
 		Array.from({ length: 10 }, (_, i) => ({
 			id: i,
-			passenger: "M. DUPONT Jean",
-			tags: ["VIP", "PMR", "5 bagages"],
+			passenger: `${random_lastname()} ${random_firstname()}`,
+			tags: random_tags(),
 			arrival: {
 				estimated: "15h00",
 				remaining: "2h 30min",
@@ -91,7 +104,7 @@ function App() {
 			},
 			chauffeur_name: "M. Macho FEUR",
 			chauffeur_phone: "+33 6 12 34 56 78",
-			car_brand: "Mercedes S",
+			car_brand: random_car(),
 			license_plate: "AA-000-FF",
 		}))
 	);
@@ -347,7 +360,7 @@ function App() {
 												alignItems: "center",
 											}}
 										>
-										<Input style={{flex:1}} placeholder="Rechercher" />
+										<Input style={{flex:1}} placeholder="Rechercher" value={search} onChange={(e) => setSearch(e.target.value)} />
 										<FormControlLabel
 											control={<Switch defaultChecked />}
 											label="Afficher les accueils"
@@ -361,6 +374,7 @@ function App() {
 								// Pinned missions should be at the top
 								...allMissions
 									.filter((mission) => mission.pinned)
+									.filter((m) => MissionFilter(m, search))
 									.map((mission) => (
 										<OneMission
 											mission={mission}
@@ -374,6 +388,7 @@ function App() {
 								// All other missions
 								...allMissions
 									.filter((mission) => !mission.pinned)
+									.filter((m) => MissionFilter(m, search))
 									.map((mission) => (
 										<OneMission
 											mission={mission}

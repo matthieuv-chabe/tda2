@@ -30,9 +30,9 @@ export default function AppAuth() {
 
     const isAuthenticated = useIsAuthenticated();
 
-    if(!isAuthenticated) {
-        return <SignInButton />;
-    }
+    // if(!isAuthenticated) {
+    //     return <SignInButton />;
+    // }
 
     return <App />;
 }
