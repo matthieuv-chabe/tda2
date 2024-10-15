@@ -367,7 +367,7 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 			}, 100)
 		);
 
-		setInterval(() => {
+		setTimeout(() => {
 			// Every 10 seconds, zoom and pan to fit the whole path
 			// @ts-ignore
 			if (marker?.getMap()) {
