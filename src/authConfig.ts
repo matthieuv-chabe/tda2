@@ -3,7 +3,28 @@
  * Licensed under the MIT License.
  */
 
-import { LogLevel } from "@azure/msal-browser";
+import { Configuration, LogLevel } from "@azure/msal-browser";
+
+export const b2cPolicies = {
+    names: {
+      signUpSignIn: 'B2C_1A_SIGNUP_SIGNIN_PHONEOREMAILMFA',
+      editProfile: 'B2C_1A_EDIT_PROFILE',
+      // forgotPassword: 'B2C_1_reset_v3',
+    },
+    authorities: {
+      signUpSignIn: {
+        authority: `https://chabeazureb2cnpe.b2clogin.com/chabeazureb2cnpe.onmicrosoft.com/B2C_1A_SIGNUP_SIGNIN_PHONEOREMAILMFA`,
+      },
+      editProfile: {
+        authority:
+        `https://chabeazureb2cnpe.b2clogin.com/chabeazureb2cnpe.onmicrosoft.com/B2C_1A_EDIT_PROFILE`,
+      },
+      // forgotPassword: {
+      //     authority: 'https://chabeazureb2cnpe.b2clogin.com/chabeazureb2cnpe.onmicrosoft.com/B2C_1_reset_v3',
+      // },
+    },
+    authorityDomain: `chabeazureb2cnpe.b2clogin.com`,
+  };
 
 /**
  * Configuration object to be passed to MSAL instance on creation. 
@@ -11,11 +32,17 @@ import { LogLevel } from "@azure/msal-browser";
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/configuration.md 
  */
 
-export const msalConfig = {
+export const msalConfig: Configuration = {
     auth: {
         clientId: "4195303f-5f26-4cde-970e-10bb7a8abe58",
-        authority: "https://login.microsoftonline.com/chabeazureb2cnpe.onmicrosoft.com",
+        authority: b2cPolicies.authorities.signUpSignIn.authority,
         redirectUri: "http://localhost:3000",
+
+        knownAuthorities: [b2cPolicies.authorityDomain ?? ''], // Mark your B2C tenant's domain as trusted.
+        // validateAuthority: true,
+        navigateToLoginRequestUrl: false, // If "true", will navigate back to the original request location before processing the auth code response.
+
+
     },
     cache: {
         cacheLocation: "sessionStorage", // This configures where your cache will be stored
@@ -45,7 +72,7 @@ export const msalConfig = {
                 }	
             }	
         }	
-    }
+    },
 };
 
 /**
@@ -55,7 +82,7 @@ export const msalConfig = {
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
 export const loginRequest = {
-    scopes: ["User.Read"]
+    scopes: []
 };
 
 /**

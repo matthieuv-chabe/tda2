@@ -7,7 +7,7 @@ import { loginRequest } from "./authConfig";
 export const SignInButton = () => {
     const { instance } = useMsal();
   
-    const handleLogin = (loginType) => {
+    const handleLogin = (loginType: string) => {
       if (loginType === "popup") {
         instance.loginPopup(loginRequest).catch((e) => {
           console.log(e);
@@ -30,9 +30,9 @@ export default function AppAuth() {
 
     const isAuthenticated = useIsAuthenticated();
 
-    // if(!isAuthenticated) {
-    //     return <SignInButton />;
-    // }
+    if(!isAuthenticated) {
+        return <SignInButton />;
+    }
 
     return <App />;
 }
