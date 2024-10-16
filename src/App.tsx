@@ -5,6 +5,7 @@ import { Map } from "./Components/Map";
 import { CarLoc } from "./Components/CarLoc/CarLoc";
 import {
 	Button,
+	CircularProgress,
 	FormControlLabel,
 	FormGroup,
 	Input,
@@ -17,12 +18,13 @@ import {
 	TableHead,
 	TableRow,
 	ToggleButton,
+	Typography,
 } from "@mui/material";
 import useUrlState from "./core/utils/useUrlState";
 
 import { GeolocActualizer } from "./Components/GeolocActualizer";
 import { OneMission } from "./Components/OneMission";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	random_car,
 	random_firstname,
@@ -88,6 +90,10 @@ function App() {
 		validate_url_size
 	);
 
+
+	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [loadingMsg, setLoadingMsg] = useState<string>("Authentification ...");
+
 	// let allMissions = [];
 	// for (let i = 0; i < 10; i++) {
 	// 	allMissions.push({
@@ -110,7 +116,7 @@ function App() {
 	// }
 
 	const [allMissions, setAllMissions] = useState<MissionT[]>(
-		Array.from({ length: 10 }, (_, i) => ({
+		Array.from({ length: 0 }, (_, i) => ({
 			id: i,
 			passenger: `${random_lastname()} ${random_firstname()}`,
 			tags: random_tags(),
@@ -148,6 +154,22 @@ function App() {
 	};
 
 	const { instance } = useMsal();
+
+	useEffect(() => {
+		(async () => {
+			const baseurl =
+				"https://chabe-int-ca-api-habilitations.orangepond-bbd114b2.francecentral.azurecontainerapps.io";
+
+			const accessToken = await getAccessToken(instance);
+			fetch(baseurl + "/api/v1/auth/me/adb2c", {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			}).then((response) => {
+				setLoadingMsg("Récupération des missions ...");
+			});
+		})();
+	}, [instance]);
 
 	return (
 		<>
@@ -320,28 +342,7 @@ function App() {
 										MV
 									</div>
 									<div>
-										<Button
-											onClick={async () => {
-												const baseurl =
-													"https://chabe-int-ca-api-habilitations.orangepond-bbd114b2.francecentral.azurecontainerapps.io";
-
-												const accessToken =
-													await getAccessToken(
-														instance
-													);
-												fetch(
-													baseurl +
-														"/api/v1/auth/me/adb2c",
-													{
-														headers: {
-															Authorization: `Bearer ${accessToken}`,
-														},
-													}
-												).then((response) => {
-													console.log(response);
-												});
-											}}
-										>
+										<Button onClick={async () => {}}>
 											Lol
 										</Button>
 									</div>
@@ -427,6 +428,23 @@ function App() {
 									</FormGroup>
 								</h1>
 							</div>
+
+							{
+								!increasedMiddleSize && allMissions.length === 0 && (
+									<div style={{
+										display: "flex",
+										flexDirection: "column",
+										justifyContent: "center",
+										alignItems: "center",
+										height: "50%",
+									}}>
+										<CircularProgress />
+										<Typography style={{marginTop: 10}}>
+											{loadingMsg}
+										</Typography>
+								</div>
+								)
+							}
 
 							{!increasedMiddleSize && [
 								// Pinned missions should be at the top
