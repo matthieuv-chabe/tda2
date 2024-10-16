@@ -5,6 +5,7 @@
 
 import { Configuration, LogLevel } from "@azure/msal-browser";
 
+// Bluesoft stuff
 export const b2cPolicies = {
     names: {
       signUpSignIn: 'B2C_1A_SIGNUP_SIGNIN_PHONEOREMAILMFA',
