@@ -4,6 +4,7 @@ import { Wrapper } from "@googlemaps/react-wrapper";
 import { Map } from "./Components/Map";
 import { CarLoc } from "./Components/CarLoc/CarLoc";
 import {
+	Button,
 	FormControlLabel,
 	FormGroup,
 	Input,
@@ -22,11 +23,32 @@ import useUrlState from "./core/utils/useUrlState";
 import { GeolocActualizer } from "./Components/GeolocActualizer";
 import { OneMission } from "./Components/OneMission";
 import { useState } from "react";
-import { random_car, random_firstname, random_lastname, random_tags } from "./random";
+import {
+	random_car,
+	random_firstname,
+	random_lastname,
+	random_tags,
+} from "./random";
+import { IPublicClientApplication } from "@azure/msal-browser";
+import { useMsal } from "@azure/msal-react";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
 const validate_url_size = (value: string) => ["true", "false"].includes(value);
+
+export async function getAccessToken(instance: IPublicClientApplication) {
+	const accessTokenRequest = {
+		scopes: [
+			`https://chabeazureb2cnpe.onmicrosoft.com/api-missions/user_access`,
+		],
+		account: instance.getAllAccounts()[0]!,
+	};
+	return instance
+		.acquireTokenSilent(accessTokenRequest)
+		.then((accessTokenResponse) => {
+			return accessTokenResponse.accessToken;
+		});
+}
 
 export type MissionT = {
 	id: number;
@@ -48,7 +70,7 @@ export type MissionT = {
 };
 
 function MissionFilter(mission: MissionT, search: string) {
-	if(search === "") {
+	if (search === "") {
 		return true;
 	}
 
@@ -57,7 +79,6 @@ function MissionFilter(mission: MissionT, search: string) {
 }
 
 function App() {
-
 	const [search, setSearch] = useState<string>("");
 
 	// const [tab, setTab] = useUrlState<string>('tab', 'tab_missions_to_hotel', validate_url_tab)
@@ -125,6 +146,8 @@ function App() {
 
 		return "calc(100% - 500px)";
 	};
+
+	const { instance } = useMsal();
 
 	return (
 		<>
@@ -296,6 +319,32 @@ function App() {
 									>
 										MV
 									</div>
+									<div>
+										<Button
+											onClick={async () => {
+												const baseurl =
+													"https://chabe-int-ca-api-habilitations.orangepond-bbd114b2.francecentral.azurecontainerapps.io";
+
+												const accessToken =
+													await getAccessToken(
+														instance
+													);
+												fetch(
+													baseurl +
+														"/api/v1/auth/me/adb2c",
+													{
+														headers: {
+															Authorization: `Bearer ${accessToken}`,
+														},
+													}
+												).then((response) => {
+													console.log(response);
+												});
+											}}
+										>
+											Lol
+										</Button>
+									</div>
 								</div>
 							</li>
 						</div>
@@ -360,11 +409,20 @@ function App() {
 												alignItems: "center",
 											}}
 										>
-										<Input style={{flex:1}} placeholder="Rechercher" value={search} onChange={(e) => setSearch(e.target.value)} />
-										<FormControlLabel
-											control={<Switch defaultChecked />}
-											label="Afficher les accueils"
-										/>
+											<Input
+												style={{ flex: 1 }}
+												placeholder="Rechercher"
+												value={search}
+												onChange={(e) =>
+													setSearch(e.target.value)
+												}
+											/>
+											<FormControlLabel
+												control={
+													<Switch defaultChecked />
+												}
+												label="Afficher les accueils"
+											/>
 										</div>
 									</FormGroup>
 								</h1>
