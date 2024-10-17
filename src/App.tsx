@@ -219,6 +219,8 @@ export function App() {
 		})();
 	}, [instance]);
 
+	const [showAcc, setShowAcc] = useState(false)
+
 	return (
 		<>
 			<div className="page">
@@ -451,6 +453,7 @@ export function App() {
 											style={{
 												display: "flex",
 												alignItems: "center",
+												marginBottom: 10
 											}}
 										>
 											<Input
@@ -463,15 +466,17 @@ export function App() {
 											/>
 											<FormControlLabel
 												control={
-													<Switch defaultChecked />
+													<Switch checked={showAcc} onChange={(_, v) => setShowAcc(v)} />
 												}
 												label="Afficher les accueils"
 											/>
 										</div>
 									</FormGroup>
 								</h1>
+								
 							</div>
 
+							
 							{
 								!increasedMiddleSize && allMissions.length === 0 && (
 									<div style={{
@@ -488,7 +493,7 @@ export function App() {
 									</div>
 								)
 							}
-
+<div style={{width: '100%'}} id={showAcc ? 'midscreencolorchangediv' : ''}>
 							{!increasedMiddleSize && [
 								// Pinned missions should be at the top
 								...allMissions
@@ -496,6 +501,7 @@ export function App() {
 									.filter((m) => MissionFilter(m, search))
 									.map((mission) => (
 										<OneMission
+											key={mission.id}
 											mission={mission}
 											onMissionChange={(mission) => {
 												console.log("Mission changed");
@@ -503,7 +509,10 @@ export function App() {
 											}}
 											index={mission.id}
 											exp={selected == mission.id}
-											onClicked={(idx, mis) => {setSelected(mis.id)}}
+											onClicked={(idx, mis) => {
+												if (selected == mis.id) setSelected(-1)
+												else setSelected(mis.id)
+											}}
 										/>
 									)),
 
@@ -513,6 +522,7 @@ export function App() {
 									.filter((m) => MissionFilter(m, search))
 									.map((mission) => (
 										<OneMission
+											key={mission.id}
 											mission={mission}
 											onMissionChange={(mission) => {
 												console.log("Mission changed");
@@ -520,12 +530,16 @@ export function App() {
 											}}
 											index={mission.id}
 											exp={selected == mission.id}
-											onClicked={(idx, mis) => {setSelected(mis.id)}}
+											onClicked={(idx, mis) => {
+												if (selected == mis.id) setSelected(-1)
+												else setSelected(mis.id)
+											}}
 										/>
 									)),
 							]}
+							</div>
 
-							<div style={{marginBottom: 50}}></div>
+							<div style={{ marginBottom: 50 }}></div>
 
 							{increasedMiddleSize && (
 								<div

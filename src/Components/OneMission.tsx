@@ -32,6 +32,8 @@ export const OneMission = (props: {
 
 	const exp = props.exp
 
+	const additionalcss = props.exp ? {filter: "none"} : {}
+
 	return (
 		<>
 			<Accordion
@@ -39,7 +41,7 @@ export const OneMission = (props: {
 					props.onClicked(props.index, props.mission);
 				}}
 				expanded={exp}
-				style={{ backgroundColor: exp ? "" : "#f5f5f5", borderRadius: exp ? 10 : 0 }}
+				style={{ backgroundColor: exp ? "" : "#f5f5f5", borderRadius: exp ? 10 : 0, ...additionalcss }}
 				>
 				<AccordionSummary>
 					<div style={{ width: "100%" }}>
