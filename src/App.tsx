@@ -195,8 +195,9 @@ export function App() {
 					'content-type': 'application/json',
 					'Ocp-Apim-Subscription-Key': '5b5a9ab3be8e42e2a15aff295bcb2638'
 				},
-				body: '{"nf_gen_mission":"MIS_COM_ID IN (SELECT COM_ID FROM nf_com_commande WHERE COM_CLI_ID IN (ClientId))"}'
-			};
+				body: '{"nf_gen_mission":"MIS_COM_ID IN (SELECT COM_ID FROM nf_com_commande WHERE COM_CLI_ID IN (ClientId))"}',
+				mode: 'cors'
+			} as RequestInit;
 
 			try {
 				const response = await fetch(url, options);
