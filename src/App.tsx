@@ -1,12 +1,9 @@
 import "./App.css";
 
-import * as process from "process"
-
 import { Wrapper } from "@googlemaps/react-wrapper";
 import { Map } from "./Components/Map";
 import { CarLoc } from "./Components/CarLoc/CarLoc";
 import {
-	Button,
 	CircularProgress,
 	FormControlLabel,
 	FormGroup,
@@ -36,8 +33,6 @@ import {
 import { IPublicClientApplication } from "@azure/msal-browser";
 import { useMsal } from "@azure/msal-react";
 import { Habilitation } from "./Habilitation";
-import axios from "axios";
-import { Retry } from "./Retry";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -102,7 +97,7 @@ export function App() {
 	);
 
 
-	const [isLoading, setIsLoading] = useState<boolean>(true);
+	// const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [loadingMsg, setLoadingMsg] = useState<string>("Authentification ...");
 
 	const [selected, setSelected] = useState(-1)
@@ -509,7 +504,7 @@ export function App() {
 											}}
 											index={mission.id}
 											exp={selected == mission.id}
-											onClicked={(idx, mis) => {
+											onClicked={(_, mis) => {
 												if (selected == mis.id) setSelected(-1)
 												else setSelected(mis.id)
 											}}
@@ -530,7 +525,7 @@ export function App() {
 											}}
 											index={mission.id}
 											exp={selected == mission.id}
-											onClicked={(idx, mis) => {
+											onClicked={(_, mis) => {
 												if (selected == mis.id) setSelected(-1)
 												else setSelected(mis.id)
 											}}

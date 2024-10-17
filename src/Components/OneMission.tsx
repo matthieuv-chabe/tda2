@@ -10,7 +10,6 @@ import { DriverName } from "./MissionPanel/DriverName";
 import { LicencePlate } from "./MissionPanel/LicencePlate";
 import { PinIcon } from "./PinIcon";
 import { MissionT } from "../App";
-import { useState } from "react";
 
 import arrowDown from "../../public/arrowBottom.svg"
 
