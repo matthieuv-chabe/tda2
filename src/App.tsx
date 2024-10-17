@@ -85,7 +85,7 @@ function MissionFilter(mission: MissionT, search: string) {
 
 const fake_missions = true
 	// && (process.env.DISABLE_AUTH_FOR_NONLOCAL == 'true')
-	&& (window.location.hostname.indexOf('xd') == -1) // If NOT localhost
+	&& (window.location.hostname.indexOf('localhost') == -1) // If NOT localhost
 
 
 export function App() {
