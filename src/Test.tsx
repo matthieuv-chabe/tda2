@@ -1,16 +1,18 @@
 import { Button } from "@mui/material";
-import { Retry, wait } from "./Retry";
+import { Retry, RetryHelperFx, wait } from "./Retry";
 
 const Try = new Retry("test")
     .add(() => {
+        // Try something
         throw "fail 1"
-    }).add(() => {
+    })
+    .add(() => {
+        // Try differently
         throw "fail 2"
-    }).add(async (f) => {
-        f.considerFailed = true;
-        window.location.reload();
-        await wait(2000);
-    }).add(() => {
+    })
+    .add(RetryHelperFx.ReloadPage) // Reload the page because why not
+    .add(() => {
+        // Try again after done reloading the page
         alert("ok")
     })
 

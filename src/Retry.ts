@@ -3,6 +3,14 @@ export function wait(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+export const RetryHelperFx = {
+    ReloadPage: async (f: RetryCbParam) => {
+        f.considerFailed = true;
+        window.location.reload();
+        await wait(2000);
+    }
+}
+
 class RetryPersistency {
     public static Get(name: string): number {
         const itemstr = window.localStorage.getItem(name);
