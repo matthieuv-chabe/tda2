@@ -101,15 +101,14 @@ export const OneMission = (props: {
 							</div>
 
 							<div style={{ flex: 1 }}>
-								<Typography
-									variant="body1"
-									component="div"
+								<p
 									style={{
 										textAlign: "right",
 										maxWidth: "100%",
 										overflow: "hidden",
 										textOverflow: "ellipsis",
-										fontSize: '1em'
+										fontSize: '1em',
+										fontWeight: '50'
 									}}
 								>
 									{" "}
@@ -122,7 +121,7 @@ export const OneMission = (props: {
 										props.mission.passenger.split(" ")[0].toUpperCase(),
 										20
 									)}
-								</Typography>
+								</p>
 								{/* <Typography
 									sx={{ mb: 1.5 }}
 									color="text.secondary"

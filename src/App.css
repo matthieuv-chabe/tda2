@@ -1,8 +1,7 @@
 @font-face {
   font-family: "EuclidCircularA-Regular";
-  src:
-    local("EuclidCircularA-Regular"),
-    url(https://agreeable-hill-038a64303.4.azurestaticapps.net/static/media/Euclid%20Circular%20A%20Regular.d54600880dc63db716f2.ttf)
+  src: local("EuclidCircularA-Regular"),
+      url('/public/Euclid\ Circular\ A\ Regular.d54600880dc63db716f2.ttf')
 }
 
 @font-face {
@@ -19,7 +18,7 @@
 }
 
 * {
-  font-family: "EuclidCircularA-Semibold";
+  font-family: "EuclidCircularA-Regular";
 }
 
 h1 {
