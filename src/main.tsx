@@ -12,8 +12,8 @@ const msalInstance = new PublicClientApplication(msalConfig);
 ReactDOM.createRoot(document.body).render(
 	<React.StrictMode>
 		<MsalProvider instance={msalInstance}>
-			{/* <AppAuth /> */}
-			<C />
+			<AppAuth />
+			{/* <C /> */}
 		</MsalProvider>
 	</React.StrictMode>
 );

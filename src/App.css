@@ -18,6 +18,10 @@
     url(https://agreeable-hill-038a64303.4.azurestaticapps.net/static/media/Euclid%20Circular%20A%20Bold.b4788f2f8f64a74fe6d6.ttf)
 }
 
+* {
+  font-family: "EuclidCircularA-Semibold";
+}
+
 h1 {
   color: #001c40;
   font-weight: 500;

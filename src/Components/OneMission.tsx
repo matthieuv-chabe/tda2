@@ -10,6 +10,9 @@ import { DriverName } from "./MissionPanel/DriverName";
 import { LicencePlate } from "./MissionPanel/LicencePlate";
 import { PinIcon } from "./PinIcon";
 import { MissionT } from "../App";
+import { useState } from "react";
+
+import arrowDown from "../../public/arrowBottom.svg"
 
 const shortName = (name: string, maxLen = 20) => {
 	if (name.length <= maxLen) {
@@ -19,13 +22,25 @@ const shortName = (name: string, maxLen = 20) => {
 	return name.slice(0, maxLen) + "...";
 };
 
-export const OneMission = (props: { 
-    mission: MissionT,
-    onMissionChange: (mission: MissionT) => void
+export const OneMission = (props: {
+	mission: MissionT,
+	onMissionChange: (mission: MissionT) => void,
+	exp: boolean,
+	index: number,
+	onClicked: (index: number, mission: MissionT) => void 
 }) => {
+
+	const exp = props.exp
+
 	return (
 		<>
-			<Accordion style={{ background: "#f5f5f5" }}>
+			<Accordion
+				onChange={() => {
+					props.onClicked(props.index, props.mission);
+				}}
+				expanded={exp}
+				style={{ backgroundColor: exp ? "" : "#f5f5f5", borderRadius: exp ? 10 : 0 }}
+				>
 				<AccordionSummary>
 					<div style={{ width: "100%" }}>
 						<div
@@ -39,7 +54,8 @@ export const OneMission = (props: {
 							}}
 						>
 							<div style={{ flex: 1 }}>
-								<div
+				{/* #region Pin and tags */}
+								{/* <div
 									style={{
 										display: "flex",
 										flexDirection: "row",
@@ -51,16 +67,17 @@ export const OneMission = (props: {
 									}}
 								>
 									<PinIcon
-                                        color="grey"
-                                        pinned={props.mission.pinned}
-                                        onPinChange={(pinned) => {
-                                            console.log("Pin change", pinned)
-                                            props.onMissionChange({
-                                                ...props.mission,
-                                                pinned: pinned
-                                            })}
-                                        }
-                                    />
+										color="grey"
+										pinned={props.mission.pinned}
+										onPinChange={(pinned) => {
+											console.log("Pin change", pinned)
+											props.onMissionChange({
+												...props.mission,
+												pinned: pinned
+											})
+										}
+										}
+									/>
 
 									{props.mission.tags.map((tag, index) => {
 										return (
@@ -74,50 +91,39 @@ export const OneMission = (props: {
 											/>
 										);
 									})}
-								</div>
+								</div> */}
 								<p>
-									Arrivée à
-									<Typography
-										variant="h5"
-										component="b"
-										style={{
-											fontSize: "1.5em",
-										}}
-									>
-										{props.mission.arrival.estimated}
-									</Typography>
+									Arrivée à {props.mission.arrival.estimated}
 								</p>
-								<Typography
-									sx={{ mb: 1.5 }}
-									color="text.secondary"
-								>
+								<p>
 									Dans {props.mission.arrival.remaining}
-								</Typography>
+								</p>
 							</div>
 
 							<div style={{ flex: 1 }}>
 								<Typography
-									variant="h6"
+									variant="body1"
 									component="div"
 									style={{
 										textAlign: "right",
-										maxWidth: "90%",
+										maxWidth: "100%",
 										overflow: "hidden",
 										textOverflow: "ellipsis",
+										fontSize: '1em'
 									}}
 								>
 									{" "}
 									{shortName(
 										props.mission.passenger.split(" ")[1],
-                                        25
+										25
 									)}
 									{" "}
 									{shortName(
 										props.mission.passenger.split(" ")[0].toUpperCase(),
-                                        20
+										20
 									)}
 								</Typography>
-								<Typography
+								{/* <Typography
 									sx={{ mb: 1.5 }}
 									color="text.secondary"
 									style={{
@@ -125,11 +131,14 @@ export const OneMission = (props: {
 									}}
 								>
 									+33 6 12 34 56 78
-								</Typography>
+								</Typography> */}
+							</div>
+							<div>
+								<img src={arrowDown} style={{marginLeft: 10, rotate: props.exp ? '180deg' : '0deg'}} />
 							</div>
 						</div>
 
-						<div
+						{/* <div
 							style={{
 								margin: 0,
 								padding: 0,
@@ -140,7 +149,7 @@ export const OneMission = (props: {
 							}}
 						>
 							Voir plus
-						</div>
+						</div> */}
 					</div>
 				</AccordionSummary>
 

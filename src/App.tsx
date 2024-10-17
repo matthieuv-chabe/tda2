@@ -87,7 +87,7 @@ function MissionFilter(mission: MissionT, search: string) {
 
 const fake_missions = true
 	// && (process.env.DISABLE_AUTH_FOR_NONLOCAL == 'true')
-	&& (window.location.hostname.indexOf('localhost') == -1) // If NOT localhost
+	&& (window.location.hostname.indexOf('localhost!') == -1) // If NOT localhost
 
 
 export function App() {
@@ -104,6 +104,8 @@ export function App() {
 
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [loadingMsg, setLoadingMsg] = useState<string>("Authentification ...");
+
+	const [selected, setSelected] = useState(-1)
 
 	// let allMissions = [];
 	// for (let i = 0; i < 10; i++) {
@@ -387,23 +389,6 @@ export function App() {
 									>
 										MV
 									</div>
-									<div>
-										<Button onClick={async () => {
-											const retry = new Retry("test");
-											retry.add(() => {
-												throw "fail 1"
-											}).add(() => {
-												throw "fail 2"
-											}).add(() => {
-												window.location.reload();
-											}).add(() => {
-												console.log("ok !")
-											}).run()
-										}
-										}>
-											Lol
-										</Button>
-									</div>
 								</div>
 							</li>
 						</div>
@@ -516,6 +501,9 @@ export function App() {
 												console.log("Mission changed");
 												updateOneMission(mission);
 											}}
+											index={mission.id}
+											exp={selected == mission.id}
+											onClicked={(idx, mis) => {setSelected(mis.id)}}
 										/>
 									)),
 
@@ -530,9 +518,14 @@ export function App() {
 												console.log("Mission changed");
 												updateOneMission(mission);
 											}}
+											index={mission.id}
+											exp={selected == mission.id}
+											onClicked={(idx, mis) => {setSelected(mis.id)}}
 										/>
 									)),
 							]}
+
+							<div style={{marginBottom: 50}}></div>
 
 							{increasedMiddleSize && (
 								<div
