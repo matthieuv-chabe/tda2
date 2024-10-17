@@ -1,5 +1,7 @@
 import "./App.css";
 
+import * as process from "process"
+
 import { Wrapper } from "@googlemaps/react-wrapper";
 import { Map } from "./Components/Map";
 import { CarLoc } from "./Components/CarLoc/CarLoc";
@@ -33,6 +35,7 @@ import {
 } from "./random";
 import { IPublicClientApplication } from "@azure/msal-browser";
 import { useMsal } from "@azure/msal-react";
+import { Habilitation } from "./Habilitation";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -80,8 +83,14 @@ function MissionFilter(mission: MissionT, search: string) {
 	return fulltext.includes(search.toLowerCase());
 }
 
-function App() {
+const fake_missions = true
+	// && (process.env.DISABLE_AUTH_FOR_NONLOCAL == 'true')
+	&& (window.location.hostname.indexOf('xd') == -1) // If NOT localhost
+
+
+export function App() {
 	const [search, setSearch] = useState<string>("");
+
 
 	// const [tab, setTab] = useUrlState<string>('tab', 'tab_missions_to_hotel', validate_url_tab)
 	const [increasedMiddleSize, setIncreasedMiddleSize] = useUrlState<boolean>(
@@ -115,8 +124,9 @@ function App() {
 	// 	});
 	// }
 
+
 	const [allMissions, setAllMissions] = useState<MissionT[]>(
-		Array.from({ length: 0 }, (_, i) => ({
+		Array.from({ length: (fake_missions ? 10 : 0) }, (_, i) => ({
 			id: i,
 			passenger: `${random_lastname()} ${random_firstname()}`,
 			tags: random_tags(),
@@ -156,18 +166,49 @@ function App() {
 	const { instance } = useMsal();
 
 	useEffect(() => {
+
+		if(fake_missions) return;
+
 		(async () => {
 			const baseurl =
 				"https://chabe-int-ca-api-habilitations.orangepond-bbd114b2.francecentral.azurecontainerapps.io";
 
 			const accessToken = await getAccessToken(instance);
-			fetch(baseurl + "/api/v1/auth/me/adb2c", {
+			const response = await fetch(baseurl + "/api/v1/auth/me/adb2c", {
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
 				},
-			}).then((response) => {
-				setLoadingMsg("Récupération des missions ...");
-			});
+			}).then(e => e.text())
+
+			setLoadingMsg("Checking authorizations")
+
+			const hab = Habilitation.parseHabilitationResponse(response);
+			let client_ids = [hab.cliId, hab.subAccounts.map(a => a.cliId)]
+
+			setLoadingMsg("Retrieving mission informations");
+
+
+			const url = 'https://chabegateway-prod.azure-api.net/chabe-services/waynium/getMissionsWithSpecificWhereClause?dispatch=chabe';
+			const options = {
+				method: 'PUT',
+				headers: {
+					'content-type': 'application/json',
+					'Ocp-Apim-Subscription-Key': '5b5a9ab3be8e42e2a15aff295bcb2638'
+				},
+				body: '{"nf_gen_mission":"MIS_COM_ID IN (SELECT COM_ID FROM nf_com_commande WHERE COM_CLI_ID IN (ClientId))"}'
+			};
+
+			try {
+				const response = await fetch(url, options);
+				const data = await response.json();
+				
+				setLoadingMsg(JSON.stringify(data));
+
+
+			} catch (error) {
+				console.error(error);
+			}
+
 		})();
 	}, [instance]);
 
@@ -342,7 +383,7 @@ function App() {
 										MV
 									</div>
 									<div>
-										<Button onClick={async () => {}}>
+										<Button onClick={async () => { }}>
 											Lol
 										</Button>
 									</div>
@@ -439,10 +480,10 @@ function App() {
 										height: "50%",
 									}}>
 										<CircularProgress />
-										<Typography style={{marginTop: 10}}>
+										<Typography style={{ marginTop: 10 }}>
 											{loadingMsg}
 										</Typography>
-								</div>
+									</div>
 								)
 							}
 

@@ -25,3 +25,37 @@ If you are developing a production application, we recommend updating the config
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+
+
+
+
+
+
+
+
+YZEEL - Chabé Services:
+
+Production: 
+	- Host		:https://chabegateway-prod.azure-api.net/chabe-services
+	- ApiKeyName	:Ocp-Apim-Subscription-Key
+	- ApiKeyValue	: 5b5a9ab3be8e42e2a15aff295bcb2638
+
+Staing: 
+	- Host		:https://chabe-api-management-dev.azure-api.net/chabe-services
+	- ApiKeyName	:Ocp-Apim-Subscription-Key
+	- ApiKeyValue	: 246724d1e066440bb428e88393f0d4a4
+
+   Pour récupérer les missions d’un client, utilise l'endpoint suivant :
+
+Méthode : PUT
+
+URL :  {{host}}/waynium/getMissionsWithSpecificWhereClause?dispatch=chabe
+
+Body :
+
+{
+
+    "nf_gen_mission": "MIS_COM_ID IN (SELECT COM_ID FROM nf_com_commande WHERE COM_CLI_ID IN (ClientId))"
+
+}
