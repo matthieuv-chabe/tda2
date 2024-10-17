@@ -36,6 +36,8 @@ import {
 import { IPublicClientApplication } from "@azure/msal-browser";
 import { useMsal } from "@azure/msal-react";
 import { Habilitation } from "./Habilitation";
+import axios from "axios";
+import { Retry } from "./Retry";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -167,7 +169,7 @@ export function App() {
 
 	useEffect(() => {
 
-		if(fake_missions) return;
+		if (fake_missions) return;
 
 		(async () => {
 			const baseurl =
@@ -187,22 +189,24 @@ export function App() {
 
 			setLoadingMsg("Retrieving mission informations");
 
+			const client_ids_string = client_ids.join(',')
 
-			const url = 'https://chabegateway-prod.azure-api.net/chabe-services/waynium/getMissionsWithSpecificWhereClause?dispatch=chabe';
+
+
+			const url = 'https://chabe-api-management-dev.azure-api.net/chabe-services/waynium/getMissionsWithSpecificWhereClause?dispatch=chabe';
 			const options = {
 				method: 'PUT',
 				headers: {
 					'content-type': 'application/json',
-					'Ocp-Apim-Subscription-Key': '5b5a9ab3be8e42e2a15aff295bcb2638'
+					'Ocp-Apim-Subscription-Key': '246724d1e066440bb428e88393f0d4a4'
 				},
-				body: '{"nf_gen_mission":"MIS_COM_ID IN (SELECT COM_ID FROM nf_com_commande WHERE COM_CLI_ID IN (ClientId))"}',
-				mode: 'cors'
+				body: `{"nf_gen_mission":"MIS_COM_ID IN (SELECT COM_ID FROM nf_com_commande WHERE COM_CLI_ID IN (${client_ids_string}))"}`,
 			} as RequestInit;
 
 			try {
 				const response = await fetch(url, options);
 				const data = await response.json();
-				
+
 				setLoadingMsg(JSON.stringify(data));
 
 
@@ -384,7 +388,19 @@ export function App() {
 										MV
 									</div>
 									<div>
-										<Button onClick={async () => { }}>
+										<Button onClick={async () => {
+											const retry = new Retry("test");
+											retry.add(() => {
+												throw "fail 1"
+											}).add(() => {
+												throw "fail 2"
+											}).add(() => {
+												window.location.reload();
+											}).add(() => {
+												console.log("ok !")
+											}).run()
+										}
+										}>
 											Lol
 										</Button>
 									</div>
