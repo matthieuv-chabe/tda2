@@ -29,8 +29,9 @@ export const SignInButton = () => {
 export default function AppAuth() {
 
     const isAuthenticated = useIsAuthenticated();
+    const url = window.location.href;
 
-    if(!isAuthenticated) {
+    if(!isAuthenticated && url.includes("localhost")) {
         return <SignInButton />;
     }
 
