@@ -71,6 +71,27 @@ export type MissionT = {
 	license_plate: string;
 };
 
+function waynium_to_missiont(w: any): MissionT {
+	return {
+		id: w.MIS_ID,
+		passenger: "",
+		tags: [],
+		arrival: {
+			estimated: "",
+			remaining: "",
+		},
+		pinned: false,
+		locations: {
+			from: "",
+			to: "",
+		},
+		chauffeur_name: "a",
+		chauffeur_phone: "",
+		car_brand: "",
+		license_plate: "",
+	}
+}
+
 function MissionFilter(mission: MissionT, search: string) {
 	if (search === "") {
 		return true;
@@ -83,6 +104,8 @@ function MissionFilter(mission: MissionT, search: string) {
 const fake_missions = true
 	// && (process.env.DISABLE_AUTH_FOR_NONLOCAL == 'true')
 	&& (window.location.hostname.indexOf('localhost') == -1) // If NOT localhost
+
+	const base_api_url = (window.location.hostname.indexOf('localhost') != -1) ? "http://localhost:3001/api/" : '/api/'
 
 
 export function App() {
@@ -190,10 +213,10 @@ export function App() {
 
 
 
-			const url = '/api/missions/client/' + client_ids_string;
-			const missions = await (fetch(url).then((e) => e.json()));
+			const url = 'missions/clients/' + client_ids_string;
+			const missions = await (fetch(base_api_url + url).then((e) => e.json()));
 
-			setAllMissions(missions);
+			setAllMissions(missions.map(waynium_to_missiont));
 			setLoadingMsg("Done");
 
 		})();

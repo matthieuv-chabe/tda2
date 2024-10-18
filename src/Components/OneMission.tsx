@@ -11,7 +11,7 @@ import { LicencePlate } from "./MissionPanel/LicencePlate";
 import { PinIcon } from "./PinIcon";
 import { MissionT } from "../App";
 
-import arrowDown from "../../public/arrowBottom.svg"
+import arrowDown from "../../public/arrowBottom.svg";
 
 const shortName = (name: string, maxLen = 20) => {
 	if (name.length <= maxLen) {
@@ -22,16 +22,15 @@ const shortName = (name: string, maxLen = 20) => {
 };
 
 export const OneMission = (props: {
-	mission: MissionT,
-	onMissionChange: (mission: MissionT) => void,
-	exp: boolean,
-	index: number,
-	onClicked: (index: number, mission: MissionT) => void 
+	mission: MissionT;
+	onMissionChange: (mission: MissionT) => void;
+	exp: boolean;
+	index: number;
+	onClicked: (index: number, mission: MissionT) => void;
 }) => {
+	const exp = props.exp;
 
-	const exp = props.exp
-
-	const additionalcss = props.exp ? {filter: "none"} : {}
+	const additionalcss = props.exp ? { filter: "none" } : {};
 
 	return (
 		<>
@@ -40,8 +39,12 @@ export const OneMission = (props: {
 					props.onClicked(props.index, props.mission);
 				}}
 				expanded={exp}
-				style={{ backgroundColor: exp ? "" : "#f5f5f5", borderRadius: exp ? 10 : 0, ...additionalcss }}
-				>
+				style={{
+					backgroundColor: exp ? "" : "#f5f5f5",
+					borderRadius: exp ? 10 : 0,
+					...additionalcss,
+				}}
+			>
 				<AccordionSummary>
 					<div style={{ width: "100%" }}>
 						<div
@@ -55,7 +58,7 @@ export const OneMission = (props: {
 							}}
 						>
 							<div style={{ flex: 1 }}>
-				{/* #region Pin and tags */}
+								{/* #region Pin and tags */}
 								{/* <div
 									style={{
 										display: "flex",
@@ -96,9 +99,7 @@ export const OneMission = (props: {
 								<p>
 									Arrivée à {props.mission.arrival.estimated}
 								</p>
-								<p>
-									Dans {props.mission.arrival.remaining}
-								</p>
+								<p>Dans {props.mission.arrival.remaining}</p>
 							</div>
 
 							<div style={{ flex: 1 }}>
@@ -108,20 +109,26 @@ export const OneMission = (props: {
 										maxWidth: "100%",
 										overflow: "hidden",
 										textOverflow: "ellipsis",
-										fontSize: '1em',
-										fontWeight: '50'
+										fontSize: "1em",
+										fontWeight: "50",
 									}}
 								>
 									{" "}
-									{shortName(
-										props.mission.passenger.split(" ")[1],
-										25
-									)}
-									{" "}
-									{shortName(
-										props.mission.passenger.split(" ")[0].toUpperCase(),
-										20
-									)}
+									{props.mission.passenger &&
+										shortName(
+											props.mission.passenger.split(
+												" "
+											)[1],
+											25
+										)}{" "}
+									{props.mission.passenger &&
+										shortName(
+											props.mission.passenger
+												.split(" ")[0]
+												.toUpperCase(),
+											20
+										)
+									}
 								</p>
 								{/* <Typography
 									sx={{ mb: 1.5 }}
@@ -134,7 +141,13 @@ export const OneMission = (props: {
 								</Typography> */}
 							</div>
 							<div>
-								<img src={arrowDown} style={{marginLeft: 10, rotate: props.exp ? '180deg' : '0deg'}} />
+								<img
+									src={arrowDown}
+									style={{
+										marginLeft: 10,
+										rotate: props.exp ? "180deg" : "0deg",
+									}}
+								/>
 							</div>
 						</div>
 
