@@ -82,7 +82,7 @@ function MissionFilter(mission: MissionT, search: string) {
 
 const fake_missions = true
 	// && (process.env.DISABLE_AUTH_FOR_NONLOCAL == 'true')
-	&& (window.location.hostname.indexOf('localhost!') == -1) // If NOT localhost
+	&& (window.location.hostname.indexOf('localhost') == -1) // If NOT localhost
 
 
 export function App() {
@@ -191,7 +191,7 @@ export function App() {
 
 
 			const url = '/api/missions/client/' + client_ids_string;
-			const missions = await (fetch(baseurl + url).then((e) => e.json()));
+			const missions = await (fetch(url).then((e) => e.json()));
 
 			setAllMissions(missions);
 			setLoadingMsg("Done");
