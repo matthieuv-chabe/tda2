@@ -52,11 +52,12 @@ export class Habilitation {
 
         const subAccounts: SubAccount[] = data.subAccounts.map(subAccount => {
             const cliId = parseInt(subAccount.cliId);
-            if (!isNaN(cliId)) {
+            if (!isNaN(cliId) && subAccount.dispatch == "chabe") {
                 return { cliId, dispatch: subAccount.dispatch };
             }
             return null;
-        }).filter(subAccount => subAccount !== null) as SubAccount[];
+        })
+        .filter(subAccount => subAccount !== null) as SubAccount[];
 
         return {
             ...data,

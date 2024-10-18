@@ -4,6 +4,7 @@ import { Wrapper } from "@googlemaps/react-wrapper";
 import { Map } from "./Components/Map";
 import { CarLoc } from "./Components/CarLoc/CarLoc";
 import {
+	Button,
 	CircularProgress,
 	FormControlLabel,
 	FormGroup,
@@ -33,6 +34,7 @@ import {
 import { IPublicClientApplication } from "@azure/msal-browser";
 import { useMsal } from "@azure/msal-react";
 import { Habilitation } from "./Habilitation";
+import { useCountdown } from "./Hooks/useCountdown";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -72,6 +74,9 @@ export type MissionT = {
 };
 
 function waynium_to_missiont(w: any): MissionT {
+
+	console.log({w})
+
 	return {
 		id: w.MIS_ID,
 		passenger: "",
@@ -120,32 +125,11 @@ export function App() {
 	);
 
 
-	// const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [loadingMsg, setLoadingMsg] = useState<string>("Authentification ...");
+	const reload_countdown = useCountdown(60 * 60, 1000, ()=>{ window.location.reload() }); // Reload the page after 1 hour ?
 
 	const [selected, setSelected] = useState(-1)
-
-	// let allMissions = [];
-	// for (let i = 0; i < 10; i++) {
-	// 	allMissions.push({
-	// 		passenger: "M. DUPONT Jean",
-	// 		tags: ["VIP", "PMR", "5 bagages"],
-	// 		arrival: {
-	// 			estimated: "15h00",
-	// 			remaining: "2h 30min",
-	// 		},
-	// 		pinned: false,
-	// 		locations: {
-	// 			from: "Aéroport CDG",
-	// 			to: "Hotel de la Paix",
-	// 		},
-	// 		chauffeur_name: "M. Macho FEUR",
-	// 		chauffeur_phone: "+33 6 12 34 56 78",
-	// 		car_brand: "Mercedes S",
-	// 		license_plate: "AA-000-FF",
-	// 	});
-	// }
-
 
 	const [allMissions, setAllMissions] = useState<MissionT[]>(
 		Array.from({ length: (fake_missions ? 10 : 0) }, (_, i) => ({
@@ -189,6 +173,8 @@ export function App() {
 
 	useEffect(() => {
 
+		reload_countdown.start()
+
 		if (fake_missions) return;
 
 		(async () => {
@@ -209,17 +195,25 @@ export function App() {
 
 			setLoadingMsg("Retrieving mission informations");
 
-			const client_ids_string = client_ids.join(',')
+			const client_ids_string = client_ids.join(',').substring(1, client_ids.join(',').length - 1)
+			console.log(client_ids_string)
 
-
+			setLoadingMsg("Retrieving mission informations for clients " + client_ids_string);
 
 			const url = 'missions/clients/' + client_ids_string;
 			const missions = await (fetch(base_api_url + url).then((e) => e.json()));
 
 			setAllMissions(missions.map(waynium_to_missiont));
 			setLoadingMsg("Done");
+			setIsLoading(false);
 
 		})();
+
+		return () => {
+			reload_countdown.pause()
+			reload_countdown.reset()
+		}
+
 	}, [instance]);
 
 	const [showAcc, setShowAcc] = useState(false)
@@ -275,94 +269,6 @@ export function App() {
 									src="https://agreeable-hill-038a64303.4.azurestaticapps.net//static/media/logo-chabe.999d8b4d8a3a06fc5c11f4740d647335.svg"
 									alt="Chabé logo header"
 								/>
-							</li>
-							<li>
-								{/* <div>
-									<div
-										id="language-selector"
-										data-testid="language-selector"
-									>
-										<div
-											className="component-dropdown-lang"
-											data-testid="component-dropdown"
-										>
-											<div className="custom-dropdown-lang">
-												<label
-													htmlFor="selectionDropdown"
-													hidden
-												>
-													selectionDropdown
-												</label>
-												<div
-													className="react-select-container-lang css-b62m3t-container"
-													id="selectionDropdown"
-												>
-													<span
-														id="react-select-2-live-region"
-														className="css-7pg0cj-a11yText"
-													></span>
-													<span
-														aria-live="polite"
-														aria-atomic="false"
-														aria-relevant="additions text"
-														className="css-7pg0cj-a11yText"
-													></span>
-													<div className="react-select__control css-13cymwt-control">
-														<div className="react-select__value-container react-select__value-container--has-value css-hlgwow">
-															<div className="react-select__single-value css-1dimb5e-singleValue">
-																EN
-															</div>
-															<div
-																className="react-select__input-container css-19bb58m"
-																data-value=""
-															>
-																<input
-																	id="ipx"
-																	className="react-select__input"
-																	autoCapitalize="none"
-																	autoComplete="off"
-																	autoCorrect="off"
-																	spellCheck="false"
-																	tabIndex={0}
-																	type="text"
-																	aria-autocomplete="list"
-																	aria-expanded="false"
-																	aria-haspopup="true"
-																	role="combobox"
-																	value=""
-																	control-id="ControlID-1"
-																/>
-															</div>
-														</div>
-														<div className="react-select__indicators css-1wy0on6">
-															<span className="react-select__indicator-separator css-1u9des2-indicatorSeparator"></span>
-															<div
-																className="react-select__indicator react-select__dropdown-indicator css-1xc3v61-indicatorContainer"
-																aria-hidden="true"
-															>
-																<svg
-																	height="20"
-																	width="20"
-																	viewBox="0 0 20 20"
-																	aria-hidden="true"
-																	focusable="false"
-																	className="css-8mmkcg"
-																>
-																	<path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path>
-																</svg>
-															</div>
-														</div>
-													</div>
-													<input
-														name="car"
-														type="hidden"
-														value="en"
-													/>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div> */}
 							</li>
 							<li>
 								<div
@@ -479,9 +385,42 @@ export function App() {
 								
 							</div>
 
+							{
+								// No mission
+								!increasedMiddleSize && allMissions.length == 0 && (
+									<div style={{
+										display: "flex",
+										flexDirection: "column",
+										justifyContent: "center",
+										alignItems: "center",
+										height: "50%",
+									}}>
+										<Typography style={{ marginTop: 10, textAlign: 'center' }}>
+											Aucune mission prévue pour les 45 prochaines minutes
+											<div style={{marginTop: 10}}></div>
+											<Button
+											variant='contained'
+											onClick={() => {
+												setIncreasedMiddleSize(true)
+											}}>
+												Afficher toutes les missions
+											</Button>
+
+											<Button
+											
+											onClick={() => {
+												window.location.reload()
+											}}>
+												Actualiser la page ({reload_countdown.value}s)
+											</Button>
+										</Typography>
+									</div>
+								)
+							}
 							
 							{
-								!increasedMiddleSize && allMissions.length === 0 && (
+								// Show loading spinner
+								!increasedMiddleSize && isLoading && (
 									<div style={{
 										display: "flex",
 										flexDirection: "column",
@@ -496,6 +435,8 @@ export function App() {
 									</div>
 								)
 							}
+
+
 <div style={{width: '100%'}} id={showAcc ? 'midscreencolorchangediv' : ''}>
 							{!increasedMiddleSize && [
 								// Pinned missions should be at the top
