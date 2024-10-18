@@ -190,26 +190,11 @@ export function App() {
 
 
 
-			const url = 'https://chabe-api-management-dev.azure-api.net/chabe-services/waynium/getMissionsWithSpecificWhereClause?dispatch=chabe';
-			const options = {
-				method: 'PUT',
-				headers: {
-					'content-type': 'application/json',
-					'Ocp-Apim-Subscription-Key': '246724d1e066440bb428e88393f0d4a4'
-				},
-				body: `{"nf_gen_mission":"MIS_COM_ID IN (SELECT COM_ID FROM nf_com_commande WHERE COM_CLI_ID IN (${client_ids_string}))"}`,
-			} as RequestInit;
+			const url = '/api/missions/client/' + client_ids_string;
+			const missions = await (fetch(baseurl + url).then((e) => e.json()));
 
-			try {
-				const response = await fetch(url, options);
-				const data = await response.json();
-
-				setLoadingMsg(JSON.stringify(data));
-
-
-			} catch (error) {
-				console.error(error);
-			}
+			setAllMissions(missions);
+			setLoadingMsg("Done");
 
 		})();
 	}, [instance]);
