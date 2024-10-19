@@ -74,8 +74,7 @@ export type MissionT = {
 };
 
 function waynium_to_missiont(w: any): MissionT {
-
-	console.log({w})
+	console.log({ w });
 
 	return {
 		id: w.MIS_ID,
@@ -94,7 +93,7 @@ function waynium_to_missiont(w: any): MissionT {
 		chauffeur_phone: "",
 		car_brand: "",
 		license_plate: "",
-	}
+	};
 }
 
 function MissionFilter(mission: MissionT, search: string) {
@@ -106,16 +105,18 @@ function MissionFilter(mission: MissionT, search: string) {
 	return fulltext.includes(search.toLowerCase());
 }
 
-const fake_missions = true
+const fake_missions =
+	true &&
 	// && (process.env.DISABLE_AUTH_FOR_NONLOCAL == 'true')
-	&& (window.location.hostname.indexOf('localhost') == -1) // If NOT localhost
+	window.location.hostname.indexOf("localhost") == -1; // If NOT localhost
 
-	const base_api_url = (window.location.hostname.indexOf('localhost') != -1) ? "http://localhost:3001/api/" : '/api/'
-
+const base_api_url =
+	window.location.hostname.indexOf("localhost") != -1
+		? "http://localhost:3001/api/"
+		: "/api/";
 
 export function App() {
 	const [search, setSearch] = useState<string>("");
-
 
 	// const [tab, setTab] = useUrlState<string>('tab', 'tab_missions_to_hotel', validate_url_tab)
 	const [increasedMiddleSize, setIncreasedMiddleSize] = useUrlState<boolean>(
@@ -124,15 +125,21 @@ export function App() {
 		validate_url_size
 	);
 
-
 	const [isLoading, setIsLoading] = useState<boolean>(true);
-	const [loadingMsg, setLoadingMsg] = useState<string>("Authentification ...");
-	const reload_countdown = useCountdown(60 * 60, 1000, ()=>{ window.location.reload() }); // Reload the page after 1 hour ?
+	const [loadingMsg, setLoadingMsg] = useState<string>(
+		"Authentification ..."
+	);
+	const reload_countdown = useCountdown(10, 1000, () => {
+		window.location.reload();
+	}); // Reload the page after 1 hour ?
 
-	const [selected, setSelected] = useState(-1)
+	const [isFailed, setIsFailed] = useState<boolean>(false);
+	const [failMsg, setFailMsg] = useState<string>("");
+
+	const [selected, setSelected] = useState(-1);
 
 	const [allMissions, setAllMissions] = useState<MissionT[]>(
-		Array.from({ length: (fake_missions ? 10 : 0) }, (_, i) => ({
+		Array.from({ length: fake_missions ? 10 : 0 }, (_, i) => ({
 			id: i,
 			passenger: `${random_lastname()} ${random_firstname()}`,
 			tags: random_tags(),
@@ -173,7 +180,9 @@ export function App() {
 
 	useEffect(() => {
 
-		reload_countdown.start()
+		const canceltoken = new AbortController();
+
+		reload_countdown.start();
 
 		if (fake_missions) return;
 
@@ -183,40 +192,60 @@ export function App() {
 
 			const accessToken = await getAccessToken(instance);
 			const response = await fetch(baseurl + "/api/v1/auth/me/adb2c", {
+				signal: canceltoken.signal,
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
 				},
-			}).then(e => e.text())
+			}).then((e) => e.text());
 
-			setLoadingMsg("Checking authorizations")
+			setLoadingMsg("Checking authorizations");
 
 			const hab = Habilitation.parseHabilitationResponse(response);
-			let client_ids = [hab.cliId, hab.subAccounts.map(a => a.cliId)]
+			let client_ids = [hab.cliId, hab.subAccounts.map((a) => `${a.dispatch}_${a.cliId}`)].flat();
 
 			setLoadingMsg("Retrieving mission informations");
 
-			const client_ids_string = client_ids.join(',').substring(1, client_ids.join(',').length - 1)
-			console.log(client_ids_string)
+			const client_ids_string = client_ids
+				.join(",")
+				.substring(1, client_ids.join(",").length - 1);
+			console.log(client_ids_string);
 
-			setLoadingMsg("Retrieving mission informations for clients " + client_ids_string);
+			setLoadingMsg(
+				`Récupération des missions pour ${client_ids.length} client${client_ids.length > 1 ? "s" : ""}`
+			);
 
-			const url = 'missions/clients/' + client_ids_string;
-			const missions = await (fetch(base_api_url + url).then((e) => e.json()));
+			const url = "missions/clients/" + client_ids_string;
+			let missions = [];
 
-			setAllMissions(missions.map(waynium_to_missiont));
-			setLoadingMsg("Done");
-			setIsLoading(false);
+			try {
 
+				missions = await (fetch(base_api_url + url, {signal: canceltoken.signal}).then((e) =>e.json()));
+
+				setAllMissions(missions.map(waynium_to_missiont));
+				setLoadingMsg("Done");
+				setIsLoading(false);
+
+			} catch (e) {
+
+				setIsLoading(false);
+				setIsFailed(true);
+
+				reload_countdown.reset()
+				reload_countdown.start();
+
+			}
 		})();
 
 		return () => {
-			reload_countdown.pause()
-			reload_countdown.reset()
-		}
+			reload_countdown.pause();
+			reload_countdown.reset();
 
+			// Cancel the http requests
+			canceltoken.abort();
+		};
 	}, [instance]);
 
-	const [showAcc, setShowAcc] = useState(false)
+	const [showAcc, setShowAcc] = useState(false);
 
 	return (
 		<>
@@ -362,7 +391,7 @@ export function App() {
 											style={{
 												display: "flex",
 												alignItems: "center",
-												marginBottom: 10
+												marginBottom: 10,
 											}}
 										>
 											<Input
@@ -375,59 +404,115 @@ export function App() {
 											/>
 											<FormControlLabel
 												control={
-													<Switch checked={showAcc} onChange={(_, v) => setShowAcc(v)} />
+													<Switch
+														checked={showAcc}
+														onChange={(_, v) =>
+															setShowAcc(v)
+														}
+													/>
 												}
 												label="Afficher les accueils"
 											/>
 										</div>
 									</FormGroup>
 								</h1>
-								
 							</div>
+
+							{isFailed && (
+								<div
+									style={{
+										display: "flex",
+										flexDirection: "column",
+										justifyContent: "center",
+										alignItems: "center",
+										height: "50%",
+									}}
+								>
+									<Typography
+										style={{
+											marginTop: 10,
+											textAlign: "center",
+
+											color: "red",
+										}}
+									>
+										Impossible de se connecter au serveur<br />
+										Nous allons essayer à nouveau dans {reload_countdown.value} seconde(s).<br /><br />
+										Nous vous prions de nous excuser pour la gêne occasionnée.<br />
+										{failMsg}
+										<div style={{ marginTop: 10 }}></div>
+										<Button
+											variant="contained"
+											onClick={() => {
+												setIncreasedMiddleSize(true);
+											}}
+										>
+											Recharger la page
+										</Button>
+									</Typography>
+								</div>
+							)}
 
 							{
 								// No mission
-								!increasedMiddleSize && allMissions.length == 0 && (
-									<div style={{
-										display: "flex",
-										flexDirection: "column",
-										justifyContent: "center",
-										alignItems: "center",
-										height: "50%",
-									}}>
-										<Typography style={{ marginTop: 10, textAlign: 'center' }}>
-											Aucune mission prévue pour les 45 prochaines minutes
-											<div style={{marginTop: 10}}></div>
-											<Button
-											variant='contained'
-											onClick={() => {
-												setIncreasedMiddleSize(true)
-											}}>
-												Afficher toutes les missions
-											</Button>
-
-											<Button
-											
-											onClick={() => {
-												window.location.reload()
-											}}>
-												Actualiser la page ({reload_countdown.value}s)
-											</Button>
-										</Typography>
-									</div>
-								)
+								!increasedMiddleSize &&
+									!isFailed &&
+									!isLoading &&
+									allMissions.length == 0 && (
+										<div
+											style={{
+												display: "flex",
+												flexDirection: "column",
+												justifyContent: "center",
+												alignItems: "center",
+												height: "50%",
+											}}
+										>
+											<Typography
+												style={{
+													marginTop: 10,
+													textAlign: "center",
+												}}
+											>
+												Aucune mission prévue pour les
+												45 prochaines minutes !
+												<div
+													style={{ marginTop: 10 }}
+												></div>
+												<Button
+													variant="contained"
+													onClick={() => {
+														setIncreasedMiddleSize(
+															true
+														);
+													}}
+												>
+													Afficher toutes les missions
+												</Button>
+												<Button
+													onClick={() => {
+														window.location.reload();
+													}}
+												>
+													Actualiser la page
+												</Button>
+											</Typography>
+										</div>
+									)
 							}
-							
+
 							{
 								// Show loading spinner
 								!increasedMiddleSize && isLoading && (
-									<div style={{
-										display: "flex",
-										flexDirection: "column",
-										justifyContent: "center",
-										alignItems: "center",
-										height: "50%",
-									}}>
+									<div
+										style={{
+											display: "flex",
+											flexDirection: "column",
+											justifyContent: "center",
+											alignItems: "center",
+											height: "50%",
+										}}
+									>
 										<CircularProgress />
 										<Typography style={{ marginTop: 10 }}>
 											{loadingMsg}
@@ -436,51 +521,59 @@ export function App() {
 								)
 							}
 
+							<div
+								style={{ width: "100%" }}
+								id={showAcc ? "midscreencolorchangediv" : ""}
+							>
+								{!increasedMiddleSize && [
+									// Pinned missions should be at the top
+									...allMissions
+										.filter((mission) => mission.pinned)
+										.filter((m) => MissionFilter(m, search))
+										.map((mission) => (
+											<OneMission
+												key={mission.id}
+												mission={mission}
+												onMissionChange={(mission) => {
+													console.log(
+														"Mission changed"
+													);
+													updateOneMission(mission);
+												}}
+												index={mission.id}
+												exp={selected == mission.id}
+												onClicked={(_, mis) => {
+													if (selected == mis.id)
+														setSelected(-1);
+													else setSelected(mis.id);
+												}}
+											/>
+										)),
 
-<div style={{width: '100%'}} id={showAcc ? 'midscreencolorchangediv' : ''}>
-							{!increasedMiddleSize && [
-								// Pinned missions should be at the top
-								...allMissions
-									.filter((mission) => mission.pinned)
-									.filter((m) => MissionFilter(m, search))
-									.map((mission) => (
-										<OneMission
-											key={mission.id}
-											mission={mission}
-											onMissionChange={(mission) => {
-												console.log("Mission changed");
-												updateOneMission(mission);
-											}}
-											index={mission.id}
-											exp={selected == mission.id}
-											onClicked={(_, mis) => {
-												if (selected == mis.id) setSelected(-1)
-												else setSelected(mis.id)
-											}}
-										/>
-									)),
-
-								// All other missions
-								...allMissions
-									.filter((mission) => !mission.pinned)
-									.filter((m) => MissionFilter(m, search))
-									.map((mission) => (
-										<OneMission
-											key={mission.id}
-											mission={mission}
-											onMissionChange={(mission) => {
-												console.log("Mission changed");
-												updateOneMission(mission);
-											}}
-											index={mission.id}
-											exp={selected == mission.id}
-											onClicked={(_, mis) => {
-												if (selected == mis.id) setSelected(-1)
-												else setSelected(mis.id)
-											}}
-										/>
-									)),
-							]}
+									// All other missions
+									...allMissions
+										.filter((mission) => !mission.pinned)
+										.filter((m) => MissionFilter(m, search))
+										.map((mission) => (
+											<OneMission
+												key={mission.id}
+												mission={mission}
+												onMissionChange={(mission) => {
+													console.log(
+														"Mission changed"
+													);
+													updateOneMission(mission);
+												}}
+												index={mission.id}
+												exp={selected == mission.id}
+												onClicked={(_, mis) => {
+													if (selected == mis.id)
+														setSelected(-1);
+													else setSelected(mis.id);
+												}}
+											/>
+										)),
+								]}
 							</div>
 
 							<div style={{ marginBottom: 50 }}></div>
