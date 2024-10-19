@@ -35,6 +35,7 @@ import { IPublicClientApplication } from "@azure/msal-browser";
 import { useMsal } from "@azure/msal-react";
 import { Habilitation } from "./Habilitation";
 import { useCountdown } from "./Hooks/useCountdown";
+import * as authconfig from "./authConfig";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -179,7 +180,6 @@ export function App() {
 	const { instance } = useMsal();
 
 	useEffect(() => {
-
 		const canceltoken = new AbortController();
 
 		if (fake_missions) return;
@@ -188,7 +188,14 @@ export function App() {
 			const baseurl =
 				"https://chabe-int-ca-api-habilitations.orangepond-bbd114b2.francecentral.azurecontainerapps.io";
 
-			const accessToken = await getAccessToken(instance);
+				let accessToken = "";
+			try {
+				accessToken = await getAccessToken(instance);
+			} catch (e) {
+				instance.loginRedirect(authconfig.loginRequest).catch((e) => {
+					console.log(e);
+				});
+			}
 			const response = await fetch(baseurl + "/api/v1/auth/me/adb2c", {
 				signal: canceltoken.signal,
 				headers: {
@@ -199,7 +206,10 @@ export function App() {
 			setLoadingMsg("Checking authorizations");
 
 			const hab = Habilitation.parseHabilitationResponse(response);
-			let client_ids = [hab.cliId, hab.subAccounts.map((a) => `${a.dispatch}_${a.cliId}`)].flat();
+			let client_ids = [
+				hab.cliId,
+				hab.subAccounts.map((a) => `${a.dispatch}_${a.cliId}`),
+			].flat();
 
 			setLoadingMsg("Retrieving mission informations");
 
@@ -209,28 +219,28 @@ export function App() {
 			console.log(client_ids_string);
 
 			setLoadingMsg(
-				`Récupération des missions pour ${client_ids.length} client${client_ids.length > 1 ? "s" : ""}`
+				`Récupération des missions pour ${client_ids.length} client${
+					client_ids.length > 1 ? "s" : ""
+				}`
 			);
 
 			const url = "missions/clients/" + client_ids_string;
 			let missions = [];
 
 			try {
-
-				missions = await (fetch(base_api_url + url, {signal: canceltoken.signal}).then((e) =>e.json()));
+				missions = await fetch(base_api_url + url, {
+					signal: canceltoken.signal,
+				}).then((e) => e.json());
 
 				setAllMissions(missions.map(waynium_to_missiont));
 				setLoadingMsg("Done");
 				setIsLoading(false);
-
 			} catch (e) {
-
 				setIsLoading(false);
 				setIsFailed(true);
 
-				reload_countdown.reset()
+				reload_countdown.reset();
 				reload_countdown.start();
-
 			}
 		})();
 
@@ -434,9 +444,15 @@ export function App() {
 											color: "red",
 										}}
 									>
-										Impossible de se connecter au serveur<br />
-										Nous allons essayer à nouveau dans {reload_countdown.value} seconde(s).<br /><br />
-										Nous vous prions de nous excuser pour la gêne occasionnée.<br />
+										Impossible de se connecter au serveur
+										<br />
+										Nous allons essayer à nouveau dans{" "}
+										{reload_countdown.value} seconde(s).
+										<br />
+										<br />
+										Nous vous prions de nous excuser pour la
+										gêne occasionnée.
+										<br />
 										{failMsg}
 										<div style={{ marginTop: 10 }}></div>
 										<Button
