@@ -182,8 +182,6 @@ export function App() {
 
 		const canceltoken = new AbortController();
 
-		reload_countdown.start();
-
 		if (fake_missions) return;
 
 		(async () => {
