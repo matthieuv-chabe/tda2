@@ -393,7 +393,7 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 			// }
 
 			clearInterval(iv!);
-			console.log("ded");
+			// console.log("ded");
 		};
 	}, [line, mx, linelabel, fullline]);
 

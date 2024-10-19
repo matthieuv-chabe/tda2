@@ -286,7 +286,7 @@ const str_to_polyline = (str: string) => {
             // }
 
             clearInterval(iv!)
-            console.log("ded")
+            // console.log("ded")
         };
     }, [
         line,
