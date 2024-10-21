@@ -106,10 +106,7 @@ function MissionFilter(mission: MissionT, search: string) {
 	return fulltext.includes(search.toLowerCase());
 }
 
-const fake_missions =
-	true &&
-	// && (process.env.DISABLE_AUTH_FOR_NONLOCAL == 'true')
-	window.location.hostname.indexOf("localhost") == -1; // If NOT localhost
+const fake_missions = false
 
 const base_api_url =
 	window.location.hostname.indexOf("localhost") != -1
