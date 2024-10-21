@@ -37,7 +37,8 @@ export const msalConfig: Configuration = {
     auth: {
         clientId: "4195303f-5f26-4cde-970e-10bb7a8abe58",
         authority: b2cPolicies.authorities.signUpSignIn.authority,
-        redirectUri: "http://localhost:3000",
+        redirectUri:
+            window.location.hostname.indexOf("localhost") != -1 ? "http://localhost:3000" : "https://rct.tda2.chabe.com",
 
         knownAuthorities: [b2cPolicies.authorityDomain ?? ''], // Mark your B2C tenant's domain as trusted.
         // validateAuthority: true,
