@@ -224,7 +224,8 @@ export function App() {
 	const [refreshToken, setRefreshToken] = useState(0);
 	useEffect(() => {
 		setInterval(() => {
-			setRefreshToken((prev) => prev + 1);
+			if(!isFailed)
+				setRefreshToken((prev) => prev + 1);
 		}, 3_000)
 	}, [])
 
