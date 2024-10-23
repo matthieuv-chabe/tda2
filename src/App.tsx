@@ -56,6 +56,9 @@ export async function getAccessToken(instance: IPublicClientApplication) {
 }
 
 export type MissionT = {
+
+	w: any;
+
 	id: number;
 	passenger: string;
 	tags: string[];
@@ -74,27 +77,36 @@ export type MissionT = {
 	license_plate: string;
 };
 
-function waynium_to_missiont(w: any): MissionT {
+function waynium_to_missiont(w: any): MissionT | null {
 	console.log({ w });
 
-	return {
-		id: w.MIS_ID,
-		passenger: "",
-		tags: [],
-		arrival: {
-			estimated: "",
-			remaining: "",
-		},
-		pinned: false,
-		locations: {
-			from: "",
-			to: "",
-		},
-		chauffeur_name: "a",
-		chauffeur_phone: "",
-		car_brand: "",
-		license_plate: "",
-	};
+	try {
+		return {
+
+			w: w,
+	
+			id: w.MIS_ID,
+			passenger: "",
+			tags: [],
+			arrival: {
+				estimated: "",
+				remaining: "",
+			},
+			pinned: false,
+			locations: {
+				from: w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LIBELLE,
+				to: w.C_Gen_EtapePresence[1].C_Geo_Lieu.LIE_LIBELLE,
+			},
+			chauffeur_name: "a",
+			chauffeur_phone: "",
+			car_brand: "",
+			license_plate: "",
+		};
+	} catch (e) {
+		// alert(JSON.stringify(w))
+
+		return null;
+	}
 }
 
 function MissionFilter(mission: MissionT, search: string) {
@@ -138,6 +150,7 @@ export function App() {
 
 	const [allMissions, setAllMissions] = useState<MissionT[]>(
 		Array.from({ length: fake_missions ? 10 : 0 }, (_, i) => ({
+			w: [],
 			id: i,
 			passenger: `${random_lastname()} ${random_firstname()}`,
 			tags: random_tags(),
@@ -229,7 +242,8 @@ export function App() {
 					signal: canceltoken.signal,
 				}).then((e) => e.json());
 
-				setAllMissions(missions.map(waynium_to_missiont));
+				setAllMissions(missions.map(waynium_to_missiont));			
+
 				setLoadingMsg("Done");
 				setIsLoading(false);
 			} catch (e) {
@@ -538,33 +552,35 @@ export function App() {
 							>
 								{!increasedMiddleSize && [
 									// Pinned missions should be at the top
-									...allMissions
-										.filter((mission) => mission.pinned)
-										.filter((m) => MissionFilter(m, search))
-										.map((mission) => (
-											<OneMission
-												key={mission.id}
-												mission={mission}
-												onMissionChange={(mission) => {
-													console.log(
-														"Mission changed"
-													);
-													updateOneMission(mission);
-												}}
-												index={mission.id}
-												exp={selected == mission.id}
-												onClicked={(_, mis) => {
-													if (selected == mis.id)
-														setSelected(-1);
-													else setSelected(mis.id);
-												}}
-											/>
-										)),
+									// ...allMissions
+									// 	.filter((mission) => mission.pinned)
+									// 	.filter((m) => MissionFilter(m, search))
+									// 	.map((mission) => (
+									// 		<OneMission
+									// 			key={mission.id}
+									// 			mission={mission}
+									// 			onMissionChange={(mission) => {
+									// 				console.log(
+									// 					"Mission changed"
+									// 				);
+									// 				updateOneMission(mission);
+									// 			}}
+									// 			index={mission.id}
+									// 			exp={selected == mission.id}
+									// 			onClicked={(_, mis) => {
+									// 				if (selected == mis.id)
+									// 					setSelected(-1);
+									// 				else setSelected(mis.id);
+									// 			}}
+									// 		/>
+									// 	)),
 
 									// All other missions
 									...allMissions
+										.filter(m => m != null)
 										.filter((mission) => !mission.pinned)
 										.filter((m) => MissionFilter(m, search))
+										.filter((m) => m.w.MIS_SMI_ID == "8")
 										.map((mission) => (
 											<OneMission
 												key={mission.id}

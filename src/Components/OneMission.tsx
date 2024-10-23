@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import { DriverName } from "./MissionPanel/DriverName";
 import { LicencePlate } from "./MissionPanel/LicencePlate";
-import { PinIcon } from "./PinIcon";
 import { MissionT } from "../App";
 
 import arrowDown from "../../public/arrowBottom.svg";
@@ -58,6 +57,7 @@ export const OneMission = (props: {
 							}}
 						>
 							<div style={{ flex: 1 }}>
+								{/* {JSON.stringify(props.mission.w)} */}
 								{/* #region Pin and tags */}
 								{/* <div
 									style={{
@@ -187,8 +187,8 @@ export const OneMission = (props: {
 								textAlign: "center",
 							}}
 						>
-							<Typography>Aéroport CDG</Typography>
-							<Typography variant="subtitle2">12:00</Typography>
+							<Typography>{props.mission.locations.from}</Typography>
+							<Typography variant="subtitle2">{props.mission.w.MIS_HEURE_DEBUT.substring(0,5)}</Typography>
 						</div>
 
 						<div>
@@ -200,8 +200,8 @@ export const OneMission = (props: {
 								textAlign: "center",
 							}}
 						>
-							<Typography>Hotel de la Paix</Typography>
-							<Typography variant="subtitle2">15:00</Typography>
+							<Typography>{props.mission.locations.to}</Typography>
+							<Typography variant="subtitle2">{props.mission.w.MIS_HEURE_DEBUT.substring(0,5)}</Typography>
 						</div>
 					</div>
 
