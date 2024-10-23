@@ -523,7 +523,7 @@ export function App() {
 										<Button
 											variant="contained"
 											onClick={() => {
-												setIncreasedMiddleSize(true);
+												window.location.reload();
 											}}
 										>
 											Recharger la page
@@ -699,7 +699,9 @@ export function App() {
 												</TableRow>
 											</TableHead>
 											<TableBody>
-												{allMissions.map((row) => (
+												{allMissions
+												.filter(m => m != null)
+												.map((row) => (
 													<TableRow
 														key={row.passenger}
 														sx={{
