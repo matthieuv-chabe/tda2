@@ -13,6 +13,9 @@ import { MissionT } from "../App";
 import arrowDown from "../../public/arrowBottom.svg";
 
 const shortName = (name: string, maxLen = 20) => {
+
+	if(!name) return "";
+
 	if (name.length <= maxLen) {
 		return name;
 	}
@@ -118,13 +121,13 @@ export const OneMission = (props: {
 										shortName(
 											props.mission.passenger.split(
 												" "
-											)[1],
+											)[0],
 											25
 										)}{" "}
 									{props.mission.passenger &&
 										shortName(
 											props.mission.passenger
-												.split(" ")[0]
+												.split(" ")[1]
 												.toUpperCase(),
 											20
 										)
@@ -224,10 +227,10 @@ export const OneMission = (props: {
 								textAlign: "center",
 							}}
 						>
-							Mercedes S<br />
-							<LicencePlate platenum="AA-000-FF" />
+							{props.mission.car_brand}<br />
+							<LicencePlate platenum={props.mission.license_plate} />
 						</div>
-						<DriverName name="M. Macho FEUR" />
+						<DriverName name={props.mission.chauffeur_name} phone={props.mission.chauffeur_phone} />
 					</div>
 				</AccordionDetails>
 			</Accordion>

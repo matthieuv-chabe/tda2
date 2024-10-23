@@ -2,7 +2,7 @@ import { Alert, Backdrop, Link, Snackbar, Typography } from "@mui/material"
 import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 import React from "react";
 
-export const DriverName = (props: { name: string }) => {
+export const DriverName = (props: { name: string, phone: string }) => {
 
     const [open, setOpen] = React.useState(false);
     const callTimeout = React.useRef<any>(null);
@@ -12,7 +12,7 @@ export const DriverName = (props: { name: string }) => {
 
         callTimeout.current = setTimeout(() => {
             // Make phone call
-            window.open('tel:+33612345678', '_blank');
+            window.open('tel:' + props.phone, '_blank');
         }, 2000);
     };
 
@@ -24,7 +24,8 @@ export const DriverName = (props: { name: string }) => {
     return (<>
 
         <Typography variant="body1" component="b">
-            {props.name}
+            {props.name} <br />
+            {props.phone}
             <Link href="#" onClick={handleClick}>
                 <PhoneEnabledIcon fontSize={"small"}
                     style={{ transform: "translateY(3px)", marginLeft: 5 }}

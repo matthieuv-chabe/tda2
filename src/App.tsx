@@ -80,27 +80,61 @@ export type MissionT = {
 function waynium_to_missiont(w: any): MissionT | null {
 	console.log({ w });
 
+	const get_name = (w: any) => {
+		const p1 = w.C_Gen_Presence[0].C_Gen_Passager;
+
+		const fname = ((p1.PAS_PRENOM || "") as string).trim()
+		const lname = ((p1.PAS_NOM || "") as string).trim()
+
+		if(fname == "" && lname == "") {
+			return "??";
+		}
+
+		if(fname == "") {
+			return lname.toUpperCase();
+		}
+
+		if(lname == "") {
+			return fname + " ...";
+		}
+
+		return fname + " " + lname.toUpperCase();
+	}
+
+	const ms_to_hm = (ms: number) => {
+		const hours = Math.floor(ms / 1000 / 60 / 60);
+		const mins = Math.floor((ms / 1000 / 60) % 60);
+
+		return `${hours}h ${mins}min`;
+}
+	
+
 	try {
+
+		const estimated_arrival = w.MIS_HEURE_FIN as string // 01:01:01
+		const ea = new Date(new Date().toISOString().substring(0, 10) + "T" + estimated_arrival + "Z")
+		const eastr = ea.toTimeString()?.substring(0,5)
+
 		return {
 
 			w: w,
 	
 			id: w.MIS_ID,
-			passenger: "",
+			passenger: get_name(w),
 			tags: [],
 			arrival: {
-				estimated: "",
-				remaining: "",
+				estimated: eastr,
+				remaining: ms_to_hm(ea.getTime() - Date.now()).toString(),
 			},
 			pinned: false,
 			locations: {
 				from: w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LIBELLE,
 				to: w.C_Gen_EtapePresence[1].C_Geo_Lieu.LIE_LIBELLE,
 			},
-			chauffeur_name: "a",
-			chauffeur_phone: "",
-			car_brand: "",
-			license_plate: "",
+			chauffeur_name: w.C_Gen_Chauffeur.CHU_PRENOM + " " + w.C_Gen_Chauffeur.CHU_NOM.toUpperCase(),
+			chauffeur_phone: w.C_Gen_Chauffeur.CHU_TEL_MOBILE_1,
+			car_brand: w.C_Gen_Voiture.VOI_MODELE,
+			license_plate: w.C_Gen_Voiture.VOI_LIBELLE,
 		};
 	} catch (e) {
 		// alert(JSON.stringify(w))
@@ -187,6 +221,13 @@ export function App() {
 		return "calc(100% - 500px)";
 	};
 
+	const [refreshToken, setRefreshToken] = useState(0);
+	useEffect(() => {
+		setInterval(() => {
+			setRefreshToken((prev) => prev + 1);
+		}, 3_000)
+	}, [])
+
 	const { instance } = useMsal();
 
 	useEffect(() => {
@@ -262,7 +303,7 @@ export function App() {
 			// Cancel the http requests
 			canceltoken.abort();
 		};
-	}, [instance]);
+	}, [instance, refreshToken]);
 
 	const [showAcc, setShowAcc] = useState(false);
 
