@@ -3,6 +3,7 @@ import App from "./App";
 import { Button } from "@mui/material";
 
 import { loginRequest } from "./authConfig";
+import { useEffect } from "react";
 
 export const SignInButton = () => {
     const { instance } = useMsal();
@@ -18,6 +19,11 @@ export const SignInButton = () => {
         });
       }
     };
+
+    useEffect(() => {
+      handleLogin('redirect');
+    }, [])
+
     return (
 
         <Button onClick={() => handleLogin("redirect")}>
