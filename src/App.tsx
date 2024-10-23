@@ -112,7 +112,7 @@ function waynium_to_missiont(w: any): MissionT | null {
 	try {
 
 		const estimated_arrival = w.MIS_HEURE_FIN as string // 01:01:01
-		const ea = new Date(new Date().toISOString().substring(0, 10) + "T" + estimated_arrival + "Z")
+		const ea = new Date(new Date().toISOString().substring(0, 10) + "T" + estimated_arrival)
 		const eastr = ea.toTimeString()?.substring(0,5)
 
 		return {
@@ -124,7 +124,7 @@ function waynium_to_missiont(w: any): MissionT | null {
 			tags: [],
 			arrival: {
 				estimated: eastr,
-				remaining: ms_to_hm(ea.getTime() - Date.now()).toString(),
+				remaining: ms_to_hm(ea.getTime() - new Date().getTime()).toString(),
 			},
 			pinned: false,
 			locations: {
