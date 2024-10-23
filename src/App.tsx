@@ -95,7 +95,7 @@ function waynium_to_missiont(w: any): MissionT | null {
 		}
 
 		if(lname == "") {
-			return fname + " ...";
+			return fname + " (Name Unknown)";
 		}
 
 		return fname + " " + lname.toUpperCase();
@@ -225,7 +225,7 @@ export function App() {
 	useEffect(() => {
 		setInterval(() => {
 			if(!isFailed) setRefreshToken((prev) => prev + 1);
-		}, 3_000)
+		}, 10_000)
 	}, [])
 
 	const { instance } = useMsal();

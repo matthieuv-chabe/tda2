@@ -127,8 +127,10 @@ export const OneMission = (props: {
 									{props.mission.passenger &&
 										shortName(
 											props.mission.passenger
-												.split(" ")[1]
-												.toUpperCase(),
+												.split(" ")
+												.slice(1)
+												.join(" "),
+												// .toUpperCase(),
 											20
 										)
 									}
