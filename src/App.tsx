@@ -315,8 +315,8 @@ export function App() {
 						<li>
 							<a
 								id="nav-dashboard"
-								className="nav-link is-active"
-								href="/dashboard"
+								className="nav-link"
+								href="https://agreeable-hill-038a64303.4.azurestaticapps.net/dashboard"
 								aria-current="page"
 							>
 								<img
@@ -329,10 +329,23 @@ export function App() {
 							<a
 								id="nav-passenger"
 								className="nav-link"
-								href="/passenger"
+								href="https://agreeable-hill-038a64303.4.azurestaticapps.net/passenger"
 							>
 								<img
 									src="https://agreeable-hill-038a64303.4.azurestaticapps.net//static/media/passenger-icon.c910ce52b2c01a277e279004e67c770e.svg"
+									alt="Clickable Dashboard button side navigation bar"
+								/>
+							</a>
+						</li>
+						<li>
+							<a
+								id="nav-dashboard"
+								className="nav-link is-active"
+								href="/dashboard"
+								aria-current="page"
+							>
+								<img
+									src="https://agreeable-hill-038a64303.4.azurestaticapps.net//static/media/nav-home-icon.e0d99f32dc8c1b2787e29f865cbf6da1.svg"
 									alt="Clickable Dashboard button side navigation bar"
 								/>
 							</a>
