@@ -285,6 +285,7 @@ export function App() {
 
 				setAllMissions(missions.map(waynium_to_missiont));			
 
+				setIsFailed(false)
 				setLoadingMsg("Done");
 				setIsLoading(false);
 			} catch (e) {
@@ -582,7 +583,7 @@ export function App() {
 
 							{
 								// Show loading spinner
-								!increasedMiddleSize && isLoading && (
+								!increasedMiddleSize && isLoading && !isFailed && (
 									<div
 										style={{
 											display: "flex",
@@ -604,7 +605,7 @@ export function App() {
 								style={{ width: "100%" }}
 								id={showAcc ? "midscreencolorchangediv" : ""}
 							>
-								{!increasedMiddleSize && [
+								{!increasedMiddleSize && !isFailed && [
 									// Pinned missions should be at the top
 									// ...allMissions
 									// 	.filter((mission) => mission.pinned)
@@ -659,7 +660,7 @@ export function App() {
 
 							<div style={{ marginBottom: 50 }}></div>
 
-							{increasedMiddleSize && (
+							{increasedMiddleSize && !isFailed && (
 								<div
 									style={{
 										marginTop: 10,
