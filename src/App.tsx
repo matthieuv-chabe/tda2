@@ -227,15 +227,18 @@ export function App() {
 	};
 
 	const calculate_increased_middle_size = () => {
-		const viewport_width = Math.max(
-			document.documentElement.clientWidth || 0,
-			window.innerWidth || 0
-		);
-		if (viewport_width < 800) {
-			return "100%";
-		}
+		// const viewport_width = Math.max(
+		// 	document.documentElement.clientWidth || 0,
+		// 	window.innerWidth || 0
+		// );
+		// if (viewport_width < 800) {
+		// 	return "100%";
+		// }
 
-		return "calc(100% - 500px)";
+		// return "calc(100% - 500px)";
+
+		// Requested to completely hide the map if the middle size is increased
+		return '100%';
 	};
 
 	const [refreshToken, setRefreshToken] = useState(0);
@@ -690,6 +693,7 @@ export function App() {
 											stickyHeader
 											sx={{ minWidth: 650 }}
 											aria-label="simple table"
+											style={{ fontFamily: "EuclidCircularA-Regular"}}
 										>
 											<TableHead>
 												<TableRow>

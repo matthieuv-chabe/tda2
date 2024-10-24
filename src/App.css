@@ -22,7 +22,11 @@
 }
 
 * {
-  font-family: "EuclidCircularA-Regular";
+  font-family: "EuclidCircularA-Regular" !important;
+}
+
+.css-1ex1afd-MuiTableCell-root {
+  font-family: "EuclidCircularA-Regular" !important;
 }
 
 h1 {
