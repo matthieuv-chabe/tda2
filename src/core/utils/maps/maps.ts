@@ -1,4 +1,3 @@
-import * as MapsTypes from "./maps.types";
 
 export type Vec2d = [number, number];
 
@@ -10,17 +9,17 @@ export type GglPathInfoAtTime_t = {
     ETA_in_seconds?: number;
 }
 
-export class GglPathResponse {
+export class GeolocExtrapolationComputer {
 
     // Data
-    data: MapsTypes.GoogleResponse;
+    data: google.maps.DirectionsResult;
     is_ok: boolean;
 
     // Time information
     mTimeInfo: {time_end: number, data: GglPathInfoAtTime_t}[] = [];
 
     constructor(
-        json: any,
+        json: google.maps.DirectionsResult,
         options = {
             compute_timeinfo_at_init: true,
         },
@@ -45,26 +44,22 @@ export class GglPathResponse {
      */
     private _build_time_info(): void {
 
-        const full_time = this.data.routes[0].legs[0].duration.value;
+        const full_time = this.data.routes[0]?.legs[0]?.duration?.value || 0;
 
         let time = 0;
         for (const step of this.data.routes[0].legs[0].steps) {
-            const duration = step.duration.value;
+            const duration = step.duration?.value || 0;
             time += duration;
             this.mTimeInfo.push({
                 time_end: time,
                 data: {
                     roadname: "",
-                    polylinepos: step.polyline.points,
+                    polylinepos: step.encoded_lat_lngs || "",
                     expected_remaining_time: full_time - time,
                     percent_of_current_path: 0, // To be defined when a time is provided
                 },
             });
         }
-    }
-
-    public get status(): string {
-        return this.data.status;
     }
 
     private _info_at_time_compute_percent_of_current_path(current_step_index: number, time: number): number {
@@ -76,7 +71,7 @@ export class GglPathResponse {
     }
 
     private _info_at_time_compute_ETA_full(_current_step_index: number, time: number): number {
-        const total_time_in_seconds = this.data.routes[0].legs[0].duration.value;
+        const total_time_in_seconds = this.data.routes[0].legs[0].duration?.value || 0;
 
         return total_time_in_seconds - time;
     }

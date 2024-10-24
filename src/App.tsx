@@ -36,6 +36,9 @@ import { useMsal } from "@azure/msal-react";
 import { Habilitation } from "./Habilitation";
 import { useCountdown } from "./Hooks/useCountdown";
 import * as authconfig from "./authConfig";
+import { Car } from "./Components/CarLoc/Car";
+import { CarLocEx } from "./Components/CarLoc/CarLocEx";
+import { MapEx } from "./Components/MapEx";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -755,11 +758,15 @@ export function App() {
 								}
 								libraries={["geometry", "core", "maps"]}
 							>
-								<Map>
-									<CarLoc
-										position={{ lat: 48.8534, lng: 2.3488 }}
-									/>
-								</Map>
+								<MapEx>
+									{
+										allMissions
+										.filter(m => m != null)
+										.map((m) => (
+											<CarLocEx showPath={true} />
+										))
+									}
+								</MapEx>
 								{/* <OverMapInformations /> */}
 							</Wrapper>
 						</div>

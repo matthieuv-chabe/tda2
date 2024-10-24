@@ -6,29 +6,18 @@ import styles from "./CarLoc.module.css";
 import { GglPathResponse } from "../../core/utils/maps";
 import { polyline_and_percent_to_latlng } from "../../core/utils/maps/polyline";
 import { seconds_to_human } from "../../core/utils/stringutils";
+import { CarAlgorithms } from "../../CarAlgorithms";
+import { GeolocExtrapolationComputer } from "../../core/utils/maps/maps";
 
 
 let i = 0;
 
-const drivePlanCoordinates = chemin.routes[0].overview_path.map((step) => {
-	return {
-		lat: step.lat,
-		lng: step.lng,
-	};
-});
 
-const latslongs_to_polyline = (latslongs: { lat: number; lng: number }[]) => {
-	return latslongs.map((latlong) => {
-		return {
-			lat: latlong.lat,
-			lng: latlong.lng,
-		};
-	});
-};
 
 const mission_start_time = new Date();
 
 export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
+	
 	const [strokeColor, setStrokeColor] = React.useState("orange");
 	useEffect(() => {
 		const intv = setInterval(() => {
@@ -55,79 +44,34 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 
 	const [iv, setIv] = React.useState<NodeJS.Timeout>(); // interval for extrapolation
 
-	const [pathR, _setPathR] = React.useState<GglPathResponse>(
-		new GglPathResponse(chemin)
-	);
-
-	// const distmatrix = new google.maps.DistanceMatrixService();
-	// const directionsService = new google.maps.DirectionsService();
-
-	// From direction service, get the time of each step to define on which step the car is
+	const [pathR, _setPathR] = React.useState<GeolocExtrapolationComputer>();
 
 	useEffect(() => {
-		const listener = (e: MessageEvent) => {
-			console.log(e);
-		};
-
-		window.addEventListener("message", listener);
-		return () => {
-			window.removeEventListener("message", listener);
-		};
+		(async () => {
+			_setPathR(
+				new GeolocExtrapolationComputer(
+					await CarAlgorithms.getPath(
+						"48.8965761,2.1844386",
+						"48.7950543,2.3047701"
+					),
+					{
+						compute_timeinfo_at_init: true,
+					}
+				)
+			);
+		})()
 	}, []);
 
-	const str_to_polyline = (str: string) => {
-		return google.maps.geometry.encoding.decodePath(str);
-	};
-
-	// React.useEffect(() => {
-	//     distmatrix.getDistanceMatrix({
-	//         origins: [flightPlanCoordinates[0]],
-	//         destinations: [flightPlanCoordinates[1]],
-	//         travelMode: google.maps.TravelMode.DRIVING,
-	//         unitSystem: google.maps.UnitSystem.METRIC,
-	//         avoidHighways: false,
-	//         avoidTolls: false,
-	//     }, (response, status) => {
-
-	//         // Write response in file
-	//         // fs.writeFile('response.json', JSON.stringify(response), (err) => {
-	//         //     if (err) throw err;
-	//         //     console.log('The file has been saved!');
-	//         // });
-
-	//         console.log(JSON.stringify(response))
-	//         console.log(status)
-	//     })
-	// }
-	// ,[])
-
-	// React.useEffect(() => {
-	//     directionsService.route({
-	//         origin: flightPlanCoordinates[0],
-	//         destination: flightPlanCoordinates[1],
-	//         travelMode: google.maps.TravelMode.DRIVING,
-	//     }, (response, status) => {
-	//         if (status === 'OK') {
-
-	//             console.log(JSON.stringify(response))
-
-	//             if(cb) {
-	//                 cb.setMap(null);
-	//             }
-	//             setCb(new google.maps.Polyline({
-	//                 path: response?.routes[0].overview_path,
-	//                 geodesic: true,
-	//                 strokeColor: "#00FF00",
-	//                 strokeOpacity: 1.0,
-	//                 strokeWeight: 2,
-	//             }));
-	//         } else {
-	//             console.log("error")
-	//         }
-	//     })
-	// }, [marker])
+	const drivePlanCoordinates = pathR?.data.routes?.[0]?.overview_path || []
+	if(drivePlanCoordinates.length === 0) {
+		console.log("No path found")
+	}
+	
 
 	React.useEffect(() => {
+
+		if(pathR == null) return;
+
 		if (!marker) {
 			setMarker(new google.maps.Marker());
 		}
@@ -145,7 +89,7 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 		if (!fullline) {
 			setFullline(
 				new google.maps.Polyline({
-					path: latslongs_to_polyline(drivePlanCoordinates),
+					path: pathR?.data.routes[0]?.overview_path || [],
 					geodesic: true,
 					strokeColor: "#061E3A",
 					strokeOpacity: 0.7,
@@ -180,7 +124,7 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 		if (!line) {
 			setBgline(
 				new google.maps.Polyline({
-					path: latslongs_to_polyline(drivePlanCoordinates),
+					path: drivePlanCoordinates,
 					geodesic: true,
 					strokeColor: "#061E3A",
 					strokeOpacity: 1,
@@ -208,7 +152,7 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 
 			setLine(
 				new google.maps.Polyline({
-					path: latslongs_to_polyline(drivePlanCoordinates),
+					path: drivePlanCoordinates,
 					geodesic: true,
 					strokeColor: "#DE2B4E",
 					strokeOpacity: 1.0,
@@ -272,30 +216,26 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 					if (position) {
 						const timeElapsed =
 							new Date().getTime() - mission_start_time.getTime();
-						const curpath = pathR.info_at_time(timeElapsed / 1000);
+						const curpath = pathR?.info_at_time(timeElapsed / 1000);
 
 						if (curpath) {
-							const p = str_to_polyline(curpath.polylinepos);
-							const pp = p.map((e) => ({
-								lat: e.lat(),
-								lng: e.lng(),
-							}));
+							const polyline = CarAlgorithms.decodePolylineFlat(curpath.polylinepos);
 
-							line.setPath(pp);
-							bgline?.setPath(pp);
+							line.setPath(polyline);
+							bgline?.setPath(polyline);
 
 							// If current step is longer than 2 steps, move the label to the middle of the line
-							if (p.length > 2) {
-								const mid = Math.floor(p.length / 2);
-								const midlatlng = p[mid];
+							if (polyline.length > 2) {
+								const mid = Math.floor(polyline.length / 2);
+								const midlatlng = polyline[mid];
 								linelabel?.setPosition({
-									lat: midlatlng.lat(),
-									lng: midlatlng.lng(),
+									lat: midlatlng.lat,
+									lng: midlatlng.lng,
 								});
 							} else {
 								linelabel?.setPosition({
-									lat: p[0].lat(),
-									lng: p[0].lng(),
+									lat: polyline[0].lat,
+									lng: polyline[0].lng,
 								});
 							}
 
@@ -318,7 +258,7 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 
 							// Set marker color to green if the car is at the end of the path
 							if (true) {
-                                console.log("curpath.percent_of_current_path", curpath.percent_of_current_path)
+                                // console.log("curpath.percent_of_current_path", curpath.percent_of_current_path)
 								line.setOptions({
 									icons: [
 										{
@@ -367,7 +307,7 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 			}, 100)
 		);
 
-		setTimeout(() => {
+		setInterval(() => {
 			// Every 10 seconds, zoom and pan to fit the whole path
 			// @ts-ignore
 			if (marker?.getMap()) {
@@ -382,15 +322,15 @@ export const CarLoc: React.FC<google.maps.MarkerOptions> = (options) => {
 
 		// remove marker from map on unmount
 		return () => {
-			// if (marker) {
-			//     marker.setMap(null);
-			// }
+			if (marker) {
+			    marker.setMap(null);
+			}
 			// if (circle) {
 			//     circle.setMap(null);
 			// }
-			// if (line) {
-			//     line.setMap(null);
-			// }
+			if (line) {
+			    line.setMap(null);
+			}
 
 			clearInterval(iv!);
 			// console.log("ded");
