@@ -751,7 +751,8 @@ export function App() {
 								</div>
 							)}
 						</div>
-						<div className="vertical-right">
+						<div className="vertical-right" style={{color:'white'}}>
+							{/* {JSON.stringify(allMissions.find(m => m?.id == selected)?.w)} */}
 							<Wrapper
 								apiKey={
 									"AIzaSyC3xc8_oSX0dt2GENFpNnmzIFtn2IlfaCs"
@@ -762,8 +763,12 @@ export function App() {
 									{
 										allMissions
 										.filter(m => m != null)
-										.map((m) => (
-											<CarLocEx showPath={true} />
+										.map((m, index) => (
+											<CarLocEx
+												showPath={m.id == selected} 
+												missionData={m}
+												missionLastKnownPosition={null}
+											/>
 										))
 									}
 								</MapEx>
@@ -776,5 +781,11 @@ export function App() {
 		</>
 	);
 }
+
+export type LastKnownPositionInfo = {
+	lat: number;
+	lng: number;
+	date: Date;
+} | null;
 
 export default App;

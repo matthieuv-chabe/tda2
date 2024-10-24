@@ -28,13 +28,18 @@ export class GeolocExtrapolationComputer {
         try {
             this.data = json;
             this.is_ok = true;
+
+            console.log("JSON^=", json)
         } catch (e: any) {
             this.is_ok = false;
             throw new Error(`GglPathResponse: ${e.message}`);
         }
 
         if(options.compute_timeinfo_at_init)
+        {
+            console.log("Will build time info")
             this._build_time_info();
+        }
     }
 
     /**
@@ -43,6 +48,8 @@ export class GeolocExtrapolationComputer {
      * @returns {void}
      */
     private _build_time_info(): void {
+
+        console.log(this.data)
 
         const full_time = this.data.routes[0]?.legs[0]?.duration?.value || 0;
 
@@ -87,6 +94,13 @@ export class GeolocExtrapolationComputer {
 
         const current_step_index = this.mTimeInfo.findIndex((t) => t.time_end >= time);
 
+        if(current_step_index === -1 || current_step_index >= this.mTimeInfo.length)
+        {
+            console.warn(`GglPathResponse: Time ${time} is out of bounds, biggest time is ${this.mTimeInfo[this.mTimeInfo.length - 1].time_end}`);
+            return undefined;
+        }
+
+        console.log({mTimeInfo: this.mTimeInfo, current_step_index, time})
         const info = this.mTimeInfo[current_step_index].data;
 
         try {
