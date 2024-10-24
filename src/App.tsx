@@ -473,6 +473,7 @@ export function App() {
 											transform:
 												"scale(0.8) translateY(-10px)",
 											transition: "* 0.5s",
+											fontFamily: "EuclidCircularA-Semibold",
 										}}
 									>
 										{increasedMiddleSize
