@@ -84,7 +84,7 @@ function waynium_to_missiont(w: any): MissionT | null {
 	console.log({ w });
 
 	const get_name = (w: any) => {
-		const p1 = w.C_Gen_Presence[0].C_Gen_Passager;
+		const p1 = w.C_Gen_Presence[0]?.C_Gen_Passager || {PAS_PRENOM: '', PAS_NOM: ''};
 
 		const fname = ((p1.PAS_PRENOM || "") as string).trim()
 		const lname = ((p1.PAS_NOM || "") as string).trim()
@@ -115,8 +115,22 @@ function waynium_to_missiont(w: any): MissionT | null {
 	try {
 
 		const estimated_arrival = w.MIS_HEURE_FIN as string // 01:01:01
-		const ea = new Date(new Date().toISOString().substring(0, 10) + "T" + estimated_arrival)
-		const eastr = ea.toTimeString()?.substring(0,5)
+		let ea = new Date(new Date().toISOString().substring(0, 10) + "T" + estimated_arrival)
+		let eastr = null
+
+		if(isNaN(ea.getTime())) {
+			ea = new Date()
+			eastr = "??"
+		}
+
+		try {
+			eastr = ea.toTimeString()?.substring(0,5)
+		} catch(e) {
+			eastr = "??"
+		}
+
+		const cgenchu = w.C_Gen_Chauffeur || {CHU_PRENOM: '', CHU_NOM: '', CHU_TEL_MOBILE_1: ''}
+		const cgenvoi = w.C_Gen_Voiture || {VOI_MODELE: '', VOI_LIBELLE: ''}
 
 		return {
 
@@ -134,13 +148,13 @@ function waynium_to_missiont(w: any): MissionT | null {
 				from: w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LIBELLE,
 				to: w.C_Gen_EtapePresence[1].C_Geo_Lieu.LIE_LIBELLE,
 			},
-			chauffeur_name: w.C_Gen_Chauffeur.CHU_PRENOM + " " + w.C_Gen_Chauffeur.CHU_NOM.toUpperCase(),
-			chauffeur_phone: w.C_Gen_Chauffeur.CHU_TEL_MOBILE_1,
-			car_brand: w.C_Gen_Voiture.VOI_MODELE,
-			license_plate: w.C_Gen_Voiture.VOI_LIBELLE,
+			chauffeur_name: cgenchu.CHU_PRENOM + " " + cgenchu.CHU_NOM.toUpperCase(),
+			chauffeur_phone: cgenchu.CHU_TEL_MOBILE_1,
+			car_brand: cgenvoi.VOI_MODELE,
+			license_plate: cgenvoi.VOI_LIBELLE,
 		};
 	} catch (e) {
-		// alert(JSON.stringify(w))
+		alert(e)
 
 		return null;
 	}
