@@ -35,9 +35,15 @@ export const CarLocEx = (props: {
 
         if(!directionsService || !directionsRenderer) return;
 
+        const start_pos_lat = parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT)
+        const start_pos_lng = parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG)
+        const end_pos_lat = parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LAT)
+        const end_pos_lng = parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LNG)
+                
+
         directionsService.route({
-            origin: { lat: 48.8965761, lng: 2.1844386 },
-            destination: { lat: 48.7950543, lng: 2.3047701 },
+            origin: { lat: start_pos_lat, lng: start_pos_lng },
+            destination: { lat: end_pos_lat, lng: end_pos_lng },
             travelMode: google.maps.TravelMode.DRIVING
         }).then( response => {
 
@@ -50,7 +56,7 @@ export const CarLocEx = (props: {
                 directionsRenderer.setDirections(response);
                 directionsRenderer.setOptions({
                     polylineOptions: {
-                        strokeColor: 'rgb(100,100,255)',
+                        strokeColor: '#061E3A',
                         strokeWeight: 4
                     }
                 })
@@ -79,10 +85,6 @@ export const CarLocEx = (props: {
             if(props.missionLastKnownPosition == null) {
                 // Case 1 we extrapolate from mission start loc, mission start time, mission end loc
                 // const mission_start_loc = props.missionData.
-                const start_pos_lat = parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT)
-                const start_pos_lng = parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG)
-                const end_pos_lat = parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LAT)
-                const end_pos_lng = parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LNG)
                 const start_time = new Date(props.missionData.w.MIS_DATE_DEBUT + "T" + props.missionData.w.MIS_HEURE_DEBUT)
 
                 if(!savedGeolocExtrapolationComputed.current.data) {
@@ -93,7 +95,7 @@ export const CarLocEx = (props: {
                     savedGeolocExtrapolationComputed.current.data = gec;
                 }
 
-                const elapsed_since_start = (new Date().getTime() - start_time.getTime()) / 1000 -11000;
+                const elapsed_since_start = (new Date().getTime() - start_time.getTime()) / 1000;
                 const data = savedGeolocExtrapolationComputed.current.data.info_at_time(elapsed_since_start);
 
                 const position_polyline = data?.polylinepos;

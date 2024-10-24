@@ -92,12 +92,12 @@ export class GeolocExtrapolationComputer {
             this._build_time_info();
         }
 
-        const current_step_index = this.mTimeInfo.findIndex((t) => t.time_end >= time);
+        let current_step_index = this.mTimeInfo.findIndex((t) => t.time_end >= time);
 
         if(current_step_index === -1 || current_step_index >= this.mTimeInfo.length)
         {
             console.warn(`GglPathResponse: Time ${time} is out of bounds, biggest time is ${this.mTimeInfo[this.mTimeInfo.length - 1].time_end}`);
-            return undefined;
+            current_step_index = this.mTimeInfo.length - 1;
         }
 
         console.log({mTimeInfo: this.mTimeInfo, current_step_index, time})

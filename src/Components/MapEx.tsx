@@ -24,7 +24,7 @@ export const MapEx = (props: {
                     // console.log('Camera changed:', event);
                 }}
             >
-                <TrafficLayer />
+                {/* <TrafficLayer /> */}
                 {children.map((Child) => (Child))}
             </Map>            
         </APIProvider>
