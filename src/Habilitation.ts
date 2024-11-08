@@ -50,7 +50,7 @@ export class Habilitation {
         //  however, if it's still a number, we ignore the entry altogether
         //  because it means it's not found in Waynium
 
-        const subAccounts: SubAccount[] = data.subAccounts.map(subAccount => {
+        const subAccounts: SubAccount[] = data.account.children.map(subAccount => {
             const cliId = parseInt(subAccount.cliId);
             if (!isNaN(cliId)) {
                 return { cliId, dispatch: subAccount.dispatch };
