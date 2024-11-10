@@ -303,7 +303,7 @@ export function App() {
 					signal: canceltoken.signal,
 				}).then((e) => e.json());
 
-				setAllMissions(missions.map(waynium_to_missiont));			
+				setAllMissions(missions.filter(m => m != null).map(waynium_to_missiont));			
 
 				setIsFailed(false)
 				setLoadingMsg("Done");
