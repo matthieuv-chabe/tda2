@@ -1,8 +1,6 @@
 import "./App.css";
 
 import { Wrapper } from "@googlemaps/react-wrapper";
-import { Map } from "./Components/Map";
-import { CarLoc } from "./Components/CarLoc/CarLoc";
 import {
 	Button,
 	CircularProgress,
@@ -36,7 +34,6 @@ import { useMsal } from "@azure/msal-react";
 import { Habilitation } from "./Habilitation";
 import { useCountdown } from "./Hooks/useCountdown";
 import * as authconfig from "./authConfig";
-import { Car } from "./Components/CarLoc/Car";
 import { CarLocEx } from "./Components/CarLoc/CarLocEx";
 import { MapEx } from "./Components/MapEx";
 GeolocActualizer.hi();
@@ -84,20 +81,20 @@ function waynium_to_missiont(w: any): MissionT | null {
 	console.log({ w });
 
 	const get_name = (w: any) => {
-		const p1 = w.C_Gen_Presence[0]?.C_Gen_Passager || {PAS_PRENOM: '', PAS_NOM: ''};
+		const p1 = w.C_Gen_Presence[0]?.C_Gen_Passager || { PAS_PRENOM: '', PAS_NOM: '' };
 
 		const fname = ((p1.PAS_PRENOM || "") as string).trim()
 		const lname = ((p1.PAS_NOM || "") as string).trim()
 
-		if(fname == "" && lname == "") {
+		if (fname == "" && lname == "") {
 			return "??";
 		}
 
-		if(fname == "") {
+		if (fname == "") {
 			return lname.toUpperCase();
 		}
 
-		if(lname == "") {
+		if (lname == "") {
 			return fname + " (Name Unknown)";
 		}
 
@@ -109,8 +106,8 @@ function waynium_to_missiont(w: any): MissionT | null {
 		const mins = Math.floor((ms / 1000 / 60) % 60);
 
 		return `${hours}h ${mins}min`;
-}
-	
+	}
+
 
 	try {
 
@@ -118,24 +115,24 @@ function waynium_to_missiont(w: any): MissionT | null {
 		let ea = new Date(new Date().toISOString().substring(0, 10) + "T" + estimated_arrival)
 		let eastr = null
 
-		if(isNaN(ea.getTime())) {
+		if (isNaN(ea.getTime())) {
 			ea = new Date()
 			eastr = "??"
 		}
 
 		try {
-			eastr = ea.toTimeString()?.substring(0,5)
-		} catch(e) {
+			eastr = ea.toTimeString()?.substring(0, 5)
+		} catch (e) {
 			eastr = "??"
 		}
 
-		const cgenchu = w.C_Gen_Chauffeur || {CHU_PRENOM: '', CHU_NOM: '', CHU_TEL_MOBILE_1: ''}
-		const cgenvoi = w.C_Gen_Voiture || {VOI_MODELE: '', VOI_LIBELLE: ''}
+		const cgenchu = w.C_Gen_Chauffeur || { CHU_PRENOM: '', CHU_NOM: '', CHU_TEL_MOBILE_1: '' }
+		const cgenvoi = w.C_Gen_Voiture || { VOI_MODELE: '', VOI_LIBELLE: '' }
 
 		return {
 
 			w: w,
-	
+
 			id: w.MIS_ID,
 			passenger: get_name(w),
 			tags: [],
@@ -244,7 +241,7 @@ export function App() {
 	const [refreshToken, setRefreshToken] = useState(0);
 	useEffect(() => {
 		setInterval(() => {
-			if(!isFailed) setRefreshToken((prev) => prev + 1);
+			if (!isFailed) setRefreshToken((prev) => prev + 1);
 		}, 10_000)
 	}, [])
 
@@ -259,7 +256,7 @@ export function App() {
 			const baseurl =
 				"https://chabe-int-ca-api-habilitations.orangepond-bbd114b2.francecentral.azurecontainerapps.io";
 
-				let accessToken = "";
+			let accessToken = "";
 			try {
 				accessToken = await getAccessToken(instance);
 			} catch (e) {
@@ -290,8 +287,7 @@ export function App() {
 			console.log(client_ids_string);
 
 			setLoadingMsg(
-				`Récupération des missions pour ${client_ids.length} client${
-					client_ids.length > 1 ? "s" : ""
+				`Récupération des missions pour ${client_ids.length} client${client_ids.length > 1 ? "s" : ""
 				}`
 			);
 
@@ -303,7 +299,7 @@ export function App() {
 					signal: canceltoken.signal,
 				}).then((e) => e.json());
 
-				setAllMissions(missions.filter(m => m != null).map(waynium_to_missiont));			
+				setAllMissions(missions.filter(m => m != null).map(waynium_to_missiont));
 
 				setIsFailed(false)
 				setLoadingMsg("Done");
@@ -557,49 +553,49 @@ export function App() {
 							{
 								// No mission
 								!increasedMiddleSize &&
-									!isFailed &&
-									!isLoading &&
-									allMissions.length == 0 && (
-										<div
+								!isFailed &&
+								!isLoading &&
+								allMissions.length == 0 && (
+									<div
+										style={{
+											display: "flex",
+											flexDirection: "column",
+											justifyContent: "center",
+											alignItems: "center",
+											height: "50%",
+										}}
+									>
+										<Typography
 											style={{
-												display: "flex",
-												flexDirection: "column",
-												justifyContent: "center",
-												alignItems: "center",
-												height: "50%",
+												marginTop: 10,
+												textAlign: "center",
 											}}
 										>
-											<Typography
-												style={{
-													marginTop: 10,
-													textAlign: "center",
+											Aucune mission prévue pour les
+											45 prochaines minutes !
+											<div
+												style={{ marginTop: 10 }}
+											></div>
+											<Button
+												variant="contained"
+												onClick={() => {
+													setIncreasedMiddleSize(
+														true
+													);
 												}}
 											>
-												Aucune mission prévue pour les
-												45 prochaines minutes !
-												<div
-													style={{ marginTop: 10 }}
-												></div>
-												<Button
-													variant="contained"
-													onClick={() => {
-														setIncreasedMiddleSize(
-															true
-														);
-													}}
-												>
-													Afficher toutes les missions
-												</Button>
-												<Button
-													onClick={() => {
-														window.location.reload();
-													}}
-												>
-													Actualiser la page
-												</Button>
-											</Typography>
-										</div>
-									)
+												Afficher toutes les missions
+											</Button>
+											<Button
+												onClick={() => {
+													window.location.reload();
+												}}
+											>
+												Actualiser la page
+											</Button>
+										</Typography>
+									</div>
+								)
 							}
 
 							{
@@ -624,7 +620,7 @@ export function App() {
 
 							<div
 								style={{ width: "100%" }}
-								id={showAcc ? "midscreencolorchangediv" : ""}
+								id="midscreencolorchangediv"
 							>
 								{!increasedMiddleSize && !isFailed && [
 									// Pinned missions should be at the top
@@ -694,7 +690,7 @@ export function App() {
 											stickyHeader
 											sx={{ minWidth: 650 }}
 											aria-label="simple table"
-											style={{ fontFamily: "EuclidCircularA-Regular"}}
+											style={{ fontFamily: "EuclidCircularA-Regular" }}
 										>
 											<TableHead>
 												<TableRow>
@@ -723,54 +719,54 @@ export function App() {
 											</TableHead>
 											<TableBody>
 												{allMissions
-												.filter(m => m != null)
-												.map((row) => (
-													<TableRow
-														key={row.passenger}
-														sx={{
-															"&:last-child td, &:last-child th":
-																{ border: 0 },
-														}}
-													>
-														<TableCell
-															component="th"
-															scope="row"
+													.filter(m => m != null)
+													.map((row) => (
+														<TableRow
+															key={row.passenger}
+															sx={{
+																"&:last-child td, &:last-child th":
+																	{ border: 0 },
+															}}
 														>
-															{row.passenger}
-														</TableCell>
-														<TableCell align="right">
-															{
-																row.arrival
-																	.estimated
-															}
-														</TableCell>
-														<TableCell align="right">
-															{row.locations.from}
-														</TableCell>
-														<TableCell align="right">
-															{row.locations.to}
-														</TableCell>
-														<TableCell align="right">
-															{row.chauffeur_name}
-														</TableCell>
-														<TableCell align="right">
-															{
-																row.arrival
-																	.remaining
-															}
-														</TableCell>
-														<TableCell align="right">
-															{row.license_plate}
-														</TableCell>
-													</TableRow>
-												))}
+															<TableCell
+																component="th"
+																scope="row"
+															>
+																{row.passenger}
+															</TableCell>
+															<TableCell align="right">
+																{
+																	row.arrival
+																		.estimated
+																}
+															</TableCell>
+															<TableCell align="right">
+																{row.locations.from}
+															</TableCell>
+															<TableCell align="right">
+																{row.locations.to}
+															</TableCell>
+															<TableCell align="right">
+																{row.chauffeur_name}
+															</TableCell>
+															<TableCell align="right">
+																{
+																	row.arrival
+																		.remaining
+																}
+															</TableCell>
+															<TableCell align="right">
+																{row.license_plate}
+															</TableCell>
+														</TableRow>
+													))}
 											</TableBody>
 										</Table>
 									</TableContainer>
 								</div>
 							)}
 						</div>
-						<div className="vertical-right" style={{color:'white'}}>
+						<div className="vertical-right" style={{ color: 'white' }}>
 							{/* {JSON.stringify(allMissions.find(m => m?.id == selected)?.w)} */}
 							<Wrapper
 								apiKey={
@@ -781,14 +777,14 @@ export function App() {
 								<MapEx>
 									{
 										allMissions
-										.filter(m => m != null)
-										.map((m, index) => (
-											<CarLocEx
-												showPath={m.id == selected} 
-												missionData={m}
-												missionLastKnownPosition={null}
-											/>
-										))
+											.filter(m => m != null)
+											.map((m, index) => (
+												<CarLocEx
+													showPath={m.id == selected}
+													missionData={m}
+													missionLastKnownPosition={null}
+												/>
+											))
 									}
 								</MapEx>
 								{/* <OverMapInformations /> */}
