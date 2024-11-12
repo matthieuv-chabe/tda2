@@ -281,17 +281,19 @@ export function App() {
 
 			setLoadingMsg("Retrieving mission informations");
 
-			const client_ids_string = client_ids
-				.join(",")
-				.substring(1, client_ids.join(",").length - 1);
-			console.log(client_ids_string);
+			// alert(client_ids)
+
+			// const client_ids_string = client_ids
+			// 	.join("_")
+			// 	.substring(1, client_ids.join(",").length - 1);
+			// console.log(client_ids_string);
 
 			setLoadingMsg(
 				`Récupération des missions pour ${client_ids.length} client${client_ids.length > 1 ? "s" : ""
 				}`
 			);
 
-			const url = "missions/clients/" + client_ids_string;
+			const url = "missions/clients/" + client_ids;
 			let missions = [];
 
 			try {
