@@ -714,7 +714,7 @@ export function App() {
 										overflowY: "scroll",
 									}}
 								>
-									<TableContainer component={Paper}>
+									<TableContainer component={Paper} style={{height: '90%'}}>
 										<Table
 											sx={{ minWidth: 650 }}
 											aria-label="simple table"
@@ -748,7 +748,7 @@ export function App() {
 
 											<TableBody
 												style={{
-													height: "100%",
+													height: "90%",
 													overflow: 'auto'
 												}}
 											>
