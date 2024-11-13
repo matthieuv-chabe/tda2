@@ -592,6 +592,11 @@ export function App() {
 											></div>
 											<Button
 												variant="contained"
+												style={{
+													borderRadius: 0,
+													backgroundColor: "#001c40",
+													boxShadow: "none",
+												}}
 												onClick={() => {
 													setIncreasedMiddleSize(
 														true
