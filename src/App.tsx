@@ -742,6 +742,7 @@ export function App() {
 																component="th"
 																scope="row"
 															>
+															{row.w.MIS_ID}
 																{row.passenger}
 															</TableCell>
 															<TableCell align="right">
