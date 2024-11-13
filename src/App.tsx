@@ -710,11 +710,11 @@ export function App() {
 								<div
 									style={{
 										marginTop: 10,
-										height: "calc(100% - 10px)",
-										overflowY: "scroll",
+										height: "calc(100% - 160px)",
+										// overflowY: "auto",
 									}}
 								>
-									<TableContainer component={Paper} style={{height: '90%'}}>
+									<TableContainer component={Paper} style={{height: '100%'}}>
 										<Table
 											sx={{ minWidth: 650 }}
 											aria-label="simple table"
