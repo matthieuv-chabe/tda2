@@ -680,7 +680,7 @@ export function App() {
 											const now = new Date()
 
 											// Return true if the mission is in the next 45 minutes
-											return Math.abs(fin.getTime() - now.getTime()) < 45 * 60 * 1000
+											// return Math.abs(fin.getTime() - now.getTime()) < 45 * 60 * 1000
 										})
 										.map((mission) => (
 											<OneMission
