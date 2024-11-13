@@ -562,7 +562,7 @@ export function App() {
 										.filter(m => m != null)
 										.filter((mission) => !mission.pinned)
 										.filter((m) => MissionFilter(m, search))
-										.filter((m) => m.w.MIS_SMI_ID == "8")
+										// .filter((m) => m.w.MIS_SMI_ID == "8")
 										.filter((m) => {
 											const fin = new Date(m.w.MIS_DATE_FIN + "T" + m.w.MIS_HEURE_FIN + ":00")
 											const now = new Date()
@@ -674,7 +674,7 @@ export function App() {
 										.filter(m => m != null)
 										.filter((mission) => !mission.pinned)
 										.filter((m) => MissionFilter(m, search))
-										.filter((m) => m.w.MIS_SMI_ID == "8")
+										// .filter((m) => m.w.MIS_SMI_ID == "8")
 										.filter((m) => {
 											const fin = new Date(m.w.MIS_DATE_FIN + "T" + m.w.MIS_HEURE_FIN + ":00")
 											const now = new Date()
