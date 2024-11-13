@@ -756,12 +756,18 @@ export function App() {
 
 														return a_date.getTime() - b_date.getTime()
 													})
-													.map((row) => (
+													.map((row, idx) => (
 														<TableRow
 															key={row.passenger}
 															sx={{
 																"&:last-child td, &:last-child th":
 																	{ border: 0 },
+															}}
+															style={{
+																backgroundColor:
+																	idx % 2 == 0
+																		? "#f0f0f0"
+																		: "white",
 															}}
 														>
 															<TableCell
