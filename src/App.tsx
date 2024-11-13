@@ -564,7 +564,7 @@ export function App() {
 										.filter((m) => MissionFilter(m, search))
 										// .filter((m) => m.w.MIS_SMI_ID == "8")
 										.filter((m) => {
-											const fin = new Date(m.w.MIS_DATE_FIN + "T" + m.w.MIS_HEURE_FIN + ":00")
+											const fin = new Date(m.w.MIS_DATE_FIN + "T" + m.w.MIS_HEURE_FIN)
 											const now = new Date()
 
 											// Return true if the mission is in the next 45 minutes
@@ -676,7 +676,7 @@ export function App() {
 										.filter((m) => MissionFilter(m, search))
 										// .filter((m) => m.w.MIS_SMI_ID == "8")
 										.filter((m) => {
-											const fin = new Date(m.w.MIS_DATE_FIN + "T" + m.w.MIS_HEURE_FIN + ":00")
+											const fin = new Date(m.w.MIS_DATE_FIN + "T" + m.w.MIS_HEURE_FIN )
 											const now = new Date()
 
 											// Return true if the mission is in the next 45 minutes
