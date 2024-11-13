@@ -606,6 +606,9 @@ export function App() {
 												Afficher toutes les missions
 											</Button>
 											<Button
+												style={{
+													color: "#001c40",
+												}}
 												onClick={() => {
 													window.location.reload();
 												}}
