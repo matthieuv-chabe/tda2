@@ -721,6 +721,13 @@ export function App() {
 											</TableHead>
 											<TableBody>
 												{allMissions
+													.filter(m => JSON.stringify(m).toLowerCase().includes(search.toLowerCase()))
+													.sort((a, b) => {
+														const a_date = new Date(new Date().toISOString().substring(0, 10) + "T" + a.arrival.estimated)
+														const b_date = new Date(new Date().toISOString().substring(0, 10) + "T" + b.arrival.estimated)
+
+														return a_date.getTime() - b_date.getTime()
+													})
 													.filter(m => m != null)
 													.map((row) => (
 														<TableRow
