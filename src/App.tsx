@@ -716,7 +716,6 @@ export function App() {
 								>
 									<TableContainer component={Paper}>
 										<Table
-											stickyHeader
 											sx={{ minWidth: 650 }}
 											aria-label="simple table"
 											style={{ fontFamily: "EuclidCircularA-Regular" }}
@@ -746,7 +745,13 @@ export function App() {
 													</TableCell>
 												</TableRow>
 											</TableHead>
-											<TableBody>
+
+											<TableBody
+												style={{
+													height: "100%",
+													overflow: 'auto'
+												}}
+											>
 												{allMissions
 													.filter(m => m != null)
 													.filter(m => JSON.stringify(m).toLowerCase().includes(search.toLowerCase()))
