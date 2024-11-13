@@ -724,25 +724,25 @@ export function App() {
 											<TableHead>
 												<TableRow>
 													<TableCell>
-														Client
+														<b>CLIENT</b>
 													</TableCell>
 													<TableCell align="right">
-														Time
+														<b>TIME</b>
 													</TableCell>
 													<TableCell align="right">
-														Pickup
+														<b>PICKUP</b>
 													</TableCell>
 													<TableCell align="right">
-														Dropoff
+														<b>DROPOFF</b>
 													</TableCell>
 													<TableCell align="right">
-														Driver
+														<b>DRIVER</b>
 													</TableCell>
 													<TableCell align="right">
-														Status
+														<b>STATUS</b>
 													</TableCell>
 													<TableCell align="right">
-														Km
+														<b>VEHICULE</b>
 													</TableCell>
 												</TableRow>
 											</TableHead>
