@@ -217,6 +217,7 @@ export function App() {
 			license_plate: "AA-000-FF",
 		}))
 	);
+
 	const updateOneMission = (mission: MissionT) => {
 		setAllMissions((prev) =>
 			prev.map((m) => (m.id === mission.id ? mission : m))
@@ -663,7 +664,7 @@ export function App() {
 													console.log(
 														"Mission changed"
 													);
-													updateOneMission(mission);
+													// updateOneMission(mission);
 												}}
 												index={mission.id}
 												exp={selected == mission.id}
@@ -721,6 +722,7 @@ export function App() {
 											</TableHead>
 											<TableBody>
 												{allMissions
+													.filter(m => m != null)
 													.filter(m => JSON.stringify(m).toLowerCase().includes(search.toLowerCase()))
 													.sort((a, b) => {
 														const a_date = new Date(new Date().toISOString().substring(0, 10) + "T" + a.arrival.estimated)
@@ -728,7 +730,6 @@ export function App() {
 
 														return a_date.getTime() - b_date.getTime()
 													})
-													.filter(m => m != null)
 													.map((row) => (
 														<TableRow
 															key={row.passenger}
