@@ -169,9 +169,9 @@ function MissionFilter(mission: MissionT, search: string) {
 const fake_missions = false
 
 const base_api_url =
-	window.location.hostname.indexOf("localhost") != -1
+	window.location.hostname.indexOf("localhoxst") != -1
 		? "http://localhost:3001/api/"
-		: "/api/";
+		: "https://rct.tda2.chabe.com/api/";
 
 export function App() {
 	const [search, setSearch] = useState<string>("");
@@ -223,6 +223,16 @@ export function App() {
 			prev.map((m) => (m.id === mission.id ? mission : m))
 		);
 	};
+
+	const remaining_str_to_minutes = (str: string) => {
+		
+		const [hours, minutes] = str.replace('min', "").split("h").map((e) => parseInt(e.trim()));
+		const r = Math.max(0, hours * 60 + minutes);
+	
+		console.log({str, r})
+
+		return r;
+	}
 
 	const calculate_increased_middle_size = () => {
 		// const viewport_width = Math.max(
@@ -559,17 +569,14 @@ export function App() {
 								!isFailed &&
 								!isLoading &&
 								allMissions
-										.filter(m => m != null)
-										.filter((mission) => !mission.pinned)
-										.filter((m) => MissionFilter(m, search))
-										// .filter((m) => m.w.MIS_SMI_ID == "8")
-										.filter((m) => {
-											const fin = new Date(m.w.MIS_DATE_FIN + "T" + m.w.MIS_HEURE_FIN)
-											const now = new Date()
-
-											// Return true if the mission is in the next 45 minutes
-											return Math.abs(fin.getTime() - now.getTime()) < 45 * 60 * 1000
-										}).length == 0 && (
+								.filter(m => m != null)
+								.filter((mission) => !mission.pinned)
+								.filter((m) => MissionFilter(m, search))
+								// .filter((m) => m.w.MIS_SMI_ID == "8")
+								.filter(e => (
+									remaining_str_to_minutes(e.arrival.remaining) < 45
+									&& remaining_str_to_minutes(e.arrival.remaining) > 0
+								)).length == 0 && (
 									<div
 										style={{
 											display: "flex",
@@ -675,7 +682,10 @@ export function App() {
 										.filter((mission) => !mission.pinned)
 										.filter((m) => MissionFilter(m, search))
 										// .filter((m) => m.w.MIS_SMI_ID == "8")
-										
+										.filter(e => (
+											remaining_str_to_minutes(e.arrival.remaining) < 45
+											&& remaining_str_to_minutes(e.arrival.remaining) > 0
+										))										
 										.map((mission) => (
 											<OneMission
 												key={mission.id}

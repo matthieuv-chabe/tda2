@@ -34,16 +34,23 @@ export const OneMission = (props: {
 
 	const additionalcss = props.exp ? { filter: "none" } : {};
 
-	try {
-		const shouldShow = props.mission.arrival.remaining
-		const hours = parseInt(shouldShow.split(" ")[1].replace("h", ""))
-		const mins = parseInt(shouldShow.split(" ")[2].replace("min", ""))
+	// try {
+	// 	const shouldShow = props.mission.arrival.remaining
 
-		if(hours <= 0 || ( hours == 0 && mins > 45)) {
-			return <></>
-		}
-	}	catch(e) {
-	}
+	// 	// alert(shouldShow)
+
+	// 	const hours = parseInt(shouldShow.split(" ")[0].replace("h", ""))
+	// 	const mins = parseInt(shouldShow.split(" ")[1].replace("min", ""))
+
+	// 	// alert(hours + " " + mins)
+
+	// 	if(hours <= 0 || ( hours == 0 && mins > 45)) {
+	// 		return null
+	// 	} 
+
+	// }	catch(e) {
+	// 	return JSON.stringify(e)
+	// }
 
 	return (
 		<>
