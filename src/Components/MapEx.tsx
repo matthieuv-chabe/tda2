@@ -1,6 +1,5 @@
 
 import { APIProvider, Map, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
-import { CarLocEx } from './CarLoc/CarLocEx';
 import { TrafficLayer } from './TrafficLayer';
 
 const Poi = () => {
@@ -18,13 +17,14 @@ export const MapEx = (props: {
         >
             <Map
                 mapId={'f375369fdfba970b'}
-                defaultZoom={5}
+                defaultZoom={10}
                 defaultCenter={{ lat: 48.8534, lng: 2.3488 }}
                 onCameraChanged={(event: MapCameraChangedEvent) => {
                     // console.log('Camera changed:', event);
                 }}
+                
             >
-                {/* <TrafficLayer /> */}
+                <TrafficLayer />
                 {children.map((Child) => (Child))}
             </Map>            
         </APIProvider>

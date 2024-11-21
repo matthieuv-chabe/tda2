@@ -1,4 +1,4 @@
-import { useMap, useMapsLibrary, Marker, AdvancedMarker } from "@vis.gl/react-google-maps";
+import { useMap, useMapsLibrary, Marker } from "@vis.gl/react-google-maps";
 import { useEffect, useRef, useState } from "react";
 import { LastKnownPositionInfo } from "../../App";
 import { GeolocExtrapolationComputer } from "../../core/utils/maps/maps";

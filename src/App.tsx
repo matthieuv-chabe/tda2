@@ -22,7 +22,7 @@ import useUrlState from "./core/utils/useUrlState";
 
 import { GeolocActualizer } from "./Components/GeolocActualizer";
 import { OneMission } from "./Components/OneMission";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
 	random_car,
 	random_firstname,
@@ -51,7 +51,7 @@ export async function getAccessToken(instance: IPublicClientApplication) {
 	return instance
 		.acquireTokenSilent(accessTokenRequest)
 		.then((accessTokenResponse) => {
-			return accessTokenResponse.accessToken;
+			return [accessTokenResponse.accessToken, accessTokenResponse] as const;
 		});
 }
 
@@ -257,6 +257,8 @@ export function App() {
 
 	const { instance } = useMsal();
 
+	const token = useRef<any>(null)
+
 	useEffect(() => {
 		const canceltoken = new AbortController();
 
@@ -268,7 +270,10 @@ export function App() {
 
 			let accessToken = "";
 			try {
-				accessToken = await getAccessToken(instance);
+				const r = (await getAccessToken(instance))
+				accessToken = r[0];
+				token.current = r[1];
+				
 			} catch (e) {
 				instance.loginRedirect(authconfig.loginRequest).catch((e) => {
 					console.log(e);
@@ -410,7 +415,7 @@ export function App() {
 									alt="Chabé logo header"
 								/>
 							</li>
-							<li>
+							{/* <li>
 								<div
 									className="notifications"
 									data-testid="notifications"
@@ -427,7 +432,7 @@ export function App() {
 										/>
 									</div>
 								</div>
-							</li>
+							</li> */}
 							<li>
 								<div
 									className="account-menu"
@@ -437,8 +442,35 @@ export function App() {
 										className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault account-avatar css-7yrfzp"
 										id="btn-account-menu"
 										data-testid="btn-account-menu"
+										title={token?.current?.account?.name || "Aucun nom"}
 									>
-										MV
+										{
+											/*
+											{
+												"authority":"https://chabeazureb2cnpe.b2clogin.com/chabeazureb2cnpe.onmicrosoft.com/b2c_1a_signup_signin_phoneoremailmfa/",
+												"uniqueId":"878e9744-2324-415b-b250-9e222b13e16c",
+												"tenantId":"54f82052-7511-4aaa-ad43-09735db6bcd9",
+												"scopes":["https://chabeazureb2cnpe.onmicrosoft.com/api-missions/user_access"],
+												"account":{
+													"homeAccountId":"878e9744-2324-415b-b250-9e222b13e16c-b2c_1a_signup_signin_phoneoremailmfa.54f82052-7511-4aaa-ad43-09735db6bcd9",
+													"environment":"chabeazureb2cnpe.b2clogin.com",
+													"tenantId":"54f82052-7511-4aaa-ad43-09735db6bcd9",
+													"username":"","localAccountId":"878e9744-2324-415b-b250-9e222b13e16c",
+													"name":"CBP Giang",
+													"authorityType":"MSSTS","tenantProfiles":{},
+													"idTokenClaims":{
+														"exp":1732315584,"nbf":1732229184,"ver":"1.0",
+														"iss":"https://chabeazureb2cnpe.b2clogin.com/54f82052-7511-4aaa-ad43-09735db6bcd9/v2.0/","sub":"878e9744-2324-415b-b250-9e222b13e16c",
+														"aud":"4195303f-5f26-4cde-970e-10bb7a8abe58","acr":"b2c_1a_signup_signin_phoneoremailmfa",
+														"nonce":"019350e7-9120-7e71-ab2f-c84dfd97386c","iat":1732229184,"auth_time":1732229183,
+														"email":"gtq.chabe+cbptest@gmail.com",
+														"name":"CBP Giang",
+														"given_name":"CBP",
+														"family_name":"Giang",
+														"idp":"Local","tid":"54f82052-7511-4aaa-ad43-09735db6bcd9","at_hash":"bN_OU4EOb_ZMbENT7ExMUQ"},"idToken":"eyJhbGciOiJSUzI1NiIsImtpZCI6Ik83aGRhOE1xMGRKNTFIb190X3Y4VzFReWNBaHRXaHpxNVBpR0xEdkVobXciLCJ0eXAiOiJKV1QifQ.eyJleHAiOjE3MzIzMTU1ODQsIm5iZiI6MTczMjIyOTE4NCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9jaGFiZWF6dXJlYjJjbnBlLmIyY2xvZ2luLmNvbS81NGY4MjA1Mi03NTExLTRhYWEtYWQ0My0wOTczNWRiNmJjZDkvdjIuMC8iLCJzdWIiOiI4NzhlOTc0NC0yMzI0LTQxNWItYjI1MC05ZTIyMmIxM2UxNmMiLCJhdWQiOiI0MTk1MzAzZi01ZjI2LTRjZGUtOTcwZS0xMGJiN2E4YWJlNTgiLCJhY3IiOiJiMmNfMWFfc2lnbnVwX3NpZ25pbl9waG9uZW9yZW1haWxtZmEiLCJub25jZSI6IjAxOTM1MGU3LTkxMjAtN2U3MS1hYjJmLWM4NGRmZDk3Mzg2YyIsImlhdCI6MTczMjIyOTE4NCwiYXV0aF90aW1lIjoxNzMyMjI5MTgzLCJlbWFpbCI6Imd0cS5jaGFiZStjYnB0ZXN0QGdtYWlsLmNvbSIsIm5hbWUiOiJDQlAgR2lhbmciLCJnaXZlbl9uYW1lIjoiQ0JQIiwiZmFtaWx5X25hbWUiOiJHaWFuZyIsImlkcCI6IkxvY2FsIiwidGlkIjoiNTRmODIwNTItNzUxMS00YWFhLWFkNDMtMDk3MzVkYjZiY2Q5IiwiYXRfaGFzaCI6ImJOX09VNEVPYl9aTWJFTlQ3RXhNVVEifQ.WsFNqWZXstRVIeioGz3Rblh-Q-GUGBR712RbWdQiDHg7YlRR066SfKaDwdQkxAy2LSNmWStCWIo_6IpPXZzq9G28FDTiRMvoo771Ua9SUsxndq5FVO8Kk72gfcPd9y6lbAC0T9DdXQbt-vGUsGZvmYF_qaZz3-93nRFJflTqMegjJTlmWaKEIVkzNeV2vJa_Bntw8pdC4dfYANVvTRiTnZUJ4CIsN_LUZQiujVgmwnaYkMI0E3UYm8BCLmYvF4DlCsH3wdXuBx7pD_GTA3dob9h3nLYftLJ5OwCJKe4KbYRJIbeZ6aTBrXnjGfTU6d4nG6_sj3kr4hoksIGoZqJT-Q"},"idToken":"eyJhbGciOiJSUzI1NiIsImtpZCI6Ik83aGRhOE1xMGRKNTFIb190X3Y4VzFReWNBaHRXaHpxNVBpR0xEdkVobXciLCJ0eXAiOiJKV1QifQ.eyJleHAiOjE3MzIzMTU1ODQsIm5iZiI6MTczMjIyOTE4NCwidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9jaGFiZWF6dXJlYjJjbnBlLmIyY2xvZ2luLmNvbS81NGY4MjA1Mi03NTExLTRhYWEtYWQ0My0wOTczNWRiNmJjZDkvdjIuMC8iLCJzdWIiOiI4NzhlOTc0NC0yMzI0LTQxNWItYjI1MC05ZTIyMmIxM2UxNmMiLCJhdWQiOiI0MTk1MzAzZi01ZjI2LTRjZGUtOTcwZS0xMGJiN2E4YWJlNTgiLCJhY3IiOiJiMmNfMWFfc2lnbnVwX3NpZ25pbl9waG9uZW9yZW1haWxtZmEiLCJub25jZSI6IjAxOTM1MGU3LTkxMjAtN2U3MS1hYjJmLWM4NGRmZDk3Mzg2YyIsImlhdCI6MTczMjIyOTE4NCwiYXV0aF90aW1lIjoxNzMyMjI5MTgzLCJlbWFpbCI6Imd0cS5jaGFiZStjYnB0ZXN0QGdtYWlsLmNvbSIsIm5hbWUiOiJDQlAgR2lhbmciLCJnaXZlbl9uYW1lIjoiQ0JQIiwiZmFtaWx5X25hbWUiOiJHaWFuZyIsImlkcCI6IkxvY2FsIiwidGlkIjoiNTRmODIwNTItNzUxMS00YWFhLWFkNDMtMDk3MzVkYjZiY2Q5IiwiYXRfaGFzaCI6ImJOX09VNEVPYl9aTWJFTlQ3RXhNVVEifQ.WsFNqWZXstRVIeioGz3Rblh-Q-GUGBR712RbWdQiDHg7YlRR066SfKaDwdQkxAy2LSNmWStCWIo_6IpPXZzq9G28FDTiRMvoo771Ua9SUsxndq5FVO8Kk72gfcPd9y6lbAC0T9DdXQbt-vGUsGZvmYF_qaZz3-93nRFJflTqMegjJTlmWaKEIVkzNeV2vJa_Bntw8pdC4dfYANVvTRiTnZUJ4CIsN_LUZQiujVgmwnaYkMI0E3UYm8BCLmYvF4DlCsH3wdXuBx7pD_GTA3dob9h3nLYftLJ5OwCJKe4KbYRJIbeZ6aTBrXnjGfTU6d4nG6_sj3kr4hoksIGoZqJT-Q","idTokenClaims":{"exp":1732315584,"nbf":1732229184,"ver":"1.0","iss":"https://chabeazureb2cnpe.b2clogin.com/54f82052-7511-4aaa-ad43-09735db6bcd9/v2.0/","sub":"878e9744-2324-415b-b250-9e222b13e16c","aud":"4195303f-5f26-4cde-970e-10bb7a8abe58","acr":"b2c_1a_signup_signin_phoneoremailmfa","nonce":"019350e7-9120-7e71-ab2f-c84dfd97386c","iat":1732229184,"auth_time":1732229183,"email":"gtq.chabe+cbptest@gmail.com","name":"CBP Giang","given_name":"CBP","family_name":"Giang","idp":"Local","tid":"54f82052-7511-4aaa-ad43-09735db6bcd9","at_hash":"bN_OU4EOb_ZMbENT7ExMUQ"},"accessToken":"eyJhbGciOiJSUzI1NiIsImtpZCI6Ik83aGRhOE1xMGRKNTFIb190X3Y4VzFReWNBaHRXaHpxNVBpR0xEdkVobXciLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJmY2Q1NzU5ZC1hZjliLTQ3NGItYTkzOS03MjM5MTJhNzJhYTciLCJpc3MiOiJodHRwczovL2NoYWJlYXp1cmViMmNucGUuYjJjbG9naW4uY29tLzU0ZjgyMDUyLTc1MTEtNGFhYS1hZDQzLTA5NzM1ZGI2YmNkOS92Mi4wLyIsImV4cCI6MTczMjMxNTU4NCwibmJmIjoxNzMyMjI5MTg0LCJzdWIiOiI4NzhlOTc0NC0yMzI0LTQxNWItYjI1MC05ZTIyMmIxM2UxNmMiLCJlbWFpbCI6Imd0cS5jaGFiZStjYnB0ZXN0QGdtYWlsLmNvbSIsIm5hbWUiOiJDQlAgR2lhbmciLCJnaXZlbl9uYW1lIjoiQ0JQIiwiZmFtaWx5X25hbWUiOiJHaWFuZyIsImlkcCI6IkxvY2FsIiwidGlkIjoiNTRmODIwNTItNzUxMS00YWFhLWFkNDMtMDk3MzVkYjZiY2Q5Iiwibm9uY2UiOiIwMTkzNTBlNy05MTIwLTdlNzEtYWIyZi1jODRkZmQ5NzM4NmMiLCJzY3AiOiJ1c2VyX2FjY2VzcyIsImF6cCI6IjQxOTUzMDNmLTVmMjYtNGNkZS05NzBlLTEwYmI3YThhYmU1OCIsInZlciI6IjEuMCIsImlhdCI6MTczMjIyOTE4NH0.YQGiHKJXnh7Sk-4G_oXtC1GbWV21SOLvXJJxUoHy8VMwP9jPYHQH2JxF4GHCeMbIxPC4wNPtI2sBwpVi7G44nAxUOZMN_o8dbBIsQKRWUED3oW_DIokd5CSAg5i1_gyQzGEM8E3ddiFIeiHkmILtS-p7Bk3dSAtNd_ZAJ25FibxAH4R92lPwFxsAreqJaYnikt7eTITCAhO_dv-Gl81wFclarxl42QbIjQpo1OQ5egwOsEsg_so-r0d2-4AfNsxnZknAp_K87lv8TqIF3mNjFOgRCgVPrJmavd8nR-vHqVmS52lZE9mJBqK7B1k8sZ6UodK3vX4EIAnzpVJfBFJD2Q","fromCache":false,"expiresOn":"2024-11-22T22:46:14.000Z","extExpiresOn":"2024-11-22T22:46:14.000Z","correlationId":"019350e7-9104-7fd5-9dba-30cd66fbd904","requestId":"","familyId":"","tokenType":"Bearer","cloudGraphHostName":"","msGraphHost":"","fromNativeBroker":false} */
+										}
+										{token?.current?.account?.idTokenClaims?.given_name?.[0] || ""}
+										{token?.current?.account?.idTokenClaims?.family_name?.[0] || ""}
 									</div>
 								</div>
 							</li>
