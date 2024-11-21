@@ -1,8 +1,27 @@
-import { AdvancedMarker, useMap, useMapsLibrary,  } from "@vis.gl/react-google-maps";
+import { useMap, useMapsLibrary, Marker, AdvancedMarker } from "@vis.gl/react-google-maps";
 import { useEffect, useRef, useState } from "react";
 import { LastKnownPositionInfo } from "../../App";
 import { GeolocExtrapolationComputer } from "../../core/utils/maps/maps";
 import { CarAlgorithms } from "../../CarAlgorithms";
+
+function calculateRotation(lat1, lon1, lat2, lon2) {
+    const toRadians = (degrees) => degrees * Math.PI / 180;
+    const toDegrees = (radians) => radians * 180 / Math.PI;
+    
+    const dLon = toRadians(lon2 - lon1);
+    
+    const y = Math.sin(dLon) * Math.cos(toRadians(lat2));
+    const x = Math.cos(toRadians(lat1)) * Math.sin(toRadians(lat2)) -
+              Math.sin(toRadians(lat1)) * Math.cos(toRadians(lat2)) * Math.cos(dLon);
+    
+    let angle = toDegrees(Math.atan2(y, x));
+    return (angle + 360) % 360;  // to ensure the angle is between 0 and 360
+}
+
+// Example usage:
+const rotationAngle = calculateRotation(48.8566, 2.3522, 51.5074, -0.1278);
+console.log(rotationAngle);
+
 
 export const CarLocEx = (props: {
     missionData: any,
@@ -62,12 +81,15 @@ export const CarLocEx = (props: {
                 })
             }
             else
-                directionsRenderer.setMap(null);
+            {
+                directionsRenderer.setDirections(null);
+            }
             setRoutes(response.routes);
         })
 
     }, [directionsService, directionsRenderer, props.showPath])
 
+    const [curPolyline, setCurPolyline] = useState<any>(null);
 
     useEffect(() => {
 
@@ -79,8 +101,7 @@ export const CarLocEx = (props: {
         // - missionLastKnownPosition > 5 min : Ask the server again about the position, which becomes the new start location
         //                                      then consider missionLastKnownPosition.date as the mission start date. then
         //                                      extrapolate everything based on that.
-
-        const iv = setInterval(async () => {
+            const iv = setInterval(async () => {
 
             if(props.missionLastKnownPosition == null) {
                 // Case 1 we extrapolate from mission start loc, mission start time, mission end loc
@@ -89,7 +110,7 @@ export const CarLocEx = (props: {
 
                 if(!savedGeolocExtrapolationComputed.current.data) {
                     
-                    console.log({GEC: savedDirectionServices})
+                    // console.log({GEC: savedDirectionServices})
                     const gec = new GeolocExtrapolationComputer(savedDirectionServices!, {compute_timeinfo_at_init: true});
                     
                     savedGeolocExtrapolationComputed.current.data = gec;
@@ -98,7 +119,8 @@ export const CarLocEx = (props: {
                 const elapsed_since_start = (new Date().getTime() - start_time.getTime()) / 1000;
                 const data = savedGeolocExtrapolationComputed.current.data.info_at_time(elapsed_since_start);
 
-                const position_polyline = data?.polylinepos;
+                const position_polyline = data?.polylinepos; // The car is along this line
+                setCurPolyline(position_polyline);
                 const position_coords = CarAlgorithms.decodePolylineFlat(position_polyline || "");
 
                 console.log({position_coords});
@@ -112,8 +134,15 @@ export const CarLocEx = (props: {
 
     }, [savedDirectionServices])
 
-    return <AdvancedMarker
+    return <Marker
         position={carMarkerLocation}
+        icon={{
+            url: '/car-top-view.svg',
+            scaledSize: { width: 20, height: 20},
+            anchor: {x: 10, y: 10},
+            rotation: curPolyline == null ? 0 : calculateRotation(curPolyline[0].lat, curPolyline[0].lng, curPolyline[curPolyline.length-1].lat, curPolyline[curPolyline.length - 1].lng)
+        }}
+
     />;
 
 }

@@ -337,6 +337,16 @@ export function App() {
 
 	const [showAcc, setShowAcc] = useState(false);
 
+	const incoming_missions = allMissions
+		.filter(m => m != null)
+		.filter((mission) => !mission.pinned)
+		.filter((m) => MissionFilter(m, search))
+		// .filter((m) => m.w.MIS_SMI_ID == "8")
+		.filter(e => (
+			remaining_str_to_minutes(e.arrival.remaining) < 45
+			&& remaining_str_to_minutes(e.arrival.remaining) > 0
+		))
+
 	return (
 		<>
 			<div className="page">
@@ -568,15 +578,7 @@ export function App() {
 								!increasedMiddleSize &&
 								!isFailed &&
 								!isLoading &&
-								allMissions
-								.filter(m => m != null)
-								.filter((mission) => !mission.pinned)
-								.filter((m) => MissionFilter(m, search))
-								// .filter((m) => m.w.MIS_SMI_ID == "8")
-								.filter(e => (
-									remaining_str_to_minutes(e.arrival.remaining) < 45
-									&& remaining_str_to_minutes(e.arrival.remaining) > 0
-								)).length == 0 && (
+								incoming_missions.length == 0 && (
 									<div
 										style={{
 											display: "flex",
@@ -677,15 +679,7 @@ export function App() {
 									// 	)),
 
 									// All other missions
-									...allMissions
-										.filter(m => m != null)
-										.filter((mission) => !mission.pinned)
-										.filter((m) => MissionFilter(m, search))
-										// .filter((m) => m.w.MIS_SMI_ID == "8")
-										.filter(e => (
-											remaining_str_to_minutes(e.arrival.remaining) < 45
-											&& remaining_str_to_minutes(e.arrival.remaining) > 0
-										))										
+									...incoming_missions										
 										.map((mission) => (
 											<OneMission
 												key={mission.id}
@@ -758,7 +752,7 @@ export function App() {
 											>
 												{allMissions
 													.filter(m => m != null)
-													.filter(m => JSON.stringify(m).toLowerCase().includes(search.toLowerCase()))
+													.filter(m => JSON.stringify(m).toLowerCase().indexOf(search.toLowerCase()) != -1)
 													.sort((a, b) => {
 														const a_date = new Date(new Date().toISOString().substring(0, 10) + "T" + a.arrival.estimated)
 														const b_date = new Date(new Date().toISOString().substring(0, 10) + "T" + b.arrival.estimated)
@@ -767,7 +761,7 @@ export function App() {
 													})
 													.map((row, idx) => (
 														<TableRow
-															key={row.passenger}
+															key={idx}
 															sx={{
 																"&:last-child td, &:last-child th":
 																	{ border: 0 },
@@ -783,7 +777,6 @@ export function App() {
 																component="th"
 																scope="row"
 															>
-															{row.w.MIS_ID}
 																{row.passenger}
 															</TableCell>
 															<TableCell align="right">
