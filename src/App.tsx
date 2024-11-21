@@ -151,7 +151,6 @@ function waynium_to_missiont(w: any): MissionT | null {
 			license_plate: cgenvoi.VOI_LIBELLE,
 		};
 	} catch (e) {
-		alert(e)
 
 		return null;
 	}
@@ -292,7 +291,6 @@ export function App() {
 
 			setLoadingMsg("Retrieving mission informations");
 
-			// alert(client_ids)
 
 			// const client_ids_string = client_ids
 			// 	.join("_")
@@ -812,7 +810,6 @@ export function App() {
 							)}
 						</div>
 						<div className="vertical-right" style={{ color: 'white' }}>
-							{/* {JSON.stringify(allMissions.find(m => m?.id == selected)?.w)} */}
 							<Wrapper
 								apiKey={
 									"AIzaSyC3xc8_oSX0dt2GENFpNnmzIFtn2IlfaCs"
@@ -821,8 +818,7 @@ export function App() {
 							>
 								<MapEx>
 									{
-										allMissions
-											.filter(m => m != null)
+										incoming_missions
 											.map((m, index) => (
 												<CarLocEx
 													showPath={m.id == selected}
