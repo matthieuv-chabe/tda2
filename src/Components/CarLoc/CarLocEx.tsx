@@ -138,7 +138,9 @@ export const CarLocEx = (props: {
         position={carMarkerLocation}
         icon={{
             url: '/car-top-view.svg',
+            // @ts-expect-error google?
             scaledSize: { width: 20, height: 20},
+            // @ts-expect-error google?
             anchor: {x: 10, y: 10},
             rotation: curPolyline == null ? 0 : calculateRotation(curPolyline[0].lat, curPolyline[0].lng, curPolyline[curPolyline.length-1].lat, curPolyline[curPolyline.length - 1].lng)
         }}
