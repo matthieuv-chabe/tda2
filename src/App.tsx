@@ -344,7 +344,7 @@ export function App() {
 		.filter(m => m != null)
 		.filter((mission) => !mission.pinned)
 		.filter((m) => MissionFilter(m, search))
-		// .filter((m) => m.w.MIS_SMI_ID == "8")
+		.filter((m) => showAcc ? true : m.w.MIS_SMI_ID != "7")
 		.filter(e => (
 			remaining_str_to_minutes(e.arrival.remaining) < 45
 			&& remaining_str_to_minutes(e.arrival.remaining) > 0

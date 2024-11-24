@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { LastKnownPositionInfo } from "../../App";
 import { GeolocExtrapolationComputer } from "../../core/utils/maps/maps";
 import { CarAlgorithms } from "../../CarAlgorithms";
+import { polyline_and_percent_to_latlng } from "../../core/utils/maps/polyline";
 
 function calculateRotation(lat1, lon1, lat2, lon2) {
     const toRadians = (degrees) => degrees * Math.PI / 180;
@@ -82,9 +83,8 @@ export const CarLocEx = (props: {
             }
             else
             {
-                directionsRenderer.setDirections(null);
+                directionsRenderer.setMap(null);
             }
-            setRoutes(response.routes);
         })
 
     }, [directionsService, directionsRenderer, props.showPath])
@@ -125,7 +125,9 @@ export const CarLocEx = (props: {
 
                 console.log({position_coords});
 
-                setCarMarkerLocation(position_coords[0]);
+                const latlng = polyline_and_percent_to_latlng(position_polyline || "", data?.percent_of_current_path || 0);
+
+                setCarMarkerLocation({lat: latlng.lat(), lng: latlng.lng()});
             }
 
         }, 1_000);
