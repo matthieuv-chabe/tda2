@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { LastKnownPositionInfo } from "../../App";
 import { GeolocExtrapolationComputer } from "../../core/utils/maps/maps";
 import { CarAlgorithms } from "../../CarAlgorithms";
-import { polyline_and_percent_to_latlng } from "../../core/utils/maps/polyline";
+import { polyline_and_percent_to_latlng, polyline_and_percent_to_subpolyline } from "../../core/utils/maps/polyline";
 
 function calculateRotation(lat1, lon1, lat2, lon2) {
     const toRadians = (degrees) => degrees * Math.PI / 180;
@@ -90,6 +90,7 @@ export const CarLocEx = (props: {
     }, [directionsService, directionsRenderer, props.showPath])
 
     const [curPolyline, setCurPolyline] = useState<any>(null);
+    const [curVector, setCurVector] = useState<any>(null);
 
     useEffect(() => {
 
@@ -128,6 +129,7 @@ export const CarLocEx = (props: {
                 const latlng = polyline_and_percent_to_latlng(position_polyline || "", data?.percent_of_current_path || 0);
 
                 setCarMarkerLocation({lat: latlng.lat(), lng: latlng.lng()});
+                setCurVector(polyline_and_percent_to_subpolyline(position_polyline || "", data?.percent_of_current_path || 0));
             }
 
         }, 1_000);
@@ -136,16 +138,27 @@ export const CarLocEx = (props: {
 
     }, [savedDirectionServices])
 
-    return <Marker
-        position={carMarkerLocation}
-        icon={{
+    const iconRef = useRef<google.maps.Marker>(null);
+
+    useEffect(() => {
+        if(!iconRef.current) return;
+
+        // alert("Setting icon");   
+
+        iconRef.current.setIcon({
             url: '/car-top-view.svg',
-            // @ts-expect-error google?
-            scaledSize: { width: 20, height: 20},
-            // @ts-expect-error google?
-            anchor: {x: 10, y: 10},
-            rotation: curPolyline == null ? 0 : calculateRotation(curPolyline[0].lat, curPolyline[0].lng, curPolyline[curPolyline.length-1].lat, curPolyline[curPolyline.length - 1].lng)
-        }}
+            // size: new google.maps.Size(50, 50),
+            scaledSize: new google.maps.Size(30, 30),
+            fillColor: 'red',
+            rotation: 90//calculateRotation(curVector.start.lat(), curVector.start.lng(), curVector.end.lat(), curVector.end.lng())
+        })
+
+    }, [curVector])
+
+    return <Marker
+        ref={iconRef}
+        position={carMarkerLocation}
+
 
     />;
 
