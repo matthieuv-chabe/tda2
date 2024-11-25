@@ -146,7 +146,7 @@ export const CarLocEx = (props: {
         // alert("Setting icon");   
 
         iconRef.current.setIcon({
-            url: '/car-top-view.svg',
+            url: '/car-top-view.svg', 
             // size: new google.maps.Size(50, 50),
             scaledSize: new google.maps.Size(30, 30),
             fillColor: 'red',
