@@ -153,6 +153,8 @@ export const CarLocEx = (props: {
             rotation: 90//calculateRotation(curVector.start.lat(), curVector.start.lng(), curVector.end.lat(), curVector.end.lng())
         })
 
+        // iconRef.current.setTitle("Car");
+
     }, [curVector])
 
     return <Marker

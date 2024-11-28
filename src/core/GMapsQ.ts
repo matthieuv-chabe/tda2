@@ -94,8 +94,8 @@ export function getPositionFromElapsedTime(
 
   for (let i = 0; i < polylinesWithTimes.length; i++) {
     const segment = polylinesWithTimes[i];
-    const segmentStartTime = segment.startTime.getTime() / 1000; // Convert to seconds
-    const segmentEndTime = segment.endTime.getTime() / 1000; // Convert to seconds
+    const segmentStartTime = new Date(segment.startTime).getTime() / 1000; // Convert to seconds
+    const segmentEndTime = new Date(segment.endTime).getTime() / 1000; // Convert to seconds
     const segmentDuration = segmentEndTime - segmentStartTime;
 
     // Check if the elapsed time is within this segment

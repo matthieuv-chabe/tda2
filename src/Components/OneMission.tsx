@@ -14,7 +14,7 @@ import arrowDown from "../../public/arrowBottom.svg";
 
 const shortName = (name: string, maxLen = 20) => {
 
-	if(!name) return "";
+	if (!name) return "";
 
 	if (name.length <= maxLen) {
 		return name;
@@ -118,9 +118,17 @@ export const OneMission = (props: {
 									})}
 								</div> */}
 								<p>
-									Arrivée à {props.mission.arrival.estimated}
+									Arrivée prévue à {props.mission.arrival.estimated}
+									{
+										props.mission.acc &&
+										<div style={{ backgroundColor: "purple", color: "white", borderRadius: 5, padding: 1, display: "inline-block", marginLeft: 5, fontSize: "small" }}>
+											Accueil
+										</div>
+
+									}
 								</p>
-								<p>Dans {props.mission.arrival.remaining}</p>
+								{/* <p>Dans {props.mission.arrival.remaining}</p> */}
+								{props.mission.info && <p style={{ color: "red" }}>{props.mission.info}</p>}
 							</div>
 
 							<div style={{ flex: 1 }}>
@@ -133,6 +141,8 @@ export const OneMission = (props: {
 										fontSize: "1em",
 										fontWeight: "50",
 									}}
+
+									title={props.mission.passenger}
 								>
 									{" "}
 									{props.mission.passenger &&
@@ -148,7 +158,7 @@ export const OneMission = (props: {
 												.split(" ")
 												.slice(1)
 												.join(" "),
-												// .toUpperCase(),
+											// .toUpperCase(),
 											20
 										)
 									}
@@ -211,7 +221,7 @@ export const OneMission = (props: {
 							}}
 						>
 							<Typography>{props.mission.locations.from}</Typography>
-							<Typography variant="subtitle2">{props.mission.w.MIS_HEURE_DEBUT.substring(0,5)}</Typography>
+							<Typography variant="subtitle2">{props.mission.w.MIS_HEURE_DEBUT.substring(0, 5)}</Typography>
 						</div>
 
 						<div>
@@ -224,34 +234,38 @@ export const OneMission = (props: {
 							}}
 						>
 							<Typography>{props.mission.locations.to}</Typography>
-							<Typography variant="subtitle2">{props.mission.w.MIS_HEURE_FIN.substring(0,5)}</Typography>
+							<Typography variant="subtitle2">{props.mission.w.MIS_HEURE_FIN.substring(0, 5)}</Typography>
 						</div>
 					</div>
 
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "space-evenly",
-							marginTop: 10,
-
-							backgroundColor: "#f5f5f5",
-							padding: 10,
-							borderRadius: 10,
-							boxShadow: "0 0 5px 0 rgba(10,10,10,0.2)",
-						}}
-					>
+					{
+						(props.mission.driver || props.mission.licencePlate) &&
 						<div
 							style={{
-								textAlign: "center",
+								display: "flex",
+								flexDirection: "row",
+								alignItems: "center",
+								justifyContent: "space-evenly",
+								marginTop: 10,
+
+								backgroundColor: "#f5f5f5",
+								padding: 10,
+								borderRadius: 10,
+								boxShadow: "0 0 5px 0 rgba(10,10,10,0.2)",
 							}}
 						>
-							{props.mission.car_brand}<br />
-							<LicencePlate platenum={props.mission.license_plate} />
+							<div
+								style={{
+									textAlign: "center",
+								}}
+							>
+								{props.mission.car_brand}<br />
+								<LicencePlate platenum={props.mission.license_plate} />
+							</div>
+							<DriverName name={props.mission.chauffeur_name} phone={props.mission.chauffeur_phone} />
 						</div>
-						<DriverName name={props.mission.chauffeur_name} phone={props.mission.chauffeur_phone} />
-					</div>
+					}
+
 				</AccordionDetails>
 			</Accordion>
 		</>
