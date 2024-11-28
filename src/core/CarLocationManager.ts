@@ -3,6 +3,8 @@ import { Geo } from "./Geoloc";
 import { getPositionFromElapsedTime } from "./GMapsQ";
 import { Root } from "./waynium";
 
+const addtodate = (date: Date, minutes: number) => new Date(date.getTime() + minutes * 60 * 1000);
+
 type ClientInfo = {
     name: string;
     limo: string;
@@ -12,9 +14,16 @@ export type MissionInfo = {
     w: Root; // Waynium information
     acc: boolean; // Is it an accueil?
     information: string; // Some additional data that might be useful 
+    refresh_after: Date; // When to refresh the data
 }
 
 export class CarLocationManagerC {
+
+    constructor() {
+        setInterval(() => {
+            this.Refresh.bind(this)();
+        }, 1000 * 30);
+    }
 
 
     private clients: ClientInfo[] = [];
@@ -78,6 +87,12 @@ export class CarLocationManagerC {
         const mission_id = mission.w.MIS_ID;
         const location = this.locations.find(l => l.missionId === mission_id);
 
+        if(mission.refresh_after && new Date() < mission.refresh_after) {
+            // console.log("CarLocationManager: Refreshing in", Math.floor((mission.refresh_after.getTime() - new Date().getTime()) / 1000 / 60), "minutes");
+            mission.information += "!"
+            return;
+        }
+
         // If a location has been found and it has been updated less than 3 minutes ago,
         //  we don't need to update it
         if (location && location.lastRefresh.getTime() - new Date().getTime() < 3 * 60 * 1000) {
@@ -110,11 +125,19 @@ export class CarLocationManagerC {
                     startdate
                 )
 
-                const error_zero = JSON.stringify(extp).includes("ZERO_RESULTS");
-
                 this.missions.find(m => m.w.MIS_ID === mission.w.MIS_ID)!.information = extp.polylines.length > 1
                     ? ""//"extrapolated-multiplepoints"
-                    : "Chemin impossible"
+                    : "?"
+
+                const error_zero = JSON.stringify(extp).includes("ZERO_RESULTS");
+                if (error_zero) {
+                    const m = this.missions.find(m => m.w.MIS_ID === mission.w.MIS_ID)!
+                    
+                    m.information = "Chemin impossible";
+                    m.refresh_after = addtodate(new Date(), 10);
+                    return;
+                }
+
 
             } catch (e) {
                 console.error("CarLocationManager: Error while extrapolating", e);

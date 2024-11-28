@@ -72,7 +72,7 @@ export type MissionT = {
 };
 
 function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): MissionT | null {
-	console.log({ w });
+	// console.log({ w });
 
 	const get_name = (w: any) => {
 		const p1 = w.C_Gen_Presence[0]?.C_Gen_Passager || { PAS_PRENOM: '', PAS_NOM: '' };
