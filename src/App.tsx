@@ -704,8 +704,8 @@ export function App() {
 								</div>
 							)}
 						</div>
-						<div className="vertical-right" style={{ color: 'white' }}>
-							FIXME
+						<div className="vertical-right" style={{ color: 'white', overflow: 'hidden' }}>
+							I AM THE MAP
 						</div>
 					</div>
 				</div>
