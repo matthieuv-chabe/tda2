@@ -27,6 +27,9 @@ import { useMsal } from "@azure/msal-react";
 import { Habilitation } from "./Habilitation";
 import * as authconfig from "./authConfig";
 import { CarLocationManager, CarLocationManagerC, MissionInfo } from "./core/CarLocationManager";
+import { Wrapper } from "@googlemaps/react-wrapper";
+import { CarLocEx } from "./Components/CarLoc/CarLocEx";
+import { MapEx } from "./Components/MapEx";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -183,7 +186,7 @@ export function App() {
 		return () => CarLocationManager.destroy()
 	}, [])
 
-	const [allMissions, setAllMissions] = useState<any[]>([]);
+	const [allMissions, setAllMissions] = useState<MissionT[]>([]);
 
 	const Refresh = async () => {
 
@@ -713,7 +716,34 @@ export function App() {
 							)}
 						</div>
 						<div className="vertical-right" style={{ color: 'white', overflow: 'hidden' }}>
-							I AM THE MAP
+						<Wrapper
+								apiKey={
+									"AIzaSyC3xc8_oSX0dt2GENFpNnmzIFtn2IlfaCs"
+								}
+								libraries={["geometry", "core", "maps"]}
+							>
+								<MapEx>
+									{
+										incoming_missions
+											.map((m, index) => {
+												
+												const mis = CarLocationManager.missions.find(e => e.w.MIS_ID == m.id)
+												const loc = CarLocationManager.GetLocation(mis?.w.MIS_ID || -1)
+
+												return (
+													<CarLocEx
+														showPath={
+															m.id == selected
+														}
+														missionData={m}
+														missionLastKnownPosition={null}
+													/>
+												)
+											})
+									}
+								</MapEx>
+								{/* <OverMapInformations /> */}
+							</Wrapper>
 						</div>
 					</div>
 				</div>
