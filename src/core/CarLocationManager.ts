@@ -118,7 +118,7 @@ export class CarLocationManagerC {
 
         if(new Date() < mission.refresh_after) {
             // console.log("CarLocationManager: Refreshing in", Math.floor((mission.refresh_after.getTime() - new Date().getTime()) / 1000 / 60), "minutes");
-            mission.information += "!"
+            // mission.information += "!"
             return;
         }
 
