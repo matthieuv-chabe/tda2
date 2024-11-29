@@ -132,7 +132,15 @@ export function getPositionFromElapsedTime(
   }
 
   // If elapsed time exceeds the total duration
-  return null;
+  // Return the last point of the last polyline
+  const lastSegment = polylinesWithTimes[polylinesWithTimes.length - 1];
+  const lastDecodedPoints = polyline.decode(lastSegment.polyline);
+  const lastPoint = lastDecodedPoints[lastDecodedPoints.length - 1];
+
+  return {
+    polylineNumber: polylinesWithTimes.length - 1,
+    pos: { lat: lastPoint[0], lng: lastPoint[1] },
+  };
 }
 
 // Example usage
