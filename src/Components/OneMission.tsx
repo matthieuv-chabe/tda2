@@ -131,39 +131,49 @@ export const OneMission = (props: {
 								{props.mission.info && props.mission.info[0] == '?' && <p style={{ color: "darkblue" }}>{props.mission.info.substring(1)}</p>}
 							</div>
 
-							<div style={{ flex: 1 }}>
-								<p
-									style={{
-										textAlign: "right",
-										maxWidth: "100%",
-										overflow: "hidden",
-										textOverflow: "ellipsis",
-										fontSize: "1em",
-										fontWeight: "50",
-									}}
+							{
+								props.mission.passenger == "??" &&
+								<div style={{fontSize: "smaller", opacity: '.8'}}>
+									Passager inconnu
+								</div>
+							}
+							{
+								props.mission.passenger != "??" &&
+								<div style={{ flex: 1 }}>
+									<p
+										style={{
+											textAlign: "right",
+											maxWidth: "100%",
+											overflow: "hidden",
+											textOverflow: "ellipsis",
+											fontSize: "1em",
+											fontWeight: "50",
+										}}
 
-									title={props.mission.passenger}
-								>
-									{" "}
-									{props.mission.passenger &&
-										shortName(
-											props.mission.passenger.split(
-												" "
-											)[0],
-											25
-										)}{" "}
-									{props.mission.passenger &&
-										shortName(
-											props.mission.passenger
-												.split(" ")
-												.slice(1)
-												.join(" "),
-											// .toUpperCase(),
-											20
-										)
-									}
-								</p>
-								{/* <Typography
+										title={props.mission.passenger}
+									>
+										{" "}
+										{props.mission.passenger &&
+											shortName(
+												props.mission.passenger
+													.split(" ")
+													.slice(1)
+													.join(" "),
+												// .toUpperCase(),
+												20
+											)
+										}{" "}
+										<span style={{textTransform: "capitalize"}}>
+										{props.mission.passenger &&
+											shortName(
+												props.mission.passenger.split(
+													" "
+												)[0],
+												25
+											)}
+										</span>
+									</p>
+									{/* <Typography
 									sx={{ mb: 1.5 }}
 									color="text.secondary"
 									style={{
@@ -172,7 +182,8 @@ export const OneMission = (props: {
 								>
 									+33 6 12 34 56 78
 								</Typography> */}
-							</div>
+								</div>
+							}
 							<div>
 								<img
 									src={arrowDown}
