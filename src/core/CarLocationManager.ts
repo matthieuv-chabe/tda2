@@ -1,6 +1,5 @@
 import { ExtrapolFromLocAndTime } from "./CarLocationExtrapol";
 import { Geo } from "./Geoloc";
-import { getPositionFromElapsedTime } from "./GMapsQ";
 import { Root } from "./waynium";
 
 const addtodate = (date: Date, minutes: number) => new Date(date.getTime() + minutes * 60 * 1000);
@@ -19,10 +18,24 @@ export type MissionInfo = {
 
 export class CarLocationManagerC {
 
-    constructor() {
-        setInterval(() => {
-            this.Refresh.bind(this)();
-        }, 1000 * 30);
+    private stop = true;
+
+    public start() {
+        this.stop = false;
+        this.startNoStack.bind(this)();
+    }
+
+    public destroy() {
+        this.stop = true;
+    }
+
+    private startNoStack() {
+        if (this.stop) return;
+        setTimeout(() => {
+            this.Refresh.bind(this)().then(() => {
+                this.startNoStack.bind(this)();
+            });
+        }, 1000);
     }
 
 
@@ -51,6 +64,9 @@ export class CarLocationManagerC {
     }
 
     private async _getMissions(): Promise<MissionInfo[]> {
+
+        debugger;
+
         // https://rct.tda2.chabe.com/api/missions/clients/1586,chabe_409,chabe_872,chabe_266,chabe_1748,chabe_770,chabe_470,chabe_1278,chabe_2762,chabe_686,chabe_759,chabedev_626,chabe_1413
         const req = this?.clients.map(c => `${c.limo}_${c.name}`).join(",");
         const res = await fetch(`https://rct.tda2.chabe.com/api/missions/clients/${req}`);
@@ -97,7 +113,7 @@ export class CarLocationManagerC {
         //  we don't need to update it
         if (location && location.lastRefresh.getTime() - new Date().getTime() < 3 * 60 * 1000) {
             // console.log("Location already updated for mission", mission_id);
-            this.missions.find(m => m.w.MIS_ID === mission_id)!.information = "ALREADYUPDATED";
+            this.missions.find(m => m.w.MIS_ID === mission_id)!.information += "?";
             return;
         }
 
@@ -242,7 +258,15 @@ export class CarLocationManagerC {
 
     }
 
+    public lastRefresh = new Date();
     public async Refresh() {
+
+        if(new Date().getTime() - this.lastRefresh.getTime() < 1000 * 10) {
+            console.log("CarLocationManager: Refreshing too fast, skipping");
+            return;
+        }
+
+        this.lastRefresh = new Date();
 
 
         this.missions = (await this._getMissions()) as MissionInfo[];
@@ -281,3 +305,5 @@ export class CarLocationManagerC {
     }
 
 }
+
+export const CarLocationManager = new CarLocationManagerC();

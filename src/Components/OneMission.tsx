@@ -2,7 +2,6 @@ import { ArrowForward } from "@mui/icons-material";
 import {
 	Accordion,
 	AccordionSummary,
-	Chip,
 	Typography,
 	AccordionDetails,
 } from "@mui/material";

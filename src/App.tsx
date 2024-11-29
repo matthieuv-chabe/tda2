@@ -26,7 +26,7 @@ import { IPublicClientApplication } from "@azure/msal-browser";
 import { useMsal } from "@azure/msal-react";
 import { Habilitation } from "./Habilitation";
 import * as authconfig from "./authConfig";
-import { CarLocationManagerC, MissionInfo } from "./core/CarLocationManager";
+import { CarLocationManager, CarLocationManagerC, MissionInfo } from "./core/CarLocationManager";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -176,25 +176,29 @@ export function App() {
 	const { instance } = useMsal();
 	const token = useRef<any>(null)
 
-	const locMgr = useRef<CarLocationManagerC>(new CarLocationManagerC());
+	useEffect(() => {
+		CarLocationManager.start();
+		return () => CarLocationManager.destroy()
+	}, [])
+
 	const [allMissions, setAllMissions] = useState<any[]>([]);
 
 	const Refresh = async () => {
 
-		setAllMissions(locMgr.current.missions.map(e => waynium_to_missiont(
-			e.w, locMgr.current, e
+		setAllMissions(CarLocationManager.missions.map(e => waynium_to_missiont(
+			e.w, CarLocationManager, e
 		)).filter(e => e != null))
 
 		console.log("RM - Refreshing missions");
-		await locMgr.current.Refresh()
+		await CarLocationManager.Refresh()
 		console.log("RM - Refreshed missions");
 
-		setAllMissions(locMgr.current.missions.map(e => waynium_to_missiont(
-			e.w, locMgr.current, e
+		setAllMissions(CarLocationManager.missions.map(e => waynium_to_missiont(
+			e.w, CarLocationManager, e
 		)).filter(e => e != null))
 
-		console.log("RM - Miscount=", locMgr.current.missions.length)
-		console.log("RM - Locations=", locMgr.current.locations)
+		console.log("RM - Miscount=", CarLocationManager.missions.length)
+		console.log("RM - Locations=", CarLocationManager.locations)
 
 		setIsLoading(false);
 	}
@@ -227,7 +231,7 @@ export function App() {
 
 			setLoadingMsg("Initializing");
 
-			await locMgr.current.Initialize(hab.subAccounts.map(e => ({
+			await CarLocationManager.Initialize(hab.subAccounts.map(e => ({
 				limo: e.dispatch,
 				name: "" + e.cliId
 			})))
@@ -242,8 +246,8 @@ export function App() {
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			setAllMissions(locMgr.current.missions.map(e => waynium_to_missiont(
-				e.w, locMgr.current, e
+			setAllMissions(CarLocationManager.missions.map(e => waynium_to_missiont(
+				e.w, CarLocationManager, e
 			)).filter(e => e != null))
 		}, 300);
 
