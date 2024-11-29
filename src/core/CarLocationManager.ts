@@ -3,6 +3,7 @@ import { Geo } from "./Geoloc";
 import { Root } from "./waynium";
 
 const addtodate = (date: Date, minutes: number) => new Date(date.getTime() + minutes * 60 * 1000);
+const datein = (min: Date, max: Date, date: Date) => date.getTime() >= min.getTime() && date.getTime() <= max.getTime();
 const mstohuman = (ms: number) => {
     const s = ms / 1000;
     const m = Math.floor(s / 60);
@@ -19,7 +20,9 @@ export type MissionInfo = {
     w: Root; // Waynium information
     acc: boolean; // Is it an accueil?
     information: string; // Some additional data that might be useful 
+    debug: string; // Debug information
     refresh_after: Date; // When to refresh the data
+    cache_polylines?: any; // Cache the polylines
 }
 
 export class CarLocationManagerC {
@@ -53,10 +56,6 @@ export class CarLocationManagerC {
         lastRealData?: Date;
         location: { lng: number, lat: number };
     }[] = []
-    private gmapsCache: {
-        missionId: string;
-        gmaps: any;
-    }[] = []
 
     public async Initialize(clients: ClientInfo[]) {
         if (clients.length !== 0) {
@@ -87,13 +86,14 @@ export class CarLocationManagerC {
 
         const newlist2 = newlist.map(m => {
             const old = oldlist.find(o => o.w.MIS_ID === m.w.MIS_ID);
-            
-            if(!old) return m;
+
+            if (!old) return m;
 
             return {
                 ...m,
                 information: old.information,
                 refresh_after: old.refresh_after,
+                cache_polylines: old.cache_polylines
             }
         })
 
@@ -103,22 +103,24 @@ export class CarLocationManagerC {
 
     private async _update_geolocation_information(mission: MissionInfo) {
 
+        mission.information = "."
+
         console.log("CLM - Update geoloc for mission", mission.w.MIS_ID);
 
         const mission_id = mission.w.MIS_ID;
         const location = this.locations.find(l => l.missionId === mission_id);
 
-        if(mission.information == "") mission.information = "NODATA";
+        if (mission.information == "") mission.information = "NODATA";
 
-        if(JSON.stringify(mission.w.C_Gen_EtapePresence).indexOf("%DIC_LIEU_A_DEFINIR%") !== -1) {
+        if (JSON.stringify(mission.w.C_Gen_EtapePresence).indexOf("%DIC_LIEU_A_DEFINIR%") !== -1) {
             mission.refresh_after = addtodate(new Date(), 10);
             mission.information = "Lieu non défini";
             return;
         }
 
-        if(new Date() < mission.refresh_after) {
+        if (new Date() < mission.refresh_after) {
             // console.log("CarLocationManager: Refreshing in", Math.floor((mission.refresh_after.getTime() - new Date().getTime()) / 1000 / 60), "minutes");
-            // mission.information += "!"
+            mission.information += "!"
             return;
         }
 
@@ -126,7 +128,12 @@ export class CarLocationManagerC {
         const res = await fetch(`https://rct.tda2.chabe.com/api/getProbableLocationForMission/${mission.w.MIS_ID}/date/a`);
         const data = await res.json() as Geo;
 
+        mission.information = "testX"
+
         if (data.result.length == 0) {
+
+            mission.information = "rlen=0";
+
             const startplace = mission.w.C_Gen_EtapePresence[0].C_Geo_Lieu;
             const endplace = mission.w.C_Gen_EtapePresence[mission.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu;
 
@@ -146,28 +153,29 @@ export class CarLocationManagerC {
                     startdate
                 )
 
-                this.missions.find(m => m.w.MIS_ID === mission.w.MIS_ID)!.information = extp.polylines.length > 1
+                mission.information = extp.polylines.length > 1
                     ? ""//"extrapolated-multiplepoints"
                     : "?"
 
                 const error_zero = JSON.stringify(extp).includes("ZERO_RESULTS");
                 if (error_zero) {
-                    const m = this.missions.find(m => m.w.MIS_ID === mission.w.MIS_ID)!
-                    
-                    m.information = "Chemin impossible";
-                    m.refresh_after = addtodate(new Date(), 10);
+                    mission.information = "Chemin impossible";
+                    mission.refresh_after = addtodate(new Date(), 10);
                     return;
                 }
 
 
             } catch (e) {
                 console.error("CarLocationManager: Error while extrapolating", e);
-                this.missions.find(m => m.w.MIS_ID === mission.w.MIS_ID)!.information = "err^=" + e.message;
+                mission.information = "err^=" + e.message;
             }
 
 
 
         } else {
+
+            mission.information = "test"
+
             // Get the latest and best information
             const p = data.probable_location.location;
             const right_candidate = data.result.find(r => r._source.location.lat == p.lat && r._source.location.lon == p.lon)!;
@@ -212,15 +220,16 @@ export class CarLocationManagerC {
                     { lat: p.lat, lng: p.lon },
                     last_known_time
                 )
-                
+
                 const error_zero = JSON.stringify(lines).includes("ZERO_RESULTS");
                 if (error_zero) {
-                    
+
                     mission.information = "!Chemin impossible";
                     mission.refresh_after = addtodate(new Date(), 10);
                     return;
                 }
 
+                mission.cache_polylines = lines.polylines;
                 mission.information = "?Extrapolé (" + mstohuman(new Date().getTime() - last_known_time.getTime()) + ")";
 
                 const loc_within_poly = lines.loc_within_poly;
@@ -241,6 +250,7 @@ export class CarLocationManagerC {
             } else {
                 console.log("good")
                 // We have the correct information
+                mission.information = "?Good"
                 this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
                 this.locations.push({
                     missionId: mission.w.MIS_ID,
@@ -280,6 +290,22 @@ export class CarLocationManagerC {
         this.missions = this.missions
             .filter(m => m.w.MIS_DATE_DEBUT != null && m.w.MIS_HEURE_DEBUT != null);
 
+        
+
+        this.missions.forEach(m => {
+            const enddate = new Date(m.w.MIS_DATE_DEBUT + "T" + m.w.MIS_HEURE_FIN);
+            const now = new Date();
+            if (Math.floor((now.getTime() - enddate.getTime()) / 1000 / 60) > 60) {
+                m.debug = "ended";
+            }
+        })
+
+        this.missions = this.missions.filter(m => {
+            const enddate = new Date(m.w.MIS_DATE_DEBUT + "T" + m.w.MIS_HEURE_FIN);
+            const now = new Date();
+            return Math.floor((now.getTime() - enddate.getTime()) / 1000 / 60) < 60;
+        })
+
         // Remove missions that are cancelled (status = 4)
         this.missions = this.missions.filter(m => m.w.MIS_SMI_ID !== "4");
         this.missions = this.missions.filter(m => m.w.MIS_SMI_ID !== "13");
@@ -303,7 +329,7 @@ export class CarLocationManagerC {
     public lastRefresh = new Date();
     public async Refresh() {
 
-        if(new Date().getTime() - this.lastRefresh.getTime() < 1000 * 10) {
+        if (new Date().getTime() - this.lastRefresh.getTime() < 1000 * 10) {
             console.log("CarLocationManager: Refreshing too fast, skipping");
             return;
         }
@@ -324,11 +350,18 @@ export class CarLocationManagerC {
         console.log("Remaining missions", this.missions.length);
         // fs.writeFileSync("missions.json", JSON.stringify(this.missions, null, 4));
 
-        for (let i = 0; i < this.missions.length; i++) {
+        // for (let i = 0; i < this.missions.length; i++) {
 
-            if (this.missions[i].w.MIS_DATE_DEBUT == null || this.missions[i].w.MIS_HEURE_DEBUT == null) continue;
+        for(const mission of this.missions) {
 
-            const startdate = new Date(this.missions[i].w.MIS_DATE_DEBUT + "T" + this.missions[i].w.MIS_HEURE_DEBUT);
+            console.log({xd: this.missions})
+
+            if (mission.w.MIS_DATE_DEBUT == null || mission.w.MIS_HEURE_DEBUT == null) {
+                mission.information = "missingdate";
+                continue;
+            }
+
+            const startdate = new Date(mission.w.MIS_DATE_DEBUT + "T" + mission.w.MIS_HEURE_DEBUT);
             const now = new Date();
 
 
@@ -338,12 +371,14 @@ export class CarLocationManagerC {
 
             if (
                 start_in_minutes >= 0 // Not yet started
-            ) continue;
+            ) {
+                mission.information = "notyetstarted";
+                continue;
+            }
 
-            console.log("Processing mission", this.missions[i].w.MIS_ID, "in", start_in_minutes, "minutes");
-            console.log("Chauffeur=" + (this.missions[i].w.C_Gen_Chauffeur?.CHU_NOM || "N/A"))
+            console.log("Processing mission", mission.w.MIS_ID, "in", start_in_minutes, "minutes");
+            console.log("Chauffeur=" + (mission.w.C_Gen_Chauffeur?.CHU_NOM || "N/A"))
 
-            const mission = this.missions[i];
             await this._update_geolocation_information(mission);
         }
     }

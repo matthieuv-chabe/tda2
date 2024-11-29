@@ -129,6 +129,7 @@ export const OneMission = (props: {
 								{/* <p>Dans {props.mission.arrival.remaining}</p> */}
 								{props.mission.info && props.mission.info[0] != '?' && <p style={{ color: "red" }}>{props.mission.info}</p>}
 								{props.mission.info && props.mission.info[0] == '?' && <p style={{ color: "darkblue" }}>{props.mission.info.substring(1)}</p>}
+								{props.mission.debug}
 							</div>
 
 							{

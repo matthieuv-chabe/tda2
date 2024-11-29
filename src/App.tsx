@@ -52,6 +52,7 @@ export type MissionT = {
 
 	id: number;
 	info: string;
+	debug: string;
 	passenger: string;
 	acc: boolean; // Is accueil
 	tags: string[];
@@ -131,6 +132,7 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 			passenger: get_name(w),
 			tags: [],
 			info: m.missions.find(m => m.w.MIS_ID == w.MIS_ID)?.information || "",
+			debug: m.missions.find(m => m.w.MIS_ID == w.MIS_ID)?.debug || "",
 			arrival: {
 				estimated: eastr,
 				remaining: "LOL",//ms_to_hm(ea.getTime() - new Date().getTime()).toString(),
@@ -207,6 +209,8 @@ export function App() {
 		(async () => {
 			const baseurl =
 				"https://chabe-int-ca-api-habilitations.orangepond-bbd114b2.francecentral.azurecontainerapps.io";
+
+			setLoadingMsg("En attente du Customer Portal...");
 
 			let accessToken = "";
 			try {
