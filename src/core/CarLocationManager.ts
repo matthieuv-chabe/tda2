@@ -64,8 +64,7 @@ export class CarLocationManagerC {
             console.error("CarLocationManager: No clients provided");
         }
 
-        this._mergeMissions(await this._getMissions());
-        this._cleanMissions();
+        this.Refresh(true);
     }
 
     private async _getMissions(): Promise<MissionInfo[]> {
@@ -114,7 +113,7 @@ export class CarLocationManagerC {
 
         if (JSON.stringify(mission.w.C_Gen_EtapePresence).indexOf("%DIC_LIEU_A_DEFINIR%") !== -1) {
             mission.refresh_after = addtodate(new Date(), 10);
-            mission.information = "Lieu non défini";
+            mission.information = "Lieu d'arrivée non défini";
             return;
         }
 
@@ -327,9 +326,9 @@ export class CarLocationManagerC {
     }
 
     public lastRefresh = new Date();
-    public async Refresh() {
+    public async Refresh(force = false) {
 
-        if (new Date().getTime() - this.lastRefresh.getTime() < 1000 * 10) {
+        if (!force && new Date().getTime() - this.lastRefresh.getTime() < 1000 * 10) {
             console.log("CarLocationManager: Refreshing too fast, skipping");
             return;
         }
