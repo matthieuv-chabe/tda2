@@ -30,6 +30,7 @@ import { CarLocationManager, CarLocationManagerC, MissionInfo } from "./core/Car
 import { Wrapper } from "@googlemaps/react-wrapper";
 import { CarLocEx } from "./Components/CarLoc/CarLocEx";
 import { MapEx } from "./Components/MapEx";
+import { InfoMissionsDialog } from "./Components/InfoMissionsDialog";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -412,6 +413,7 @@ export function App() {
 									{increasedMiddleSize
 										? "Toutes les missions"
 										: "Arrivées imminentes"}
+
 									<ToggleButton
 										value="check"
 										selected={increasedMiddleSize}
@@ -526,6 +528,8 @@ export function App() {
 										>
 											Aucune mission prévue pour les
 											45 prochaines minutes !
+											<InfoMissionsDialog />
+
 											<div
 												style={{ marginTop: 10 }}
 											></div>
