@@ -67,7 +67,7 @@ export type MissionT = {
 	locations: {
 		from: string;
 		to: string;
-		cur: { lat: number; lng: number }|null;
+		cur: { lat: number; lng: number } | null;
 	};
 	chauffeur_name: string;
 	chauffeur_phone: string;
@@ -264,7 +264,7 @@ export function App() {
 	const [showAcc, setShowAcc] = useState(false);
 
 	const incoming_missions = allMissions
-	.filter(m => (showAcc && m.acc) || !m.acc)
+		.filter(m => (showAcc && m.acc) || !m.acc)
 	// .filter(m => m != null)
 	// .filter((mission) => !mission.pinned)
 	// .filter((m) => MissionFilter(m, search))
@@ -380,8 +380,13 @@ export function App() {
 					<div
 						style={{
 							display: "flex",
-							height: "100%",
-							width: "100%",
+							// height: "100%",
+							// width: "100%",
+							position:"absolute",
+							left: 56,
+							right:0,
+							top:80,
+							bottom:0
 						}}
 					>
 						<div
@@ -715,8 +720,8 @@ export function App() {
 								</div>
 							)}
 						</div>
-						<div className="vertical-right" style={{ color: 'white', overflow: 'hidden' }}>
-						<Wrapper
+						<div className="vertical-right" style={{ color: 'white', height: '200', overflow: 'hidden' }}>
+							<Wrapper
 								apiKey={
 									"AIzaSyC3xc8_oSX0dt2GENFpNnmzIFtn2IlfaCs"
 								}
@@ -726,7 +731,7 @@ export function App() {
 									{
 										incoming_missions
 											.map((m, index) => {
-												
+
 												const mis = CarLocationManager.missions.find(e => e.w.MIS_ID == m.id)
 												const loc = CarLocationManager.GetLocation(mis?.w.MIS_ID || -1)
 

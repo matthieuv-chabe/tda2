@@ -19,10 +19,7 @@ export const CarLocEx = (props: {
 
             if(!loc || !loc.lat || !loc.lng) return;
 
-            map?.panTo({
-                    lat: loc.lat,
-                    lng: loc.lng
-            })
+            map?.setHeadingInteractionEnabled(true);
 
         }
     }, [props.showPath])
