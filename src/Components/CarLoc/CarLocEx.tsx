@@ -73,9 +73,9 @@ export const CarLocEx = (props: {
             // scaledSize: new google.maps.Size(30, 30),
             fillColor: 'red',
             path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-            strokeColor: 'red',
-            strokeWeight: 10,
-            scale: 3,
+            strokeColor: 'blue',
+            strokeWeight: 5,
+            scale: 4,
             // rotation: calculateRotation(curVector.start.lat(), curVector.start.lng(), curVector.end.lat(), curVector.end.lng())
         }}
         onClick={() => {
