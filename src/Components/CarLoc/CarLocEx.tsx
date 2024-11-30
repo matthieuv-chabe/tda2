@@ -7,7 +7,8 @@ import { CarLocationManager } from "../../core/CarLocationManager";
 export const CarLocEx = (props: {
     missionData: any,
     missionLastKnownPosition: LastKnownPositionInfo | null,
-    showPath?: boolean
+    showPath?: boolean,
+    onCarClicked?: () => void
 }) => {
 
     const map = useMap();    
@@ -20,6 +21,9 @@ export const CarLocEx = (props: {
             if(!loc || !loc.lat || !loc.lng) return;
 
             map?.setHeadingInteractionEnabled(true);
+            map?.setTilt(45);
+            map?.setZoom(18);
+            map?.setCenter(loc);
 
         }
     }, [props.showPath])
@@ -44,6 +48,12 @@ export const CarLocEx = (props: {
     return <Marker
         ref={iconRef}
         position={CarLocationManager.GetLocation(props.missionData.w.MIS_ID)}
+        title={"test"}
+        clickable={true}
+        onClick={() => {
+            // alert("Clicked")
+            props.onCarClicked?.();
+        }}
 
     />;
 

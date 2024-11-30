@@ -742,6 +742,9 @@ export function App() {
 														}
 														missionData={m}
 														missionLastKnownPosition={null}
+														onCarClicked={() => {
+															setSelected(m.id);
+														}}
 													/>
 												)
 											})

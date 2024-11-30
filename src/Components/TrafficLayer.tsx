@@ -7,8 +7,10 @@ export const TrafficLayer = () => {
     useEffect(() => {
       if(!map) return;
   
-      const trafficLayer = new google.maps.TrafficLayer({map, autoRefresh: false});
-      return () => { trafficLayer.setMap(null); };
+      const trafficLayer = new google.maps.TrafficLayer({map, autoRefresh: true});
+      return () => { 
+        trafficLayer.setMap(null);
+      }; 
     }, [map]);
   
     return <></>;

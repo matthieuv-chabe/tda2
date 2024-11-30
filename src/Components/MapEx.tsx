@@ -1,15 +1,14 @@
 
 import { APIProvider, Map, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
 import { TrafficLayer } from './TrafficLayer';
-
-const Poi = () => {
-}
+import { useRef } from 'react';
 
 export const MapEx = (props: {
     children: JSX.Element | JSX.Element[]
 }) => {
 
     const children = Array.isArray(props.children) ? props.children : [props.children];
+    const tiltRef = useRef<NodeJS.Timeout | null>(null)
 
     return(
         <APIProvider
