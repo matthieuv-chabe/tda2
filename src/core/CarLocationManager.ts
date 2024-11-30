@@ -190,6 +190,8 @@ export class CarLocationManagerC {
             const time = new Date(right_candidate._source.date);
             const now = new Date();
 
+            mission.debug = "elastic last date time: " + time.toLocaleTimeString() + "<br />";
+
             // If start and end are the same, we don't need to update the location, just keep the best one
             const startplace = mission.w.C_Gen_EtapePresence[0].C_Geo_Lieu;
             const endplace = mission.w.C_Gen_EtapePresence[mission.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu;
@@ -227,11 +229,19 @@ export class CarLocationManagerC {
 
                 // mission.information += " " + Math.floor((now.getTime() - last_known_time.getTime()) / 1000 / 60) + "min";
 
+                const arr = mission.w.C_Gen_EtapePresence[mission.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu;
+                const arr_loc = {
+                    lat: parseFloat(arr.LIE_LAT),
+                    lng: parseFloat(arr.LIE_LNG)
+                }
+
                 const lines = await ExtrapolFromLocAndTime(
                     { lat: last_known_location.lat, lng: last_known_location.lon },
-                    { lat: p.lat, lng: p.lon },
+                    arr_loc,
                     last_known_time
                 )
+
+                // mission.debug = JSON.stringify(mission); 
 
                 const error_zero = JSON.stringify(lines).includes("ZERO_RESULTS");
                 if (error_zero) {
@@ -319,20 +329,25 @@ export class CarLocationManagerC {
         })
 
         // Remove missions that are cancelled (status = 4)
-        this.missions = this.missions.filter(m => m.w.MIS_SMI_ID !== "4");
-        this.missions = this.missions.filter(m => m.w.MIS_SMI_ID !== "13");
-        this.missions = this.missions.filter(m => m.w.MIS_SMI_ID !== "21");
-        this.missions = this.missions.filter(m => m.w.MIS_SMI_ID !== "7");
-        this.missions = this.missions.filter(m => m.w.MIS_SMI_ID !== "8");
-        this.missions = this.missions.filter(m => m.w.MIS_SMI_ID !== "16"); // Annulé
-        this.missions = this.missions.filter(m => m.w.MIS_SMI_ID !== "21"); // Annulé
+        this.missions = this.missions.filter(m => m.w.MIS_SMI_ID !== "4")
+                                    .filter(m => m.w.MIS_SMI_ID !== "13")
+                                    .filter(m => m.w.MIS_SMI_ID !== "21")
+                                    .filter(m => m.w.MIS_SMI_ID !== "7")
+                                    .filter(m => m.w.MIS_SMI_ID !== "8")
+                                    .filter(m => m.w.MIS_SMI_ID !== "16") // Annulé
+                                    .filter(m => m.w.MIS_SMI_ID !== "21") // Annulé
 
 
-        // Remove missions that are deleted
+        // // Remove missions that are deleted
         this.missions = this.missions.filter(m => m.w.MIS_ETAT == "1");
 
-        // Remove missions that are completed
+        // // Remove missions that are completed
         this.missions = this.missions.filter(m => m.w.MIS_HEURE_REEL_FIN == null);
+
+        // For each remaining mission, sort the steps by order
+        this.missions.forEach(m => {
+            m.w.C_Gen_EtapePresence = m.w.C_Gen_EtapePresence.sort((a, b) => a.EPR_TRI - b.EPR_TRI);
+        })
 
         console.log("CarLocationManager: Cleaned", num_missions - this.missions.length, "missions");
 

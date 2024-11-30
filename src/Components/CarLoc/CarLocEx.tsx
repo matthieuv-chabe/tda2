@@ -35,11 +35,11 @@ export const CarLocEx = (props: {
             if(!loc || !loc.lat || !loc.lng) return;
 
             map?.setHeadingInteractionEnabled(true);
-            map?.setTilt(45);
+            // map?.setTilt(45);
             map?.setZoom(18);
             map?.setCenter(loc);
 
-            map?.setHeading(90);
+            // map?.setHeading(90);
 
         }
     }, [props.showPath])
@@ -51,13 +51,11 @@ export const CarLocEx = (props: {
 
         iconRef.current.setIcon({
             url: '/car-top-view.svg', 
-            // size: new google.maps.Size(50, 50),
             scaledSize: new google.maps.Size(30, 30),
             fillColor: 'red',
             rotation: calculateRotation(curVector.start.lat(), curVector.start.lng(), curVector.end.lat(), curVector.end.lng())
         })
 
-        // iconRef.current.setTitle("Car");
 
     }, [])
 
@@ -68,18 +66,13 @@ export const CarLocEx = (props: {
         title={"test"}
         clickable={true}
         icon={{
-            // url: '/car-top-view.svg', 
-            // size: new google.maps.Size(50, 50),
-            // scaledSize: new google.maps.Size(30, 30),
             fillColor: 'red',
             path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
             strokeColor: 'blue',
             strokeWeight: 5,
             scale: 4,
-            // rotation: calculateRotation(curVector.start.lat(), curVector.start.lng(), curVector.end.lat(), curVector.end.lng())
         }}
         onClick={() => {
-            // alert("Clicked")
             props.onCarClicked?.();
         }}
 
