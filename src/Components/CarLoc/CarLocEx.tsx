@@ -14,6 +14,20 @@ export const CarLocEx = (props: {
     const iconRef = useRef<google.maps.Marker>(null);
 
     useEffect(() => {
+        if(props.showPath) {
+            const loc = CarLocationManager.GetLocation(props.missionData.w.MIS_ID)
+
+            if(!loc || !loc.lat || !loc.lng) return;
+
+            map?.panTo({
+                    lat: loc.lat,
+                    lng: loc.lng
+            })
+
+        }
+    }, [props.showPath])
+
+    useEffect(() => {
         if(!iconRef.current) return;
 
         // alert("Setting icon");   

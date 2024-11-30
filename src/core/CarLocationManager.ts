@@ -102,20 +102,24 @@ export class CarLocationManagerC {
 
     private async _update_geolocation_information(mission: MissionInfo) {
 
-        mission.information = "."
+        // mission.information = "."
 
         console.log("CLM - Update geoloc for mission", mission.w.MIS_ID);
 
         const mission_id = mission.w.MIS_ID;
         const location = this.locations.find(l => l.missionId === mission_id);
+        
+        mission.debug = "yo"
 
         if (mission.information == "") mission.information = "NODATA";
 
         if (JSON.stringify(mission.w.C_Gen_EtapePresence).indexOf("%DIC_LIEU_A_DEFINIR%") !== -1) {
-            mission.refresh_after = addtodate(new Date(), 10);
+            // mission.refresh_after = addtodate(new Date(), 10);
             mission.information = "Lieu d'arrivée non défini";
-            return;
+            // return;
         }
+
+        // mission.debug = "yo2"
 
         if (new Date() < mission.refresh_after) {
             // console.log("CarLocationManager: Refreshing in", Math.floor((mission.refresh_after.getTime() - new Date().getTime()) / 1000 / 60), "minutes");
@@ -127,18 +131,21 @@ export class CarLocationManagerC {
         const res = await fetch(`https://rct.tda2.chabe.com/api/getProbableLocationForMission/${mission.w.MIS_ID}/date/a`);
         const data = await res.json() as Geo;
 
-        mission.information = "testX"
+        // mission.information = "testX"
+        mission.debug = "testX"
 
         if (data.result.length == 0) {
 
-            mission.information = "rlen=0";
+            // mission.information = "rlen=0";
+            // mission.debug = "rlen=0";
 
             const startplace = mission.w.C_Gen_EtapePresence[0].C_Geo_Lieu;
             const endplace = mission.w.C_Gen_EtapePresence[mission.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu;
 
             if (!startplace || !endplace || !startplace.LIE_LAT || !startplace.LIE_LNG || !endplace.LIE_LAT || !endplace.LIE_LNG) {
                 // console.error("CarLocationManager: Missing data for mission", mission.w.MIS_ID);
-                this.missions.find(m => m.w.MIS_ID === mission.w.MIS_ID)!.information = "notenoughdata";
+                mission.information = "notenoughdata";
+                mission.debug = "notenoughdata";
                 return;
             }
 
@@ -167,13 +174,15 @@ export class CarLocationManagerC {
             } catch (e) {
                 console.error("CarLocationManager: Error while extrapolating", e);
                 mission.information = "err^=" + e.message;
+                mission.debug = "err^=" + e.message;
             }
 
 
 
-        } else {
+        } else /* we have data from elastic */ {
 
-            mission.information = "test"
+            // mission.information = "test"
+            mission.debug += "data from elastic<br />"
 
             // Get the latest and best information
             const p = data.probable_location.location;
@@ -195,8 +204,12 @@ export class CarLocationManagerC {
                         lat: p.lat
                     }
                 });
+
+                mission.information = "Itinéraire vers arrivée inconnu."
+
                 return;
             };
+            
 
             // If time > 3 min, we need to extrapolate it
             const younger_than_3min = now.getTime() - time.getTime() < 3 * 60 * 1000;
@@ -235,7 +248,7 @@ export class CarLocationManagerC {
 
                 // mission.information = JSON.stringify(loc_within_poly)
 
-                mission.refresh_after = addtodate(new Date(), 10); // Refresh in 10 minutes
+                // mission.refresh_after = addtodate(new Date(), 10); // Refresh in 10 minutes
                 this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
                 this.locations.push({
                     missionId: mission.w.MIS_ID,
@@ -371,7 +384,7 @@ export class CarLocationManagerC {
             if (
                 start_in_minutes >= 0 // Not yet started
             ) {
-                mission.information = "notyetstarted";
+                mission.information = "VMission à venir";
                 continue;
             }
 

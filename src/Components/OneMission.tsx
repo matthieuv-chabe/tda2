@@ -127,14 +127,19 @@ export const OneMission = (props: {
 									}
 								</p>
 								{/* <p>Dans {props.mission.arrival.remaining}</p> */}
-								{props.mission.info && props.mission.info[0] != '?' && <p style={{ color: "orange", fontSize: "small" }}>{props.mission.info}</p>}
+								{props.mission.info && props.mission.info[0] != '?' && props.mission.info[0] != 'V' && <p style={{ color: "orange", fontSize: "small" }}>{props.mission.info}</p>}
 								{props.mission.info && props.mission.info[0] == '?' && <p style={{ color: "darkblue", fontSize: "small" }}>{props.mission.info.substring(1)}</p>}
-								{props.mission.debug}
+								{props.mission.info && props.mission.info[0] == 'V' && <p style={{ color: "green", fontSize: "small" }}>{props.mission.info.substring(1)}</p>}
+								{/* #endregion */}
+								{
+									document.location.origin.indexOf("localhost") != -1 && props.mission.debug &&
+									<p style={{ color: "lime", backgroundColor: 'black', padding: 5, width: '200px' }} dangerouslySetInnerHTML={{ __html: props.mission.debug }} />
+								}
 							</div>
 
 							{
 								props.mission.passenger == "??" &&
-								<div style={{fontSize: "smaller", opacity: '.8'}}>
+								<div style={{ fontSize: "smaller", opacity: '.8' }}>
 									Passager inconnu
 								</div>
 							}
@@ -164,14 +169,14 @@ export const OneMission = (props: {
 												20
 											)
 										}{" "}
-										<span style={{textTransform: "capitalize"}}>
-										{props.mission.passenger &&
-											shortName(
-												props.mission.passenger.split(
-													" "
-												)[0],
-												25
-											)}
+										<span style={{ textTransform: "capitalize" }}>
+											{props.mission.passenger &&
+												shortName(
+													props.mission.passenger.split(
+														" "
+													)[0],
+													25
+												)}
 										</span>
 									</p>
 									{/* <Typography
