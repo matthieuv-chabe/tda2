@@ -186,11 +186,11 @@ export class CarLocationManagerC {
 
             // Get the latest and best information
             const p = data.probable_location.location;
-            const right_candidate = data.result.find(r => r._source.location.lat == p.lat && r._source.location.lon == p.lon)!;
-            const time = new Date(right_candidate._source.date);
+            // const right_candidate = data.result.find(r => r._source.location.lat == p.lat && r._source.location.lon == p.lon)!;
+            const time = new Date(data.probable_location.candidates[0].date);
             const now = new Date();
 
-            mission.debug = "elastic last date time: " + time.toLocaleTimeString() + "<br />";
+            mission.debug = mission.w.MIS_ID + " elastic last date time: " + time.toLocaleTimeString() + "<br />";
 
             // If start and end are the same, we don't need to update the location, just keep the best one
             const startplace = mission.w.C_Gen_EtapePresence[0].C_Geo_Lieu;
@@ -200,7 +200,7 @@ export class CarLocationManagerC {
                 this.locations.push({
                     missionId: mission.w.MIS_ID,
                     lastRefresh: new Date(),
-                    lastRealData: new Date(right_candidate._source.date),
+                    lastRealData: time,
                     location: {
                         lng: p.lon,
                         lat: p.lat
@@ -213,18 +213,18 @@ export class CarLocationManagerC {
             };
             
 
-            // If time > 3 min, we need to extrapolate it
-            const younger_than_3min = now.getTime() - time.getTime() < 3 * 60 * 1000;
+            // If time > 5 min, we need to extrapolate it
+            const young_enough_no_need_extrapolate = (now.getTime() - time.getTime()) < 5 * 60 * 1000;
 
             // That might indicate a bug from the Tracker, matching the mission with the wrong data
             // const geoloc_data_is_younger_than_mission_start = time.getTime() > new Date(mission.w.MIS_DATE_DEBUT + "T" + mission.w.MIS_HEURE_DEBUT).getTime();
 
-            if (!younger_than_3min) {
+            if (!young_enough_no_need_extrapolate) {
 
                 mission.information = "NEEDSEXTRAPOLATION";
 
                 const last_known_location = data.probable_location.location;
-                const last_known_time = new Date(data.probable_location.candidates.find(c => c.location.lat == last_known_location.lat && c.location.lon == last_known_location.lon)!.date);
+                const last_known_time = new Date(data.probable_location.candidates[0].date);
 
 
                 // mission.information += " " + Math.floor((now.getTime() - last_known_time.getTime()) / 1000 / 60) + "min";
@@ -253,6 +253,7 @@ export class CarLocationManagerC {
 
                 mission.cache_polylines = lines.polylines;
                 mission.information = "?Extrapolé (" + mstohuman(new Date().getTime() - last_known_time.getTime()) + ")";
+                mission.debug = "geoloc time=" + last_known_time.toLocaleTimeString() + "<br />";
 
                 const loc_within_poly = lines.loc_within_poly;
 
@@ -277,7 +278,7 @@ export class CarLocationManagerC {
                 this.locations.push({
                     missionId: mission.w.MIS_ID,
                     lastRefresh: new Date(),
-                    lastRealData: new Date(right_candidate._source.date),
+                    lastRealData: new Date(time),
                     location: {
                         lng: p.lon,
                         lat: p.lat
