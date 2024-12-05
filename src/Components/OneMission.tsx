@@ -4,6 +4,7 @@ import {
 	AccordionSummary,
 	Typography,
 	AccordionDetails,
+	Skeleton,
 } from "@mui/material";
 import { DriverName } from "./MissionPanel/DriverName";
 import { LicencePlate } from "./MissionPanel/LicencePlate";
@@ -128,6 +129,7 @@ export const OneMission = (props: {
 									}
 								</p>
 								{/* <p>Dans {props.mission.arrival.remaining}</p> */}
+								{props.mission.info == "" ? <Skeleton variant="rectangular" width={210} height={40} /> : null}
 								{props.mission.info && props.mission.info[0] != '?' && props.mission.info[0] != 'V' && <p style={{ color: "orange", fontSize: "small" }}>{props.mission.info}</p>}
 								{props.mission.info && props.mission.info[0] == '?' && <p style={{ color: "darkblue", fontSize: "small" }}>{props.mission.info.substring(1)}</p>}
 								{props.mission.info && props.mission.info[0] == 'V' && <p style={{ color: "green", fontSize: "small" }}>{props.mission.info.substring(1)}</p>}
