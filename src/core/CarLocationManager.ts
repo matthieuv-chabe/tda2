@@ -403,6 +403,10 @@ export class CarLocationManagerC {
 
         for(const mission of this.missions) {
 
+            try {
+                mission.debug = "yoX"
+            // continue;
+
             console.log({xd: this.missions})
 
             if (mission.w.MIS_DATE_DEBUT == null || mission.w.MIS_HEURE_DEBUT == null) {
@@ -429,6 +433,10 @@ export class CarLocationManagerC {
             console.log("Chauffeur=" + (mission.w.C_Gen_Chauffeur?.CHU_NOM || "N/A"))
 
             await this._update_geolocation_information(mission);
+            }
+            catch (e) {
+                console.error("CarLocationManager: Error while processing mission", mission.w.MIS_ID);
+            }
         }
     }
 
