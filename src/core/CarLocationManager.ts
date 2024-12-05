@@ -19,6 +19,7 @@ type ClientInfo = {
 export type MissionInfo = {
     w: Root; // Waynium information
     acc: boolean; // Is it an accueil?
+    mad: boolean; // Is it a mise à disposition?
     information: string; // Some additional data that might be useful 
     debug: string; // Debug information
     refresh_after: Date; // When to refresh the data
@@ -82,6 +83,7 @@ export class CarLocationManagerC {
         return data.map((d) => ({
             w: d,
             acc: (d.MIS_TSE_ID == "12" || d.MIS_TSE_ID == "51"),
+            mad: (d.MIS_TSE_ID == "3" || d.MIS_TSE_ID == "22" || d.MIS_TSE_ID == "54"),
         } as MissionInfo));
     }
 
@@ -145,7 +147,7 @@ export class CarLocationManagerC {
 
         if (data.result.length == 0) {
 
-            if(mission.w.MIS_TSE_ID == "12" || mission.w.MIS_TSE_ID == "51") {
+            if(mission.mad) {
                 mission.information = "Mise à disposition - Pas de géolocalisation";
                 mission.refresh_after = addtodate(new Date(), 10);
                 return;
@@ -203,6 +205,20 @@ export class CarLocationManagerC {
                 lat: data.probable_location.location.lat,
                 time: new Date(data.probable_location.candidates[0].date)
             })
+
+            if(mission.mad) {
+                mission.information = "Mise à disposition - Pas de géolocalisation 2";
+                this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
+                this.locations.push({
+                    missionId: mission.w.MIS_ID,
+                    lastRefresh: new Date(),
+                    location: {
+                        lng: data.probable_location.location.lon,
+                        lat: data.probable_location.location.lat
+                    }
+                });
+                return;
+            }
 
             // mission.information = "test"
             mission.debug += "data from elastic<br />"
