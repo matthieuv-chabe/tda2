@@ -145,6 +145,12 @@ export class CarLocationManagerC {
 
         if (data.result.length == 0) {
 
+            if(mission.w.MIS_TSE_ID == "12" || mission.w.MIS_TSE_ID == "51") {
+                mission.information = "Mise à disposition - Pas de géolocalisation";
+                mission.refresh_after = addtodate(new Date(), 10);
+                return;
+            }
+
             // mission.information = "rlen=0";
             // mission.debug = "rlen=0";
 
