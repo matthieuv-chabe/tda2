@@ -188,7 +188,7 @@ export class CarLocationManagerC {
 
             } catch (e) {
                 console.error("CarLocationManager: Error while extrapolating", e);
-                mission.information = "err^=" + e.message;
+                mission.information = "Itinéraire vers arrivée inconnu";
                 mission.debug = "err^=" + e.message;
             }
 
