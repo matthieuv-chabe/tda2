@@ -23,7 +23,7 @@ export const MapEx = (props: {
                 }}
                 
             >
-                <TrafficLayer />
+                {/* <TrafficLayer /> */}
                 {children.map((Child) => (Child))}
             </Map>            
         </APIProvider>

@@ -56,6 +56,12 @@ export class CarLocationManagerC {
         lastRealData?: Date;
         location: { lng: number, lat: number };
     }[] = []
+    public lastReceivedLocation: {
+        missionId: string;
+        lng: number;
+        lat: number;
+        time: Date;
+    }[] = []
 
     public async Initialize(clients: ClientInfo[]) {
         if (clients.length !== 0) {
@@ -181,6 +187,14 @@ export class CarLocationManagerC {
 
         } else /* we have data from elastic */ {
 
+            this.lastReceivedLocation = this.lastReceivedLocation.filter(l => l.missionId !== mission.w.MIS_ID);
+            this.lastReceivedLocation.push({
+                missionId: mission.w.MIS_ID,
+                lng: data.probable_location.location.lon,
+                lat: data.probable_location.location.lat,
+                time: new Date(data.probable_location.candidates[0].date)
+            })
+
             // mission.information = "test"
             mission.debug += "data from elastic<br />"
 
@@ -271,7 +285,7 @@ export class CarLocationManagerC {
                 });
 
             } else {
-                console.log("good")
+                console.log("good") 
                 // We have the correct information
                 mission.information = "?A jour"
                 this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
@@ -292,6 +306,15 @@ export class CarLocationManagerC {
         const location = this.locations.find(l => l.missionId === missionId);
         if (location) {
             return location.location;
+        } else {
+            return null;
+        }
+    }
+
+    public GetLastReceivedLocation(missionId: string) {
+        const location = this.lastReceivedLocation.find(l => l.missionId === missionId);
+        if (location) {
+            return location;
         } else {
             return null;
         }
