@@ -207,7 +207,7 @@ export class CarLocationManagerC {
             })
 
             if(mission.mad) {
-                mission.information = "Mise à disposition - Dernière géolocalisation à " + data.probable_location.candidates[0].date;
+                mission.information = "VMise à disposition - Dernière géolocalisation à " + data.probable_location.candidates[0].date;
                 this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
                 this.locations.push({
                     missionId: mission.w.MIS_ID,
