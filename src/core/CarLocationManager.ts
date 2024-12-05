@@ -287,7 +287,7 @@ export class CarLocationManagerC {
             } else {
                 console.log("good") 
                 // We have the correct information
-                mission.information = "A jour"
+                mission.information = "VA jour"
                 this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
                 this.locations.push({
                     missionId: mission.w.MIS_ID,
