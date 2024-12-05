@@ -117,6 +117,7 @@ export const OneMission = (props: {
 									})}
 								</div> */}
 								<p>
+									{props.mission.w.MIS_ID + " "} 
 									Arrivée prévue à {props.mission.arrival.estimated}
 									{
 										props.mission.acc &&
