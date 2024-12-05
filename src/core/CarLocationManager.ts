@@ -353,13 +353,11 @@ export class CarLocationManagerC {
         })
 
         // Remove missions that are cancelled (status = 4)
-        this.missions = this.missions.filter(m => m.w.MIS_SMI_ID !== "4")
-                                    .filter(m => m.w.MIS_SMI_ID !== "13")
-                                    .filter(m => m.w.MIS_SMI_ID !== "21")
-                                    .filter(m => m.w.MIS_SMI_ID !== "7")
-                                    .filter(m => m.w.MIS_SMI_ID !== "8")
-                                    .filter(m => m.w.MIS_SMI_ID !== "16") // Annulé
-                                    .filter(m => m.w.MIS_SMI_ID !== "21") // Annulé
+        this.missions = this.missions
+                                    .filter(m => m.w.MIS_SMI_ID !== "7")    // annulé
+                                    .filter(m => m.w.MIS_SMI_ID !== "13")   // verification
+                                    // .filter(m => m.w.MIS_SMI_ID !== "16") // envoyé au chauffeur
+                                    .filter(m => m.w.MIS_SMI_ID !== "21") // facturable
 
 
         // // Remove missions that are deleted
