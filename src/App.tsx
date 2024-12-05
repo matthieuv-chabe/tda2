@@ -214,7 +214,7 @@ export function App() {
 			const baseurl =
 				"https://chabe-int-ca-api-habilitations.orangepond-bbd114b2.francecentral.azurecontainerapps.io";
 
-			setLoadingMsg("En attente du Customer Portal...");
+			setLoadingMsg("Chargement de la liste des clients...");
 
 			let accessToken = "";
 			try {

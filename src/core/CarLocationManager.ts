@@ -266,7 +266,7 @@ export class CarLocationManagerC {
                 }
 
                 mission.cache_polylines = lines.polylines;
-                mission.information = "?Extrapolé (" + mstohuman(new Date().getTime() - last_known_time.getTime()) + ")";
+                mission.information = "?Extrapolé ( dernière position il y a " + mstohuman(new Date().getTime() - last_known_time.getTime()) + " )";
                 mission.debug = "geoloc time=" + last_known_time.toLocaleTimeString() + "<br />";
 
                 const loc_within_poly = lines.loc_within_poly;
@@ -287,7 +287,7 @@ export class CarLocationManagerC {
             } else {
                 console.log("good") 
                 // We have the correct information
-                mission.information = "VA jour"
+                mission.information = "VPosition à jour"
                 this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
                 this.locations.push({
                     missionId: mission.w.MIS_ID,
