@@ -156,7 +156,7 @@ export const OneMission = (props: {
 											fontWeight: "50",
 										}}
 
-										title={props.mission.passenger}
+										title={props.mission.passenger.split(" ")[1] + " " + props.mission.passenger.split(" ")[0]}
 									>
 										{" "}
 										{props.mission.passenger &&
@@ -164,8 +164,8 @@ export const OneMission = (props: {
 												props.mission.passenger
 													.split(" ")
 													.slice(1)
-													.join(" "),
-												// .toUpperCase(),
+													.join(" ")
+												.toUpperCase(),
 												20
 											)
 										}{" "}
@@ -250,7 +250,13 @@ export const OneMission = (props: {
 								textAlign: "center",
 							}}
 						>
-							<Typography>{props.mission.locations.to}</Typography>
+							<Typography>
+							{
+								props.mission.locations.to.indexOf("%") != -1 
+								? "Lieu non renseigné"
+								: props.mission.locations.to
+							}
+							</Typography>
 							<Typography variant="subtitle2">{props.mission.w.MIS_HEURE_FIN.substring(0, 5)}</Typography>
 						</div>
 					</div>

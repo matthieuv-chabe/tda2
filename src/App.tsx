@@ -632,9 +632,9 @@ export function App() {
 											<TableHead>
 												<TableRow>
 													<TableCell>
-														<b>CLIENT</b>
+														<b>PASSAGER</b>
 													</TableCell>
-													<TableCell align="right">
+													<TableCell align="left">
 														<b>TIME</b>
 													</TableCell>
 													<TableCell align="right">
@@ -708,13 +708,13 @@ export function App() {
 																{row.chauffeur_name}
 															</TableCell>
 															<TableCell align="right">
-																{
-																	row.arrival
-																		.remaining
-																}
+																{row.w.MIS_SMI_ID == "7" ? "Passager à bord" : "/"}
 															</TableCell>
 															<TableCell align="right">
-																{row.license_plate}
+																<div style={{display: 'flex', flexDirection: 'column'}}>
+																	<div>{row.car_brand}</div>
+																	<div style={{color:"gray"}}>{row.license_plate}</div>
+																</div>
 															</TableCell>
 														</TableRow>
 													))}
