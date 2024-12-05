@@ -117,7 +117,10 @@ export class CarLocationManagerC {
         
         mission.debug = "yo"
 
-        if (mission.information == "") mission.information = "NODATA";
+        if (mission.information == "") {
+            mission.refresh_after = addtodate(new Date(), 5);
+            mission.information = "!Aucune donnée de géolocalisation";
+        }
 
         if (JSON.stringify(mission.w.C_Gen_EtapePresence).indexOf("%DIC_LIEU_A_DEFINIR%") !== -1) {
             // mission.refresh_after = addtodate(new Date(), 10);
