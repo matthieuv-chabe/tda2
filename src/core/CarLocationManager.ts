@@ -177,7 +177,7 @@ export class CarLocationManagerC {
                 )
 
                 mission.information = extp.polylines.length > 1
-                    ? ""//"extrapolated-multiplepoints"
+                    ? "Extrapolation complète"//"extrapolated-multiplepoints"
                     : "?"
 
                 const error_zero = JSON.stringify(extp).includes("ZERO_RESULTS");
@@ -187,6 +187,21 @@ export class CarLocationManagerC {
                     return;
                 }
 
+                // mission.information = "hein?"
+
+                mission.cache_polylines = extp.polylines;
+                mission.debug = "extrapolated<br />";
+                mission.refresh_after = addtodate(new Date(), 10); // Refresh in 10 minutes
+
+                this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
+                this.locations.push({
+                    missionId: mission.w.MIS_ID,
+                    lastRefresh: new Date(),
+                    location: {
+                        lng: extp.loc_within_poly.pos.lng,
+                        lat: extp.loc_within_poly.pos.lat
+                    }
+                });
 
             } catch (e) {
                 console.error("CarLocationManager: Error while extrapolating", e);
