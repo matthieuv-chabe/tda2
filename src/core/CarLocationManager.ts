@@ -120,7 +120,7 @@ export class CarLocationManagerC {
         mission.debug = "yo"
 
         if (mission.information == "") {
-            mission.refresh_after = addtodate(new Date(), 5);
+            // mission.refresh_after = addtodate(new Date(), 5);
             mission.information = "!Aucune donnée de géolocalisation";
         }
 
@@ -149,7 +149,7 @@ export class CarLocationManagerC {
 
             if(mission.mad) {
                 mission.information = "Mise à disposition - Pas de géolocalisation";
-                mission.refresh_after = addtodate(new Date(), 10);
+                // mission.refresh_after = addtodate(new Date(), 10);
                 return;
             }
 
@@ -183,7 +183,7 @@ export class CarLocationManagerC {
                 const error_zero = JSON.stringify(extp).includes("ZERO_RESULTS");
                 if (error_zero) {
                     mission.information = "Chemin impossible";
-                    mission.refresh_after = addtodate(new Date(), 10);
+                    // mission.refresh_after = addtodate(new Date(), 10);
                     return;
                 }
 
@@ -191,7 +191,7 @@ export class CarLocationManagerC {
 
                 mission.cache_polylines = extp.polylines;
                 mission.debug = "extrapolated<br />";
-                mission.refresh_after = addtodate(new Date(), 10); // Refresh in 10 minutes
+                // mission.refresh_after = addtodate(new Date(), 10); // Refresh in 10 minutes
 
                 this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
                 this.locations.push({
@@ -301,7 +301,7 @@ export class CarLocationManagerC {
                 if (error_zero) {
 
                     mission.information = "!Chemin impossible";
-                    mission.refresh_after = addtodate(new Date(), 10);
+                    // mission.refresh_after = addtodate(new Date(), 10);
                     return;
                 }
 
