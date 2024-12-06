@@ -275,7 +275,7 @@ export class CarLocationManagerC {
 
             if (!young_enough_no_need_extrapolate) {
 
-                mission.information = "NEEDSEXTRAPOLATION";
+                mission.information = "Calcul de la position extrapolée...";
 
                 const last_known_location = data.probable_location.location;
                 const last_known_time = new Date(data.probable_location.candidates[0].date);
