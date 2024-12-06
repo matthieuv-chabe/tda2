@@ -145,7 +145,7 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 			locations: {
 				cur: m.GetLocation(w.MIS_ID),
 				from: w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LIBELLE,
-				to: w.C_Gen_EtapePresence[1].C_Geo_Lieu.LIE_LIBELLE,
+				to: w.C_Gen_EtapePresence[w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LIBELLE,
 			},
 			chauffeur_name: cgenchu.CHU_PRENOM + " " + cgenchu.CHU_NOM.toUpperCase(),
 			chauffeur_phone: cgenchu.CHU_TEL_MOBILE_1,
