@@ -1,5 +1,5 @@
-import { useMap, Marker } from "@vis.gl/react-google-maps";
-import { useEffect, useRef } from "react";
+import { useMap, Marker, useMapsLibrary } from "@vis.gl/react-google-maps";
+import { useEffect, useRef, useState } from "react";
 import { LastKnownPositionInfo } from "../../App";
 import { CarLocationManager } from "../../core/CarLocationManager";
 
@@ -26,7 +26,14 @@ export const CarLocEx = (props: {
 }) => {
 
     const map = useMap();
+    const routesLibrary = useMapsLibrary('routes')!;
     const iconRef = useRef<google.maps.Marker>(null);
+    const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer>();
+
+	useEffect(() => {
+		if(!routesLibrary || !map) return;
+        setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
+	}, [routesLibrary, map])
 
     useEffect(() => {
         if (props.showPath) {
@@ -100,14 +107,6 @@ export const CarLocEx = (props: {
             ref={iconRef}
             position={{ lat: lrl.lat, lng: lrl.lng }}
             title={"Dernière position connue du véhicule"}
-            clickable={true}
-            // icon={{
-            //     fillColor: 'green',
-            //     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-            //     strokeColor: 'green',
-            //     strokeWeight: 5,
-            //     scale: 4,
-            // }}
             onClick={() => {
                 props.onCarClicked?.();
             }}
