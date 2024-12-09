@@ -69,30 +69,37 @@ export const CarLocEx = (props: {
     }, [])
 
     const lrl = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
+	const cur = CarLocationManager.GetLocation(props.missionData.w.MIS_ID);
+
+	const lrl_diff_from_cur = lrl ? Math.abs(lrl.lat - cur.lat) + Math.abs(lrl.lng - cur.lng) : 0;
 
     return [
         <Marker
             ref={iconRef}
             position={CarLocationManager.GetLocation(props.missionData.w.MIS_ID)}
-            title={"test"}
+            title={"Mission " + props.missionData.w.MIS_ID}
             clickable={true}
-            icon={{
-                fillColor: 'red',
-                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                strokeColor: 'blue',
-                strokeWeight: 5,
-                scale: 4,
-            }}
+			icon={{
+				url: '/public/car-top-view.svg',
+				scaledSize: new google.maps.Size(30, 30),
+			}}
+            // icon={{
+            //     fillColor: 'red',
+            //     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+            //     strokeColor: 'blue',
+            //     strokeWeight: 5,
+            //     scale: 4,
+            // }}
             onClick={() => {
                 props.onCarClicked?.();
             }}
 
         />,
 
-        ((lrl && props.showPath) ? <Marker
+        ((lrl && props.showPath && lrl_diff_from_cur) ? <Marker
             ref={iconRef}
             position={{ lat: lrl.lat, lng: lrl.lng }}
-            title={"test"}
+            title={"Dernière position connue du véhicule"}
             clickable={true}
             // icon={{
             //     fillColor: 'green',
