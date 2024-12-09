@@ -59,8 +59,12 @@ export const OneMission = (props: {
 	const diff_in_minutes = Math.floor((date_ae.getTime() - date_now.getTime()) / 60000);
 
 	if(Math.abs(diff_in_minutes) > 45) {
-		return null
+		return null;
 	};
+
+	if(props.mission.debug == 'do_not_compute') {
+		return null;
+	}
 
 	return (
 		<>

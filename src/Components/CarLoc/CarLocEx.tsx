@@ -85,13 +85,13 @@ export const CarLocEx = (props: {
             position={{ lat: lrl.lat, lng: lrl.lng }}
             title={"test"}
             clickable={true}
-            icon={{
-                fillColor: 'green',
-                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                strokeColor: 'green',
-                strokeWeight: 5,
-                scale: 4,
-            }}
+            // icon={{
+            //     fillColor: 'green',
+            //     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+            //     strokeColor: 'green',
+            //     strokeWeight: 5,
+            //     scale: 4,
+            // }}
             onClick={() => {
                 props.onCarClicked?.();
             }}

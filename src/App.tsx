@@ -623,7 +623,7 @@ export function App() {
 										// overflowY: "auto",
 									}}
 								>
-									<TableContainer component={Paper} style={{ height: '100%' }}>
+									<TableContainer component={Paper} style={{ overflowY:'visible' }}>
 										<Table
 											sx={{ minWidth: 650 }}
 											aria-label="simple table"
@@ -657,7 +657,7 @@ export function App() {
 
 											<TableBody
 												style={{
-													height: "90%",
+													height: "60vh",
 													overflow: 'auto'
 												}}
 											>
