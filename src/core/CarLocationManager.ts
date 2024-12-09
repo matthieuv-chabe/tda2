@@ -101,7 +101,9 @@ export class CarLocationManagerC {
                 ...m,
                 information: old.information,
                 refresh_after: old.refresh_after,
-                cache_polylines: old.cache_polylines
+                cache_polylines: old.cache_polylines,
+				debug: old.debug,
+				do_not_compute: old.do_not_compute,
             }
         })
 
