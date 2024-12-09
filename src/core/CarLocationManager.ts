@@ -103,7 +103,7 @@ export class CarLocationManagerC {
                 refresh_after: old.refresh_after,
                 cache_polylines: old.cache_polylines,
 				debug: old.debug,
-				do_not_compute: old.do_not_compute,
+				do_not_compute: old.do_not_compute || false,
             }
         })
 
