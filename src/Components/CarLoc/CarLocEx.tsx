@@ -44,6 +44,15 @@ export const CarLocEx = (props: {
         }
     }, [props.showPath])
 
+	useEffect(() => {
+
+		if(props.showPath) {
+			const loc = CarLocationManager.GetLocation(props.missionData.w.MIS_ID)
+			map?.setCenter(loc);
+		}
+
+	}, [props.showPath, props.missionData, props.missionLastKnownPosition])
+
     useEffect(() => {
         if (!iconRef.current) return;
 
