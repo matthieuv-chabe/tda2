@@ -52,6 +52,16 @@ export const OneMission = (props: {
 	// 	return JSON.stringify(e)
 	// }
 
+	const arrival_estimated = props.mission.w.MIS_DATE_DEBUT + 'T' + props.mission.w.MIS_HEURE_FIN;
+	const date_ae = new Date(arrival_estimated);
+	const date_now = new Date();
+
+	const diff_in_minutes = Math.floor((date_ae.getTime() - date_now.getTime()) / 60000);
+
+	if(Math.abs(diff_in_minutes) > 45) {
+		return null
+	};
+
 	return (
 		<>
 			<Accordion
@@ -260,7 +270,9 @@ export const OneMission = (props: {
 								: props.mission.locations.to
 							}
 							</Typography>
-							<Typography variant="subtitle2">{props.mission.w.MIS_HEURE_FIN.substring(0, 5)}</Typography>
+							<Typography variant="subtitle2">
+								{(props.mission.w.MIS_HEURE_FIN || "").substring(0, 5)}
+							</Typography>
 						</div>
 					</div>
 

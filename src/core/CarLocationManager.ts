@@ -24,6 +24,7 @@ export type MissionInfo = {
     debug: string; // Debug information
     refresh_after: Date; // When to refresh the data
     cache_polylines?: any; // Cache the polylines
+	do_not_compute: boolean; // Do not compute the location
 }
 
 export class CarLocationManagerC {
@@ -111,6 +112,11 @@ export class CarLocationManagerC {
     private async _update_geolocation_information(mission: MissionInfo) {
 
         // mission.information = "."
+
+		if(mission.do_not_compute) {
+			mission.debug = "do_not_compute";
+			return;
+		}
 
         console.log("CLM - Update geoloc for mission", mission.w.MIS_ID);
 
@@ -373,9 +379,14 @@ export class CarLocationManagerC {
             });
 
         // Filter incomplete
-        this.missions = this.missions
-            .filter(m => m.w.MIS_DATE_DEBUT != null && m.w.MIS_HEURE_DEBUT != null);
+        // this.missions = this.missions
+        //     .filter(m => m.w.MIS_DATE_DEBUT != null && m.w.MIS_HEURE_DEBUT != null);
 
+		this.missions.forEach(m => {
+			if(m.w.MIS_DATE_DEBUT == null || m.w.MIS_HEURE_DEBUT == null) {
+				m.do_not_compute = true;
+			}
+		});
         
 
         this.missions.forEach(m => {
@@ -383,16 +394,10 @@ export class CarLocationManagerC {
             const now = new Date();
             if (Math.floor((now.getTime() - enddate.getTime()) / 1000 / 60) > 60) {
                 m.debug = "ended";
+				m.do_not_compute = true;
             }
         })
 
-        this.missions = this.missions.filter(m => {
-            const enddate = new Date(m.w.MIS_DATE_DEBUT + "T" + m.w.MIS_HEURE_FIN);
-            const now = new Date();
-            return Math.floor((now.getTime() - enddate.getTime()) / 1000 / 60) < 60;
-        })
-
-        // Remove missions that are cancelled (status = 4)
         this.missions = this.missions
                                     .filter(m => m.w.MIS_SMI_ID !== "7")    // annulé
                                     .filter(m => m.w.MIS_SMI_ID !== "13")   // verification
@@ -404,7 +409,12 @@ export class CarLocationManagerC {
         this.missions = this.missions.filter(m => m.w.MIS_ETAT == "1");
 
         // // Remove missions that are completed
-        this.missions = this.missions.filter(m => m.w.MIS_HEURE_REEL_FIN == null);
+        // this.missions = this.missions.filter(m => m.w.MIS_HEURE_REEL_FIN == null);
+		this.missions.forEach(m => {
+			if(m.w.MIS_HEURE_REEL_FIN != null) {
+				m.do_not_compute = true;
+			}
+		});
 
         // For each remaining mission, sort the steps by order
         this.missions.forEach(m => {
