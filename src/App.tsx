@@ -563,8 +563,7 @@ export function App() {
 												textAlign: "center",
 											}}
 										>
-											Aucune mission prévue pour les
-											45 prochaines minutes !
+											Chargement des missions...
 											<InfoMissionsDialog />
 
 											<div
