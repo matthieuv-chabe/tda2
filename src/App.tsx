@@ -382,7 +382,11 @@ export function App() {
 										{token?.current?.account?.idTokenClaims?.family_name?.[0] || ""}
 									</div>
 								</div>
-								<Menu open={disconnectOpen} anchorEl={disconnectBtnRef.current}>
+								<Menu
+									open={disconnectOpen}
+									anchorEl={disconnectBtnRef.current}
+									onClose={() => setDisconnectOpen(false)}
+								>
 									<MenuItem onClick={() => {
 										instance.logout()
 										document.location.href = "/"
