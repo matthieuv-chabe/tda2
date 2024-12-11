@@ -280,8 +280,6 @@ export const OneMission = (props: {
 						</div>
 					</div>
 
-					{
-						(props.mission.driver || props.mission.licencePlate) &&
 						<div
 							style={{
 								display: "flex",
@@ -306,7 +304,6 @@ export const OneMission = (props: {
 							</div>
 							<DriverName name={props.mission.chauffeur_name} phone={props.mission.chauffeur_phone} />
 						</div>
-					}
 
 				</AccordionDetails>
 			</Accordion>
