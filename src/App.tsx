@@ -463,7 +463,11 @@ export function App() {
 												marginBottom: 10,
 											}}
 										>
-											<Input
+											
+											{
+												increasedMiddleSize && (
+													<>
+													<Input
 												style={{ flex: 1 }}
 												placeholder="Rechercher"
 												value={search}
@@ -471,9 +475,6 @@ export function App() {
 													setSearch(e.target.value)
 												}
 											/>
-											{
-												increasedMiddleSize && (
-													<>
 														<FormControlLabel
 															control={
 																<Switch
