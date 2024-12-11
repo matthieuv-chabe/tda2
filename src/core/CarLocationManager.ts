@@ -161,7 +161,7 @@ export class CarLocationManagerC {
         if (data.result.length == 0) {
 
             if(mission.mad) {
-                mission.information = "Mise à disposition - Pas de géolocalisation";
+                mission.information = "Transport - Pas de géolocalisation";
                 // mission.refresh_after = addtodate(new Date(), 10);
                 return;
             }
@@ -235,7 +235,7 @@ export class CarLocationManagerC {
             })
 
             if(mission.mad) {
-                mission.information = "VMise à disposition - Dernière géolocalisation à " + new Date(data.probable_location.candidates[0].date).toLocaleTimeString();
+                mission.information = "VTransport - Dernière géolocalisation à " + new Date(data.probable_location.candidates[0].date).toLocaleTimeString();
                 this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
                 this.locations.push({
                     missionId: mission.w.MIS_ID,
