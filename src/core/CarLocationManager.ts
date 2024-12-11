@@ -120,6 +120,11 @@ export class CarLocationManagerC {
 			return;
 		}
 
+		if(mission.acc) {
+			mission.information = "Accueil";
+			return;
+		}
+
         console.log("CLM - Update geoloc for mission", mission.w.MIS_ID);
 
         const mission_id = mission.w.MIS_ID;

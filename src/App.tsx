@@ -369,7 +369,7 @@ export function App() {
 									className="account-menu"
 									data-testid="account-menu"
 									onClick={() => setDisconnectOpen(true)}
-									style={{cursor:'pointer'}}
+									style={{ cursor: 'pointer' }}
 								>
 									<div
 										ref={disconnectBtnRef}
@@ -402,11 +402,11 @@ export function App() {
 							display: "flex",
 							// height: "100%",
 							// width: "100%",
-							position:"absolute",
+							position: "absolute",
 							left: 56,
-							right:0,
-							top:80,
-							bottom:0
+							right: 0,
+							top: 80,
+							bottom: 0
 						}}
 					>
 						<div
@@ -471,17 +471,21 @@ export function App() {
 													setSearch(e.target.value)
 												}
 											/>
-											<FormControlLabel
-												control={
-													<Switch
-														checked={showAcc}
-														onChange={(_, v) =>
-															setShowAcc(v)
+											{
+												increasedMiddleSize && (
+													<FormControlLabel
+														control={
+															<Switch
+																checked={showAcc}
+																onChange={(_, v) =>
+																	setShowAcc(v)
+																}
+															/>
 														}
+														label="Afficher les accueils"
 													/>
-												}
-												label="Afficher les accueils"
-											/>
+												)
+											}
 										</div>
 									</FormGroup>
 								</h1>
@@ -642,7 +646,7 @@ export function App() {
 										// overflowY: "auto",
 									}}
 								>
-									<TableContainer component={Paper} style={{ overflowY:'visible' }}>
+									<TableContainer component={Paper} style={{ overflowY: 'visible' }}>
 										<Table
 											sx={{ minWidth: 650 }}
 											aria-label="simple table"
@@ -731,9 +735,9 @@ export function App() {
 																{parseStatusFromRequest(row.w)}
 															</TableCell>
 															<TableCell align="right">
-																<div style={{display: 'flex', flexDirection: 'column'}}>
+																<div style={{ display: 'flex', flexDirection: 'column' }}>
 																	<div>{row.car_brand}</div>
-																	<div style={{color:"gray"}}>{row.license_plate}</div>
+																	<div style={{ color: "gray" }}>{row.license_plate}</div>
 																</div>
 															</TableCell>
 														</TableRow>
