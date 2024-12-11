@@ -463,18 +463,18 @@ export function App() {
 												marginBottom: 10,
 											}}
 										>
-											
+
 											{
 												increasedMiddleSize && (
 													<>
-													<Input
-												style={{ flex: 1 }}
-												placeholder="Rechercher"
-												value={search}
-												onChange={(e) =>
-													setSearch(e.target.value)
-												}
-											/>
+														<Input
+															style={{ flex: 1 }}
+															placeholder="Rechercher"
+															value={search}
+															onChange={(e) =>
+																setSearch(e.target.value)
+															}
+														/>
 														<FormControlLabel
 															control={
 																<Switch
@@ -692,7 +692,7 @@ export function App() {
 													<TableCell align="right">
 														<b>STATUS</b>
 													</TableCell>
-													
+
 												</TableRow>
 											</TableHead>
 
@@ -712,7 +712,7 @@ export function App() {
 														return a_date.getTime() - b_date.getTime()
 													})
 													.filter(m => {
-														if(!showAcc && m.acc) return false;
+														if (!showAcc && m.acc) return false;
 														return true;
 													})
 													.map((row, idx) => (
@@ -736,12 +736,17 @@ export function App() {
 																{row.passenger}
 															</TableCell>
 															<TableCell align="left">
-																{
-																	(row.w.MIS_HEURE_DEBUT||"")?.substring(0, 5)
-																} - <br />
-																{
-																	(row.w.MIS_HEURE_FIN || "")?.substring(0, 5)
-																}
+																<span style={{ color: "green" }}>
+																	{
+																		(row.w.MIS_HEURE_DEBUT || "")?.substring(0, 5)
+																	}
+																</span>
+																-
+																<span style={{color:'red'}}>
+																	{
+																		(row.w.MIS_HEURE_FIN || "")?.substring(0, 5)
+																	}
+																</span>
 															</TableCell>
 															<TableCell align="right">
 																{row.locations.from}
@@ -767,7 +772,7 @@ export function App() {
 																{/* {row.w.MIS_SMI_ID == "7" ? "Passager à bord" : "/"} */}
 																{parseStatusFromRequest(row.w)}
 															</TableCell>
-															
+
 														</TableRow>
 													))}
 											</TableBody>
