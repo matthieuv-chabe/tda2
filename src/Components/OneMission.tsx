@@ -62,7 +62,7 @@ export const OneMission = (props: {
 	// 	return null;
 	// };
 
-	if(props.mission.debug == 'do_not_compute') {
+	if (props.mission.debug == 'do_not_compute') {
 		return null;
 	}
 
@@ -132,7 +132,7 @@ export const OneMission = (props: {
 									})}
 								</div> */}
 								<p>
-									{props.mission.w.MIS_ID + " "} 
+									{props.mission.w.MIS_ID + " "}
 									Arrivée prévue à {props.mission.arrival.estimated}
 									{
 										props.mission.acc &&
@@ -182,7 +182,7 @@ export const OneMission = (props: {
 													.split(" ")
 													.slice(1)
 													.join(" ")
-												.toUpperCase(),
+													.toUpperCase(),
 												20
 											)
 										}{" "}
@@ -268,11 +268,11 @@ export const OneMission = (props: {
 							}}
 						>
 							<Typography>
-							{
-								props.mission.locations.to.indexOf("%") != -1 
-								? "Lieu non renseigné"
-								: props.mission.locations.to
-							}
+								{
+									props.mission.locations.to.indexOf("%") != -1
+										? "Lieu non renseigné"
+										: props.mission.locations.to
+								}
 							</Typography>
 							<Typography variant="subtitle2">
 								{(props.mission.w.MIS_HEURE_FIN || "").substring(0, 5)}
@@ -280,34 +280,34 @@ export const OneMission = (props: {
 						</div>
 					</div>
 
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "row",
+							alignItems: "center",
+							justifyContent: "space-evenly",
+							marginTop: 10,
+
+							backgroundColor: "#f5f5f5",
+							padding: 10,
+							borderRadius: 10,
+							boxShadow: "0 0 5px 0 rgba(10,10,10,0.2)",
+						}}
+					>
 						<div
 							style={{
-								display: "flex",
-								flexDirection: "row",
-								alignItems: "center",
-								justifyContent: "space-evenly",
-								marginTop: 10,
-
-								backgroundColor: "#f5f5f5",
-								padding: 10,
-								borderRadius: 10,
-								boxShadow: "0 0 5px 0 rgba(10,10,10,0.2)",
+								flex: 1,
+								textAlign: "center",
 							}}
 						>
-							<div
-								style={{
-									flex:1,
-									textAlign: "center",
-								}}
-							>
-								{props.mission.car_brand}<br />
-								<LicencePlate platenum={props.mission.license_plate} />
-							</div>
-							<div style={{flex:1, textAlign:'center'}}>
+							{props.mission.car_brand}<br />
+							<LicencePlate platenum={props.mission.license_plate} />
+						</div>
+						<div style={{ flex: 1, textAlign: 'center' }}>
 							<DriverName name={props.mission.chauffeur_name} phone={props.mission.chauffeur_phone} />
-						
-							</div>
-							</div>
+
+						</div>
+					</div>
 
 				</AccordionDetails>
 			</Accordion>

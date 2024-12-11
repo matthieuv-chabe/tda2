@@ -711,6 +711,10 @@ export function App() {
 
 														return a_date.getTime() - b_date.getTime()
 													})
+													.filter(m => {
+														if(!showAcc && m.acc) return false;
+														return true;
+													})
 													.map((row, idx) => (
 														<TableRow
 															key={idx}
@@ -746,6 +750,11 @@ export function App() {
 																{row.locations.to}
 															</TableCell>
 															<TableCell align="right">
+
+																{
+																	row.acc ? "Accueil" : null
+																}
+
 																<div style={{ display: 'flex', flexDirection: 'column' }}>
 																	<div>{row.car_brand}</div>
 																	<div style={{ color: "gray" }}>{row.license_plate}</div>
