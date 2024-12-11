@@ -303,7 +303,7 @@ export const OneMission = (props: {
 								{props.mission.car_brand}<br />
 								<LicencePlate platenum={props.mission.license_plate} />
 							</div>
-							<div style={{flex:1}}>
+							<div style={{flex:1, textAlign:'center'}}>
 							<DriverName name={props.mission.chauffeur_name} phone={props.mission.chauffeur_phone} />
 						
 							</div>
