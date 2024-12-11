@@ -494,7 +494,7 @@ export function App() {
 																	}
 																/>
 															}
-															label="Afficher les missions supprimées"
+															label="Afficher les missions terminées"
 														/>
 													</>
 												)
