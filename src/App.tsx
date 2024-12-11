@@ -745,6 +745,7 @@ export function App() {
 											</TableBody>
 										</Table>
 									</TableContainer>
+									<div style={{ height: 50 }}></div>
 								</div>
 							)}
 						</div>
