@@ -737,10 +737,10 @@ export function App() {
 															</TableCell>
 															<TableCell align="left">
 																{
-																	row.w.MIS_HEURE_DEBUT
+																	(row.w.MIS_HEURE_DEBUT||"")?.substring(0, 5)
 																} - <br />
 																{
-																	row.w.MIS_HEURE_FIN
+																	(row.w.MIS_HEURE_FIN || "")?.substring(0, 5)
 																}
 															</TableCell>
 															<TableCell align="right">
