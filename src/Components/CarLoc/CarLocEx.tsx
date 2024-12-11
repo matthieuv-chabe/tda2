@@ -78,7 +78,12 @@ export const CarLocEx = (props: {
     const lrl = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
 	const cur = CarLocationManager.GetLocation(props.missionData.w.MIS_ID);
 
-	const lrl_diff_from_cur = lrl ? Math.abs(lrl.lat - cur.lat) + Math.abs(lrl.lng - cur.lng) : 0;
+	let lrl_diff_from_cur = 0;
+	try {
+		lrl_diff_from_cur = lrl ? Math.abs(lrl.lat - cur.lat) + Math.abs(lrl.lng - cur.lng) : 0;
+	} catch (e) {
+		console.log("Error while calculating lrl_diff_from_cur", e);
+	}
 
     return [
         <Marker
