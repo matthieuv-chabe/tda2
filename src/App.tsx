@@ -684,14 +684,15 @@ export function App() {
 														<b>DROPOFF</b>
 													</TableCell>
 													<TableCell align="right">
-														<b>DRIVER</b>
+														<b>VEHICULE</b>
+													</TableCell>
+													<TableCell align="right">
+														<b>CHAUFFEUR</b>
 													</TableCell>
 													<TableCell align="right">
 														<b>STATUS</b>
 													</TableCell>
-													<TableCell align="right">
-														<b>VEHICULE</b>
-													</TableCell>
+													
 												</TableRow>
 											</TableHead>
 
@@ -745,18 +746,19 @@ export function App() {
 																{row.locations.to}
 															</TableCell>
 															<TableCell align="right">
+																<div style={{ display: 'flex', flexDirection: 'column' }}>
+																	<div>{row.car_brand}</div>
+																	<div style={{ color: "gray" }}>{row.license_plate}</div>
+																</div>
+															</TableCell>
+															<TableCell align="right">
 																{row.chauffeur_name}
 															</TableCell>
 															<TableCell align="right">
 																{/* {row.w.MIS_SMI_ID == "7" ? "Passager à bord" : "/"} */}
 																{parseStatusFromRequest(row.w)}
 															</TableCell>
-															<TableCell align="right">
-																<div style={{ display: 'flex', flexDirection: 'column' }}>
-																	<div>{row.car_brand}</div>
-																	<div style={{ color: "gray" }}>{row.license_plate}</div>
-																</div>
-															</TableCell>
+															
 														</TableRow>
 													))}
 											</TableBody>
