@@ -473,17 +473,30 @@ export function App() {
 											/>
 											{
 												increasedMiddleSize && (
-													<FormControlLabel
-														control={
-															<Switch
-																checked={showAcc}
-																onChange={(_, v) =>
-																	setShowAcc(v)
-																}
-															/>
-														}
-														label="Afficher les accueils"
-													/>
+													<>
+														<FormControlLabel
+															control={
+																<Switch
+																	checked={showAcc}
+																	onChange={(_, v) =>
+																		setShowAcc(v)
+																	}
+																/>
+															}
+															label="Afficher les accueils"
+														/>
+														<FormControlLabel
+															control={
+																<Switch
+																	checked={showAcc}
+																	onChange={(_, v) =>
+																		setShowAcc(v)
+																	}
+																/>
+															}
+															label="Afficher les missions supprimées"
+														/>
+													</>
 												)
 											}
 										</div>
