@@ -6,6 +6,8 @@ import {
 	FormControlLabel,
 	FormGroup,
 	Input,
+	Menu,
+	MenuItem,
 	Paper,
 	Switch,
 	Table,
@@ -163,6 +165,9 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 
 export function App() {
 	const [search, setSearch] = useState<string>("");
+
+	const [disconnectOpen, setDisconnectOpen] = useState(false);
+	const disconnectBtnRef = useRef<HTMLDivElement>(null);
 
 	// const [tab, setTab] = useUrlState<string>('tab', 'tab_missions_to_hotel', validate_url_tab)
 	const [increasedMiddleSize, setIncreasedMiddleSize] = useUrlState<boolean>(
@@ -363,8 +368,11 @@ export function App() {
 								<div
 									className="account-menu"
 									data-testid="account-menu"
+									onClick={() => setDisconnectOpen(true)}
+									style={{cursor:'pointer'}}
 								>
 									<div
+										ref={disconnectBtnRef}
 										className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault account-avatar css-7yrfzp"
 										id="btn-account-menu"
 										data-testid="btn-account-menu"
@@ -374,6 +382,12 @@ export function App() {
 										{token?.current?.account?.idTokenClaims?.family_name?.[0] || ""}
 									</div>
 								</div>
+								<Menu open={disconnectOpen} anchorEl={disconnectBtnRef.current}>
+									<MenuItem onClick={() => {
+										instance.logout()
+										document.location.href = "/"
+									}}>Déconnexion</MenuItem>
+								</Menu>
 							</li>
 						</div>
 					</div>
