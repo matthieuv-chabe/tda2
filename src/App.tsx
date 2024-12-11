@@ -31,6 +31,7 @@ import { Wrapper } from "@googlemaps/react-wrapper";
 import { CarLocEx } from "./Components/CarLoc/CarLocEx";
 import { MapEx } from "./Components/MapEx";
 import { InfoMissionsDialog } from "./Components/InfoMissionsDialog";
+import { parseStatusFromRequest } from "./core/bluesoft";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -708,7 +709,8 @@ export function App() {
 																{row.chauffeur_name}
 															</TableCell>
 															<TableCell align="right">
-																{row.w.MIS_SMI_ID == "7" ? "Passager à bord" : "/"}
+																{/* {row.w.MIS_SMI_ID == "7" ? "Passager à bord" : "/"} */}
+																{parseStatusFromRequest(row.w)}
 															</TableCell>
 															<TableCell align="right">
 																<div style={{display: 'flex', flexDirection: 'column'}}>
