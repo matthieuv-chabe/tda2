@@ -684,7 +684,7 @@ export function App() {
 
 											<TableBody
 												style={{
-													height: "60vh",
+													maxHeight: "60vh",
 													overflow: 'auto'
 												}}
 											>
