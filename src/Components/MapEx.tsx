@@ -1,6 +1,7 @@
 
 import { APIProvider, Map, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
 import { useRef } from 'react';
+import { TrafficLayer } from './TrafficLayer';
 
 export const MapEx = (props: {
     children: JSX.Element | JSX.Element[],
@@ -29,7 +30,7 @@ export const MapEx = (props: {
 				}}
                 
             >
-                {/* <TrafficLayer /> */}
+                <TrafficLayer />
                 {children.map((Child) => (Child))}
             </Map>            
         </APIProvider>
