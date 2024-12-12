@@ -1,4 +1,4 @@
-import { useMap, Marker, useMapsLibrary } from "@vis.gl/react-google-maps";
+import { useMap, Marker, useMapsLibrary, AdvancedMarker, Pin } from "@vis.gl/react-google-maps";
 import { useEffect, useRef, useState } from "react";
 import { LastKnownPositionInfo } from "../../App";
 import { CarLocationManager } from "../../core/CarLocationManager";
@@ -45,7 +45,7 @@ export const CarLocEx = (props: {
 
             map?.setHeadingInteractionEnabled(true);
             // map?.setTilt(45);
-            map?.setZoom(9);
+            // map?.setZoom(1);
             map?.setCenter(loc);
 
             // map?.setHeading(90);
@@ -156,23 +156,15 @@ export const CarLocEx = (props: {
 
         />,
 
-        ((lrl && props.showPath && lrl_diff_from_cur) ? <Marker
+        ((lrl && props.showPath && lrl_diff_from_cur) ? <AdvancedMarker
             // ref={iconRef}
             position={{ lat: lrl.lat, lng: lrl.lng }}
             title={"Dernière position connue du véhicule"}
             onClick={() => {
                 props.onCarClicked?.();
             }}
-			icon={{
-				fillColor: 'green',
-				path: google.maps.SymbolPath.CIRCLE,
-				strokeColor: 'green',
-				scale: 10,	
-				strokeWeight: 10,
 
-			}}
-
-        /> : null)
+        ><Pin glyphColor={'green'} scale={.5} /></AdvancedMarker> : null)
 
     ];
 
