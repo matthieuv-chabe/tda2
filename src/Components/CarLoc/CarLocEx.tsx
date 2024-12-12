@@ -28,10 +28,12 @@ export const CarLocEx = (props: {
     const map = useMap();
     const routesLibrary = useMapsLibrary('routes')!;
     const iconRef = useRef<google.maps.Marker>(null);
+    const [directionsService, setDirectionsService] = useState<google.maps.DirectionsService>();
     const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer>();
 
 	useEffect(() => {
 		if(!routesLibrary || !map) return;
+        setDirectionsService(new routesLibrary.DirectionsService());
         setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
 	}, [routesLibrary, map])
 
@@ -48,8 +50,54 @@ export const CarLocEx = (props: {
 
             // map?.setHeading(90);
 
+			directionsRenderer?.setMap(map);
+			directionsRenderer?.setOptions({
+				polylineOptions: {
+					strokeColor: '#061E3A',
+					strokeWeight: 4
+				}
+			})
+
         }
     }, [props.showPath])
+
+	useEffect(() => {
+
+        if(!directionsService || !directionsRenderer) return;
+
+        const start_pos_lat = parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT)
+        const start_pos_lng = parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG)
+        const end_pos_lat = parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LAT)
+        const end_pos_lng = parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LNG)
+                
+
+        directionsService.route({
+            origin: { lat: start_pos_lat, lng: start_pos_lng },
+            destination: { lat: end_pos_lat, lng: end_pos_lng },
+            travelMode: google.maps.TravelMode.DRIVING
+        }).then( response => {
+
+            console.log("saged:")
+            // setSavedDirectionServices(response);
+
+            if(props.showPath)
+            {
+                directionsRenderer.setMap(map);
+                directionsRenderer.setDirections(response);
+                directionsRenderer.setOptions({
+                    polylineOptions: {
+                        strokeColor: '#061E3A',
+                        strokeWeight: 4
+                    }
+                })
+            }
+            else
+            {
+                directionsRenderer.setMap(null);
+            }
+        })
+
+    }, [directionsService, directionsRenderer, props.showPath])
 
 	useEffect(() => {
 
