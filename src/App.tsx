@@ -789,7 +789,11 @@ export function App() {
 								}
 								libraries={["geometry", "core", "maps"]}
 							>
-								<MapEx>
+								<MapEx
+									ondragstart={() => {
+										setSelected(-1);
+									}}
+								>
 									{
 										incoming_missions
 											.map((m, index) => {

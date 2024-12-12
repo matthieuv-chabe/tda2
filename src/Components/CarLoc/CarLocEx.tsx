@@ -74,7 +74,7 @@ export const CarLocEx = (props: {
         directionsService.route({
             origin: { lat: start_pos_lat, lng: start_pos_lng },
             destination: { lat: end_pos_lat, lng: end_pos_lng },
-            travelMode: google.maps.TravelMode.DRIVING
+            travelMode: google.maps.TravelMode.DRIVING,
         }).then( response => {
 
             console.log("saged:")

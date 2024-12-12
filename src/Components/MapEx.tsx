@@ -4,7 +4,8 @@ import { TrafficLayer } from './TrafficLayer';
 import { useRef } from 'react';
 
 export const MapEx = (props: {
-    children: JSX.Element | JSX.Element[]
+    children: JSX.Element | JSX.Element[],
+	ondragstart: () => void,
 }) => {
 
     const children = Array.isArray(props.children) ? props.children : [props.children];
@@ -19,8 +20,14 @@ export const MapEx = (props: {
                 defaultZoom={10}
                 defaultCenter={{ lat: 48.8534, lng: 2.3488 }}
                 onCameraChanged={(event: MapCameraChangedEvent) => {
-                    // console.log('Camera changed:', event);
+                    console.log('Camera changed:', event);
                 }}
+				onCenterChanged={() => {
+					console.log("Center changed")
+				}}
+				onDragstart={() => {
+					props.ondragstart()
+				}}
                 
             >
                 {/* <TrafficLayer /> */}
