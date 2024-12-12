@@ -168,8 +168,8 @@ export const CarLocEx = (props: {
 				path: google.maps.SymbolPath.CIRCLE,
 				strokeColor: 'green',
 				scale: 10,	
-				strokeWeight: 25,
-				
+				strokeWeight: 10,
+
 			}}
 
         /> : null)
