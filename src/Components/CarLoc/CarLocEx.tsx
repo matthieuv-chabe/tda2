@@ -45,7 +45,7 @@ export const CarLocEx = (props: {
 
             map?.setHeadingInteractionEnabled(true);
             // map?.setTilt(45);
-            map?.setZoom(18);
+            map?.setZoom(9);
             map?.setCenter(loc);
 
             // map?.setHeading(90);
@@ -157,12 +157,20 @@ export const CarLocEx = (props: {
         />,
 
         ((lrl && props.showPath && lrl_diff_from_cur) ? <Marker
-            ref={iconRef}
+            // ref={iconRef}
             position={{ lat: lrl.lat, lng: lrl.lng }}
             title={"Dernière position connue du véhicule"}
             onClick={() => {
                 props.onCarClicked?.();
             }}
+			icon={{
+				fillColor: 'green',
+				path: google.maps.SymbolPath.CIRCLE,
+				strokeColor: 'green',
+				scale: 10,	
+				strokeWeight: 25,
+				
+			}}
 
         /> : null)
 
