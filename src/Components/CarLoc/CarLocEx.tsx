@@ -164,7 +164,7 @@ export const CarLocEx = (props: {
                 props.onCarClicked?.();
             }}
 
-        ><Pin glyphColor={'green'} scale={.5} /></AdvancedMarker> : null)
+        ><Pin glyphColor={'green'} background={'green'} scale={.5} /></AdvancedMarker> : null)
 
     ];
 
