@@ -140,7 +140,7 @@ export const CarLocEx = (props: {
             title={"Mission " + props.missionData.w.MIS_ID}
             clickable={true}
 			icon={{
-				url: '/public/car-top-view.svg',
+				url: '/public/logocar.svg',
 				scaledSize: new google.maps.Size(30, 30),
 			}}
             // icon={{

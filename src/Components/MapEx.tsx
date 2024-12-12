@@ -1,6 +1,5 @@
 
 import { APIProvider, Map, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
-import { TrafficLayer } from './TrafficLayer';
 import { useRef } from 'react';
 
 export const MapEx = (props: {
