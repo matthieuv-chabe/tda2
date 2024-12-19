@@ -49,6 +49,7 @@ export class CarLocationManagerC {
         }, 1000);
     }
 
+	public first_dispatch:string = ""
 
     private clients: ClientInfo[] = [];
     public missions: MissionInfo[] = [];
@@ -81,6 +82,9 @@ export class CarLocationManagerC {
         const req = this?.clients.map(c => `${c.limo}_${c.name}`).join(",");
         const res = await fetch(`https://rct.tda2.chabe.com/api/missions/clients/${req}`);
         const data = await res.json() as Root[];
+
+		this.first_dispatch = this?.clients[0]?.limo || ""
+
         return data.map((d) => ({
             w: d,
             acc: (d.MIS_TSE_ID == "12" || d.MIS_TSE_ID == "51"),

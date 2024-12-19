@@ -34,6 +34,7 @@ import { CarLocEx } from "./Components/CarLoc/CarLocEx";
 import { MapEx } from "./Components/MapEx";
 import { InfoMissionsDialog } from "./Components/InfoMissionsDialog";
 import { parseStatusFromRequest } from "./core/bluesoft";
+import { OverMapInformations } from "./Components/OverMapInformations";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -789,7 +790,9 @@ export function App() {
 								}
 								libraries={["geometry", "core", "maps"]}
 							>
+								{CarLocationManager.missions.length != 0 &&
 								<MapEx
+								center={{ lat: 48.8534, lng: 2.3488 }}
 									ondragstart={() => {
 										setSelected(-1);
 									}}
@@ -816,7 +819,7 @@ export function App() {
 											})
 									}
 								</MapEx>
-								{/* <OverMapInformations /> */}
+}
 							</Wrapper>
 						</div>
 					</div>
