@@ -105,7 +105,7 @@ function waynium_to_missiont(w: any): MissionT | null {
 		const hours = Math.floor(ms / 1000 / 60 / 60);
 		const mins = Math.floor((ms / 1000 / 60) % 60);
 
-		return `${hours}h ${mins}min`;
+		return `${hours}:${mins}`;
 	}
 
 
