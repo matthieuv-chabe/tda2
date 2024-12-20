@@ -5,7 +5,7 @@ import { CarLocationManager } from "../../core/CarLocationManager";
 
 function calculateRotation(lat1, lon1, lat2, lon2) {
     const toRadians = (degrees) => degrees * Math.PI / 180;
-    const toDegrees = (radians) => radians * 180 / Math.PI;
+    const toDegrees = (radians) => degrees * 180 / Math.PI;
 
     const dLon = toRadians(lon2 - lon1);
 
@@ -22,7 +22,8 @@ export const CarLocEx = (props: {
     missionData: any,
     missionLastKnownPosition: LastKnownPositionInfo | null,
     showPath?: boolean,
-    onCarClicked?: () => void
+    onCarClicked?: () => void,
+	following: boolean,
 }) => {
 
     const map = useMap();
@@ -101,12 +102,12 @@ export const CarLocEx = (props: {
 
 	useEffect(() => {
 
-		if(props.showPath) {
+		if(props.showPath && props.following) {
 			const loc = CarLocationManager.GetLocation(props.missionData.w.MIS_ID)
 			map?.setCenter(loc);
 		}
 
-	}, [props.showPath, props.missionData, props.missionLastKnownPosition])
+	}, [props.showPath, props.missionData, props.missionLastKnownPosition, props.following])
 
     useEffect(() => {
         if (!iconRef.current) return;

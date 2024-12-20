@@ -282,6 +282,8 @@ export function App() {
 	// 	&& remaining_str_to_minutes(e.arrival.remaining) > 0
 	// ))
 
+	const [isFollowing, setIsFollowing] = useState(true);
+
 	return (
 		<>
 			<div className="page">
@@ -794,7 +796,7 @@ export function App() {
 								<MapEx
 								center={{ lat: 48.8534, lng: 2.3488 }}
 									ondragstart={() => {
-										setSelected(-1);
+										setIsFollowing(false);
 									}}
 								>
 									{
@@ -813,7 +815,9 @@ export function App() {
 														missionLastKnownPosition={null}
 														onCarClicked={() => {
 															setSelected(m.id);
+															setIsFollowing(true);
 														}}
+														following={isFollowing}
 													/>
 												)
 											})

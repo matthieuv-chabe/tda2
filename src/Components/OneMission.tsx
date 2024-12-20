@@ -29,8 +29,9 @@ export const OneMission = (props: {
 	exp: boolean;
 	index: number;
 	onClicked: (index: number, mission: MissionT) => void;
+	isSelected: boolean; // New prop
 }) => {
-	const exp = props.exp;
+	const exp = props.exp || props.isSelected; // Use the new prop
 
 	const additionalcss = props.exp ? { filter: "none" } : {};
 
