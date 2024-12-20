@@ -28,7 +28,7 @@ import { IPublicClientApplication } from "@azure/msal-browser";
 import { useMsal } from "@azure/msal-react";
 import { Habilitation } from "./Habilitation";
 import * as authconfig from "./authConfig";
-import { CarLocationManager, CarLocationManagerC, MissionInfo } from "./core/CarLocationManager";
+import { CarLocationManager, CarLocationManagerC, MissionInfo } from "./core/CarLocationManager/manager";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import { CarLocEx } from "./Components/CarLoc/CarLocEx";
 import { MapEx } from "./Components/MapEx";
@@ -639,15 +639,14 @@ export function App() {
 														"Mission changed"
 													);
 													// updateOneMission(mission);
-												}}
+												} }
 												index={mission.id}
 												exp={selected == mission.id}
 												onClicked={(_, mis) => {
 													if (selected == mis.id)
 														setSelected(-1);
 													else setSelected(mis.id);
-												}}
-											/>
+												} } isSelected={false}											/>
 										)),
 								]}
 							</div>

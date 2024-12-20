@@ -1,7 +1,7 @@
 import { useMap, Marker, useMapsLibrary, AdvancedMarker, Pin } from "@vis.gl/react-google-maps";
 import { useEffect, useRef, useState } from "react";
 import { LastKnownPositionInfo } from "../../App";
-import { CarLocationManager } from "../../core/CarLocationManager";
+import { CarLocationManager } from "../../core/CarLocationManager/manager";
 
 function calculateRotation(lat1, lon1, lat2, lon2) {
     const toRadians = (degrees) => degrees * Math.PI / 180;

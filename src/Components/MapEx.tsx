@@ -1,7 +1,7 @@
 import { APIProvider, Map, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
 import { useRef, useState } from 'react';
 import { TrafficLayer } from './TrafficLayer';
-import { CarLocationManager } from '../core/CarLocationManager';
+import { CarLocationManager } from '../core/CarLocationManager/manager';
 import React from 'react';
 
 const getCenter = () => {
