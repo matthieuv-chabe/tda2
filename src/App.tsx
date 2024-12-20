@@ -422,6 +422,30 @@ export function App() {
 							}}
 						>
 							<div className="midtitle">
+								<div style={{ marginBottom: 10 }}>
+									<ToggleButton
+										value="check"
+										selected={increasedMiddleSize}
+										onChange={() =>
+											setIncreasedMiddleSize(
+												!increasedMiddleSize
+											)
+										}
+										style={{
+											marginTop: 10,
+											transition: "* 0.5s",
+											fontFamily: "EuclidCircularA-Semibold",
+
+											borderRadius: 0,
+											backgroundColor: "#001c40",
+											color: 'white'
+										}}
+									>
+										{increasedMiddleSize
+											? "Afficher les Arrivées imminentes"
+											: "Afficher toutes les missions"}
+									</ToggleButton>
+								</div>
 								<h1
 									style={{
 										whiteSpace: "nowrap",
@@ -435,28 +459,6 @@ export function App() {
 									{increasedMiddleSize
 										? "Toutes les missions"
 										: "Arrivées imminentes"}
-
-									<ToggleButton
-										value="check"
-										selected={increasedMiddleSize}
-										onChange={() =>
-											setIncreasedMiddleSize(
-												!increasedMiddleSize
-											)
-										}
-										style={{
-											marginLeft: 10,
-											marginTop: 10,
-											transform:
-												"scale(0.8) translateY(-10px)",
-											transition: "* 0.5s",
-											fontFamily: "EuclidCircularA-Semibold",
-										}}
-									>
-										{increasedMiddleSize
-											? "Afficher les Arrivées imminentes"
-											: "Afficher tout"}
-									</ToggleButton>
 									<br />
 									<FormGroup>
 										<div
