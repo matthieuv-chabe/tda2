@@ -2,6 +2,9 @@ import { ExtrapolFromLocAndTime } from "../CarLocationExtrapol";
 import { Root } from "../waynium";
 import { ClientInfo, LastReceivedLocationInfo, LocationInfo, MissionInfo } from "./types";
 import { mstohuman } from "./utils";
+import I18 from '../..//i18n'
+
+const t = I18.t.bind(I18)
 
 export class CarLocationManagerC {
     public first_dispatch: string = ""
@@ -81,7 +84,7 @@ export class CarLocationManagerC {
                 mission.debug = "yoX"
 
                 if (mission.w.MIS_DATE_DEBUT == null || mission.w.MIS_HEURE_DEBUT == null) {
-                    mission.information = "missingdate";
+                    mission.information = t('missingDate');
                     continue;
                 }
 
@@ -91,7 +94,7 @@ export class CarLocationManagerC {
                 const start_in_minutes = Math.floor((startdate.getTime() - now.getTime()) / 1000 / 60);
 
                 if (start_in_minutes >= 0) {
-                    mission.information = "VMission à venir";
+                    mission.information = t('comingMission');
                     continue;
                 }
 
@@ -148,7 +151,7 @@ export class CarLocationManagerC {
         }
 
         if (mission.acc) {
-            mission.information = "Accueil";
+            mission.information = t('greeting');
             return;
         }
 
@@ -160,11 +163,11 @@ export class CarLocationManagerC {
         mission.debug = "yo"
 
         if (mission.information == "") {
-            mission.information = "!Aucune donnée de géolocalisation";
+            mission.information = t('noGeolocationData');
         }
 
         if (JSON.stringify(mission.w.C_Gen_EtapePresence).indexOf("%DIC_LIEU_A_DEFINIR%") !== -1) {
-            mission.information = "Lieu d'arrivée non défini";
+            mission.information = t('arrivalPlaceUndefined');
         }
 
         if (new Date() < mission.refresh_after) {
@@ -179,7 +182,7 @@ export class CarLocationManagerC {
 
         if (data.result.length == 0) {
             if (mission.mad) {
-                mission.information = "Transport - Pas de géolocalisation";
+                mission.information = t('transportNoGeolocation');
                 return;
             }
 
@@ -187,12 +190,12 @@ export class CarLocationManagerC {
             const endplace = mission.w.C_Gen_EtapePresence[mission.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu;
 
             if (!startplace || !endplace || !startplace.LIE_LAT || !startplace.LIE_LNG || !endplace.LIE_LAT || !endplace.LIE_LNG) {
-                mission.information = "notenoughdata";
+                mission.information = t('notEnoughData');
                 mission.debug = "notenoughdata";
                 return;
             }
 
-            this.missions.find(m => m.w.MIS_ID === mission.w.MIS_ID)!.information = "NODATA-YET";
+            this.missions.find(m => m.w.MIS_ID === mission.w.MIS_ID)!.information = t('noDataYet');
             const startdate = new Date(mission.w.MIS_DATE_DEBUT + "T" + mission.w.MIS_HEURE_DEBUT);
 
             try {
@@ -203,12 +206,12 @@ export class CarLocationManagerC {
                 )
 
                 mission.information = extp.polylines.length > 1
-                    ? "Extrapolation complète"
-                    : "?"
+                    ? t('fullExtrapolation')
+                    : t('unknown')
 
                 const error_zero = JSON.stringify(extp).includes("ZERO_RESULTS");
                 if (error_zero) {
-                    mission.information = "Chemin impossible";
+                    mission.information = t('impossiblePath');
                     return;
                 }
 
@@ -227,7 +230,7 @@ export class CarLocationManagerC {
 
             } catch (e) {
                 console.error("CarLocationManager: Error while extrapolating", e);
-                mission.information = "Itinéraire vers arrivée inconnu";
+                mission.information = t('unknownRouteToDestination');
                 mission.debug = "err^=" + e.message;
             }
         } else {
@@ -240,7 +243,7 @@ export class CarLocationManagerC {
             })
 
             if (mission.mad) {
-                mission.information = "VTransport - Dernière géolocalisation à " + new Date(data.probable_location.candidates[0].date).toLocaleTimeString();
+                mission.information = t('transportLastGeolocation') + " " + new Date(data.probable_location.candidates[0].date).toLocaleTimeString();
                 this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
                 this.locations.push({
                     missionId: mission.w.MIS_ID,
@@ -275,7 +278,7 @@ export class CarLocationManagerC {
                     }
                 });
 
-                mission.information = "Itinéraire vers arrivée inconnu."
+                mission.information = t('unknownRouteToDestination')
 
                 return;
             };
@@ -283,7 +286,7 @@ export class CarLocationManagerC {
             const young_enough_no_need_extrapolate = (now.getTime() - time.getTime()) < 5 * 60 * 1000;
 
             if (!young_enough_no_need_extrapolate) {
-                mission.information = "Calcul de la position extrapolée...";
+                mission.information = t('calculatingExtrapolatedPosition');
 
                 const last_known_location = data.probable_location.location;
                 const last_known_time = new Date(data.probable_location.candidates[0].date);
@@ -302,12 +305,12 @@ export class CarLocationManagerC {
 
                 const error_zero = JSON.stringify(lines).includes("ZERO_RESULTS");
                 if (error_zero) {
-                    mission.information = "!Chemin impossible";
+                    mission.information = t('impossiblePath');
                     return;
                 }
 
                 mission.cache_polylines = lines.polylines;
-                mission.information = "?Extrapolé (dernière position il y a " + mstohuman(new Date().getTime() - last_known_time.getTime()) + ")";
+                mission.information = t('extrapolatedLastPosition') + mstohuman(new Date().getTime() - last_known_time.getTime()) + t('agoSuffix');
                 mission.debug = "geoloc time=" + last_known_time.toLocaleTimeString() + "<br />";
 
                 const loc_within_poly = lines.loc_within_poly;
@@ -324,7 +327,7 @@ export class CarLocationManagerC {
 
             } else {
                 console.log("good")
-                mission.information = "VPosition à jour (" + time.toLocaleTimeString() + ")";
+                mission.information = t('upToDatePosition') + " (" + time.toLocaleTimeString() + ")";
                 this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
                 this.locations.push({
                     missionId: mission.w.MIS_ID,

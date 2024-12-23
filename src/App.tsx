@@ -1,5 +1,7 @@
 import "./App.css";
 
+import I18 from './i18n'
+
 import {
 	Button,
 	CircularProgress,
@@ -35,6 +37,9 @@ import { MapEx } from "./Components/MapEx";
 import { InfoMissionsDialog } from "./Components/InfoMissionsDialog";
 import { parseStatusFromRequest } from "./core/bluesoft";
 import { OverMapInformations } from "./Components/OverMapInformations";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
+import MenuDivider from "antd/es/menu/MenuDivider";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -165,6 +170,9 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 }
 
 export function App() {
+
+	const t = I18.t;
+
 	const [search, setSearch] = useState<string>("");
 
 	const [disconnectOpen, setDisconnectOpen] = useState(false);
@@ -179,7 +187,7 @@ export function App() {
 
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [loadingMsg, setLoadingMsg] = useState<string>(
-		"Authentification ..."
+		t("loading")
 	);
 
 	const [isFailed, setIsFailed] = useState<boolean>(false);
@@ -221,7 +229,7 @@ export function App() {
 			const baseurl =
 				"https://chabe-int-ca-api-habilitations.orangepond-bbd114b2.francecentral.azurecontainerapps.io";
 
-			setLoadingMsg("Chargement de la liste des clients...");
+			setLoadingMsg(t("loadingClients"));
 
 			let accessToken = "";
 			try {
@@ -240,11 +248,11 @@ export function App() {
 				},
 			}).then((e) => e.text());
 
-			setLoadingMsg("Checking authorizations");
+			setLoadingMsg(t("checkingAuth"));
 
 			const hab = Habilitation.parseHabilitationResponse(response);
 
-			setLoadingMsg("Initializing");
+			setLoadingMsg(t("initializing"));
 
 			await CarLocationManager.Initialize(hab.subAccounts.map(e => ({
 				limo: e.dispatch,
@@ -257,7 +265,7 @@ export function App() {
 
 		})();
 
-	}, [instance]);
+	}, [instance, t]);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -372,7 +380,10 @@ export function App() {
 									className="account-menu"
 									data-testid="account-menu"
 									onClick={() => setDisconnectOpen(true)}
-									style={{ cursor: 'pointer' }}
+									style={{ cursor: 'pointer', backgroundColor: "grey", padding: 5, aspectRatio: '1/1',
+										display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '50%',
+										color: 'white'
+									 }}
 								>
 									<div
 										ref={disconnectBtnRef}
@@ -390,10 +401,27 @@ export function App() {
 									anchorEl={disconnectBtnRef.current}
 									onClose={() => setDisconnectOpen(false)}
 								>
+									<MenuItem
+										onClick={() => {
+											i18next.changeLanguage("fr");
+											setDisconnectOpen(false);
+										}}
+									>
+									 FR
+									</MenuItem>
+									<MenuItem
+										onClick={() => {
+											i18next.changeLanguage("en");
+											setDisconnectOpen(false);
+										}}
+									>
+										EN
+									</MenuItem>
+									{/* <MenuDivider /> */}
 									<MenuItem onClick={() => {
 										instance.logout()
 										document.location.href = "/"
-									}}>Déconnexion</MenuItem>
+									}}>{t("logout")}</MenuItem>
 								</Menu>
 							</li>
 						</div>
@@ -424,7 +452,11 @@ export function App() {
 							<div className="midtitle">
 								<div style={{ marginBottom: 10 }}>
 									<ToggleButton
+										className="toggle-button"
 										value="check"
+										title={increasedMiddleSize
+											? t("showImminentArrivals")
+											: t("showAllMissions")}
 										selected={increasedMiddleSize}
 										onChange={() =>
 											setIncreasedMiddleSize(
@@ -442,8 +474,8 @@ export function App() {
 										}}
 									>
 										{increasedMiddleSize
-											? "Afficher les Arrivées imminentes"
-											: "Afficher toutes les missions"}
+											? t("showImminentArrivals")
+											: t("showAllMissions")}
 									</ToggleButton>
 								</div>
 								<h1
@@ -457,8 +489,8 @@ export function App() {
 									}}
 								>
 									{increasedMiddleSize
-										? "Toutes les missions"
-										: "Arrivées imminentes"}
+										? t("allMissions")
+										: t("imminentArrivals")}
 									<br />
 									<FormGroup>
 										<div
@@ -474,7 +506,7 @@ export function App() {
 													<>
 														<Input
 															style={{ flex: 1 }}
-															placeholder="Rechercher"
+															placeholder={t("search")}
 															value={search}
 															onChange={(e) =>
 																setSearch(e.target.value)
@@ -489,7 +521,7 @@ export function App() {
 																	}
 																/>
 															}
-															label="Afficher les accueils"
+															label={t("showGreetings")}
 														/>
 														<FormControlLabel
 															control={
@@ -500,7 +532,7 @@ export function App() {
 																	}
 																/>
 															}
-															label="Afficher les missions terminées"
+															label={t("showCompletedMissions")}
 														/>
 													</>
 												)
@@ -528,11 +560,10 @@ export function App() {
 											color: "red",
 										}}
 									>
-										Impossible de se connecter au serveur
+										{t("connectionError")}
 										<br />
 										<br />
-										Nous vous prions de nous excuser pour la
-										gêne occasionnée.
+										{t("apologize")}
 										<br />
 										<div style={{ marginTop: 10 }}></div>
 										<Button
@@ -541,7 +572,7 @@ export function App() {
 												window.location.reload();
 											}}
 										>
-											Recharger la page
+											{t("refreshPage")}
 										</Button>
 									</Typography>
 								</div>
@@ -568,7 +599,7 @@ export function App() {
 												textAlign: "center",
 											}}
 										>
-											Chargement des missions...
+											{t("loadingMissions")}
 											<InfoMissionsDialog />
 
 											<div
@@ -587,7 +618,7 @@ export function App() {
 													);
 												}}
 											>
-												Afficher toutes les missions
+												{t("showAllMissions")}
 											</Button>
 											<Button
 												style={{
@@ -676,25 +707,25 @@ export function App() {
 											>
 												<TableRow>
 													<TableCell>
-														<b>PASSAGER</b>
+														<b>{t("passenger")}</b>
 													</TableCell>
 													<TableCell align="left">
-														<b>TIME</b>
+														<b>{t("time")}</b>
 													</TableCell>
 													<TableCell align="right">
-														<b>PICKUP</b>
+														<b>{t("pickup")}</b>
 													</TableCell>
 													<TableCell align="right">
-														<b>DROPOFF</b>
+														<b>{t("dropoff")}</b>
 													</TableCell>
 													<TableCell align="right">
-														<b>VEHICULE</b>
+														<b>{t("vehicle")}</b>
 													</TableCell>
 													<TableCell align="right">
-														<b>CHAUFFEUR</b>
+														<b>{t("driver")}</b>
 													</TableCell>
 													<TableCell align="right">
-														<b>STATUS</b>
+														<b>{t("status")}</b>
 													</TableCell>
 
 												</TableRow>
