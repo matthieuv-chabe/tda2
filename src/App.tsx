@@ -259,6 +259,9 @@ export function App() {
 
 			setLoadingMsg(t("initializing"));
 
+			const lang = hab.subAccounts[0].dispatch == "chabe" ? "fr" : "en";
+			i18next.changeLanguage(lang);
+
 			await CarLocationManager.Initialize(hab.subAccounts.map(e => ({
 				limo: e.dispatch,
 				name: "" + e.cliId
