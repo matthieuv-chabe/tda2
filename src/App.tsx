@@ -42,6 +42,7 @@ import i18next from "i18next";
 import MenuDivider from "antd/es/menu/MenuDivider";
 import useConfig from "antd/es/config-provider/hooks/useConfig";
 import { Switch } from "antd"
+import { useBusinessSearch } from "./Hooks/useBusinessSearch";
 
 GeolocActualizer.hi();
 
@@ -178,8 +179,6 @@ export function App() {
 	const t = I18.t;
 	const cfg = useConfig();
 
-	const [search, setSearch] = useState<string>("");
-
 	const [disconnectOpen, setDisconnectOpen] = useState(false);
 	const disconnectBtnRef = useRef<HTMLDivElement>(null);
 
@@ -208,6 +207,8 @@ export function App() {
 	}, [])
 
 	const [allMissions, setAllMissions] = useState<MissionT[]>([]);
+
+	const { search, setSearch, filteredData } = useBusinessSearch(allMissions);
 
 	const Refresh = async () => {
 
@@ -749,15 +750,7 @@ export function App() {
 													overflow: 'auto'
 												}}
 											>
-												{allMissions
-													.filter(m => m != null)
-													.filter(m => JSON.stringify(m).toLowerCase().indexOf(search.toLowerCase()) != -1)
-													.sort((a, b) => {
-														const a_date = new Date(new Date().toISOString().substring(0, 10) + "T" + a.arrival.estimated)
-														const b_date = new Date(new Date().toISOString().substring(0, 10) + "T" + b.arrival.estimated)
-
-														return a_date.getTime() - b_date.getTime()
-													})
+													{filteredData
 													.filter(m => {
 														if (!showAcc && m.acc) return false;
 														return true;
