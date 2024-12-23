@@ -2,6 +2,7 @@ import "./App.css";
 
 import I18 from './i18n'
 
+import { CarTwoTone } from "@ant-design/icons";
 import {
 	Button,
 	CircularProgress,
@@ -11,7 +12,6 @@ import {
 	Menu,
 	MenuItem,
 	Paper,
-	Switch,
 	Table,
 	TableBody,
 	TableCell,
@@ -40,7 +40,11 @@ import { OverMapInformations } from "./Components/OverMapInformations";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 import MenuDivider from "antd/es/menu/MenuDivider";
+import useConfig from "antd/es/config-provider/hooks/useConfig";
+import { Switch } from "antd"
+
 GeolocActualizer.hi();
+
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
 const validate_url_size = (value: string) => ["true", "false"].includes(value);
@@ -172,6 +176,7 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 export function App() {
 
 	const t = I18.t;
+	const cfg = useConfig();
 
 	const [search, setSearch] = useState<string>("");
 
@@ -328,11 +333,15 @@ export function App() {
 								className="nav-link is-active"
 								href="/dashboard"
 								aria-current="page"
+								style={{
+									backgroundColor: "#001c40",
+									color: "white",
+									display: "flex",
+									justifyContent: "center",
+									alignItems: "center",
+								}}
 							>
-								<img
-									src="https://agreeable-hill-038a64303.4.azurestaticapps.net//static/media/nav-home-icon.e0d99f32dc8c1b2787e29f865cbf6da1.svg"
-									alt="Clickable Dashboard button side navigation bar"
-								/>
+								<CarTwoTone size={40} />
 							</a>
 						</li>
 					</menu>
