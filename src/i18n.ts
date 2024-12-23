@@ -47,6 +47,8 @@ const resources = {
       "missingDate": "Missing date",
       "comingMission": "Coming mission",
       "unknown": "?",
+      "plannedArrivalAt": "Planned arrival at",
+      "unknownPassenger": "Unknown passenger",
     }
   },
   fr: {
@@ -91,6 +93,8 @@ const resources = {
       "missingDate": "Date manquante",
       "comingMission": "Mission à venir",
       "unknown": "?",
+      "plannedArrivalAt": "Arrivée prévue à",
+      "unknownPassenger": "Passager inconnu",
     }
   }
 };

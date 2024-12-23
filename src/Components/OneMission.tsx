@@ -9,8 +9,11 @@ import {
 import { DriverName } from "./MissionPanel/DriverName";
 import { LicencePlate } from "./MissionPanel/LicencePlate";
 import { MissionT } from "../App";
+import I18 from "../i18n";
 
 import arrowDown from "../../public/arrowBottom.svg";
+const t = I18.t.bind(I18)
+
 
 const shortName = (name: string, maxLen = 20) => {
 
@@ -134,11 +137,12 @@ export const OneMission = (props: {
 								</div> */}
 								<p>
 									{props.mission.w.MIS_ID + " "}
-									Arrivée prévue à {props.mission.arrival.estimated}
+									{t('plannedArrivalAt') + " "}
+									{props.mission.arrival.estimated}
 									{
 										props.mission.acc &&
 										<div style={{ backgroundColor: "purple", color: "white", borderRadius: 5, padding: 1, display: "inline-block", marginLeft: 5, fontSize: "small" }}>
-											Accueil
+											{t('greeting')}
 										</div>
 
 									}
@@ -158,7 +162,7 @@ export const OneMission = (props: {
 							{
 								props.mission.passenger == "??" &&
 								<div style={{ fontSize: "smaller", opacity: '.8' }}>
-									Passager inconnu
+									{t('unknownPassenger')}
 								</div>
 							}
 							{
@@ -271,7 +275,7 @@ export const OneMission = (props: {
 							<Typography>
 								{
 									props.mission.locations.to.indexOf("%") != -1
-										? "Lieu non renseigné"
+											? t('arrivalPlaceUndefined')
 										: props.mission.locations.to
 								}
 							</Typography>
