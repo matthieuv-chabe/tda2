@@ -17,6 +17,11 @@
     url(https://agreeable-hill-038a64303.4.azurestaticapps.net/static/media/Euclid%20Circular%20A%20Bold.b4788f2f8f64a74fe6d6.ttf)
 }
 
+.account-menu:hover {
+	background-color: #001c40;
+	color: white;
+}
+
 .toggle-button:hover {
 	  cursor: pointer;
 	  filter: opacity(.9)

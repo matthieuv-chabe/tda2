@@ -287,6 +287,7 @@ export function App() {
 	}, [])
 
 	const [showAcc, setShowAcc] = useState(false);
+	const [showClosed, setShowClosed] = useState(false);
 
 	const incoming_missions = allMissions
 		.filter(m => (showAcc && m.acc) || !m.acc)
@@ -392,8 +393,9 @@ export function App() {
 								<div
 									className="account-menu"
 									data-testid="account-menu"
-									onClick={() => setDisconnectOpen(true)}
-									style={{ cursor: 'pointer', backgroundColor: "grey", padding: 5, aspectRatio: '1/1',
+									onMouseOver={() => setDisconnectOpen(true)}
+									style={{
+										cursor: 'pointer', backgroundColor: "lightgrey", padding: 5, aspectRatio: '1/1',
 										display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '50%',
 										color: 'white'
 									 }}
@@ -417,6 +419,7 @@ export function App() {
 									<MenuItem
 										onClick={() => {
 											i18next.changeLanguage("fr");
+											document.title = "Chabé | Tableau des arrivées";
 											setDisconnectOpen(false);
 										}}
 									>
@@ -425,6 +428,7 @@ export function App() {
 									<MenuItem
 										onClick={() => {
 											i18next.changeLanguage("en");
+											document.title = "Chabé | Arrival Board";
 											setDisconnectOpen(false);
 										}}
 									>
@@ -539,9 +543,9 @@ export function App() {
 														<FormControlLabel
 															control={
 																<Switch
-																	checked={showAcc}
+																	checked={showClosed}
 																	onChange={(_, v) =>
-																		setShowAcc(v)
+																		setShowClosed(v)
 																	}
 																/>
 															}
@@ -753,7 +757,21 @@ export function App() {
 													{filteredData
 													.filter(m => {
 														if (!showAcc && m.acc) return false;
+														if (!showClosed && parseStatusFromRequest(m.w) == "closed") return false;
 														return true;
+													})
+													.sort((a, b) => {
+														
+														// If mission status is closed, put it at the end
+														if(parseStatusFromRequest(a.w) == "closed") return 1;
+														
+														if (a.w.MIS_HEURE_DEBUT < b.w.MIS_HEURE_DEBUT) {
+															return -1;
+														}
+														if (a.w.MIS_HEURE_DEBUT > b.w.MIS_HEURE_DEBUT) {
+															return 1;
+														}
+														return 0;
 													})
 													.map((row, idx) => (
 														<TableRow
