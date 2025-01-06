@@ -395,7 +395,7 @@ export function App() {
 									data-testid="account-menu"
 									onMouseOver={() => setDisconnectOpen(true)}
 									style={{
-										cursor: 'pointer', backgroundColor: "lightgrey", padding: 5, aspectRatio: '1/1',
+										cursor: 'pointer', padding: 5, aspectRatio: '1/1',
 										display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '50%',
 										color: 'white'
 									 }}
