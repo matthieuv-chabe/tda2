@@ -828,7 +828,7 @@ export function App() {
 															</TableCell>
 															<TableCell align="right">
 																{/* {row.w.MIS_SMI_ID == "7" ? "Passager à bord" : "/"} */}
-																{parseStatusFromRequest(row.w)}
+																{t(parseStatusFromRequest(row.w))}
 															</TableCell>
 
 														</TableRow>

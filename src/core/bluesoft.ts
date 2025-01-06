@@ -15,7 +15,7 @@ export function parseStatusFromRequest(
         return 'upcomingBooking';
       case '8':
     	if (mission.MIS_HEURE_REEL_DEBUT) {
-          return 'rideStarted at ' + new Date("2024-01-01T"+mission.MIS_HEURE_REEL_DEBUT).toLocaleTimeString();
+          return 'rideStarted'
         } else {
           return 'chauffeurOnLocation';
         }

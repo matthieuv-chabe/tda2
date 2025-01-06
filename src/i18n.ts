@@ -49,6 +49,11 @@ const resources = {
       "unknown": "?",
       "plannedArrivalAt": "Planned arrival at",
       "unknownPassenger": "Unknown passenger",
+	  "closed": "Completed",
+	  "upcomingBooking": "Upcoming Booking",
+	  "rideStarted": "Ride started",
+	  "chauffeurOnLocation": "Chauffeur on location",
+	  "passengerDroppedOff": "Passenger dropped off",
     }
   },
   fr: {
@@ -95,6 +100,11 @@ const resources = {
       "unknown": "?",
       "plannedArrivalAt": "Arrivée prévue à",
       "unknownPassenger": "Passager inconnu",
+	  "closed": "Terminée",
+	  "upcomingBooking": "Réservation à venir",
+	  "rideStarted": "Course commencée",
+	  "chauffeurOnLocation": "Chauffeur sur place",
+	  "passengerDroppedOff": "Passager déposé",
     }
   }
 };
