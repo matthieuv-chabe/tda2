@@ -20,6 +20,8 @@ export const SignInButton = () => {
       }
     };
 
+	handleLogin("redirect")
+
     useEffect(() => {
       handleLogin('redirect');
     }, [])
