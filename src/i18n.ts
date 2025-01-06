@@ -102,7 +102,7 @@ const resources = {
       "unknownPassenger": "Passager inconnu",
 	  "closed": "Terminée",
 	  "upcomingBooking": "Réservation à venir",
-	  "rideStarted": "Course commencée",
+	  "rideStarted": "Mission démarrée",
 	  "chauffeurOnLocation": "Chauffeur sur place",
 	  "passengerDroppedOff": "Passager déposé",
     }
