@@ -3,6 +3,7 @@ import { Root } from "../waynium";
 import { ClientInfo, LastReceivedLocationInfo, LocationInfo, MissionInfo } from "./types";
 import { mstohuman } from "./utils";
 import I18 from '../..//i18n'
+import { Geo } from "../Geoloc";
 
 const t = I18.t.bind(I18)
 
@@ -115,10 +116,15 @@ export class CarLocationManagerC {
 
         this.first_dispatch = this?.clients[0]?.limo || ""
 
+		// Transport (mad) for chabelimited
+		// UK 2 10 19 9 14 11 12 6 20
+
         return data.map((d) => ({
             w: d,
             acc: (d.MIS_TSE_ID == "12" || d.MIS_TSE_ID == "51"),
-            mad: (d.MIS_TSE_ID == "3" || d.MIS_TSE_ID == "22" || d.MIS_TSE_ID == "54"),
+            mad: 
+				(this.first_dispatch == 'chabe') && (d.MIS_TSE_ID == "3" || d.MIS_TSE_ID == "22" || d.MIS_TSE_ID == "54")
+				||(this.first_dispatch == 'chabelimited' && (d.MIS_TSE_ID == "2" || d.MIS_TSE_ID == "10" || d.MIS_TSE_ID == "19" || d.MIS_TSE_ID == "9" || d.MIS_TSE_ID == "14" || d.MIS_TSE_ID == "11" || d.MIS_TSE_ID == "12" || d.MIS_TSE_ID == "6" || d.MIS_TSE_ID == "20")),
         } as MissionInfo));
     }
 
@@ -170,7 +176,7 @@ export class CarLocationManagerC {
             mission.information = t('arrivalPlaceUndefined');
         }
 
-        if (new Date() < mission.refresh_after) {
+        if (mission.refresh_after && new Date() < mission.refresh_after) {
             mission.information += "!"
             return;
         }
@@ -181,6 +187,7 @@ export class CarLocationManagerC {
         mission.debug = "testX"
 
         if (data.result.length == 0) {
+
             if (mission.mad) {
                 mission.information = t('transportNoGeolocation');
                 return;
@@ -234,6 +241,8 @@ export class CarLocationManagerC {
                 mission.debug = "err^=" + e.message;
             }
         } else {
+			// Mission probable location not empty
+
             this.lastReceivedLocation = this.lastReceivedLocation.filter(l => l.missionId !== mission.w.MIS_ID);
             this.lastReceivedLocation.push({
                 missionId: mission.w.MIS_ID,
