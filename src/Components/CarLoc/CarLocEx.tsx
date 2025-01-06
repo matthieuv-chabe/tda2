@@ -140,6 +140,11 @@ export const CarLocEx = (props: {
             position={CarLocationManager.GetLocation(props.missionData.w.MIS_ID)}
             title={"Mission " + props.missionData.w.MIS_ID}
             clickable={true}
+			opacity={
+				// Any mission is selected and this is not the selected mission, .5
+				// This is the selected mission, 1
+				props.showPath ? 1 : .5
+			}
 			icon={{
 				url: '/public/logocar.svg',
 				scaledSize: new google.maps.Size(30, 30),

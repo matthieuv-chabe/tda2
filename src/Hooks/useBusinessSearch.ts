@@ -5,6 +5,8 @@ export function useBusinessSearch(initialItems: MissionT[]) {
 	// ...existing code (if any)...
 	const [search, setSearch] = useState("");
 
+	if(search === "") return { search, setSearch, filteredData: initialItems };
+
 	const filteredData = initialItems.filter((item) => {
 		const searchTerm = search.toLowerCase();
 		const fields = [

@@ -532,9 +532,9 @@ export function App() {
 														<FormControlLabel
 															control={
 																<Switch
-																	checked={showAcc}
-																	onChange={(_, v) =>
-																		setShowAcc(v)
+																	defaultChecked={showAcc}
+																	onChange={(e) =>
+																		setShowAcc(e)
 																	}
 																/>
 															}
@@ -544,8 +544,8 @@ export function App() {
 															control={
 																<Switch
 																	checked={showClosed}
-																	onChange={(_, v) =>
-																		setShowClosed(v)
+																	onChange={(e, v) =>
+																		setShowClosed(e)
 																	}
 																/>
 															}
