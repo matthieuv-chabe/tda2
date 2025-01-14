@@ -231,7 +231,11 @@ export const CarLocEx = (props: {
 		const m = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);
 		if(m?.mad) return;
 
-		const last_known = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
+		let last_known = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
+		if(!last_known || !last_known.lat || !last_known.lng) {
+			// Set the last position to the first position
+			last_known = { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) }
+		}
 
 		const line_from_start_to_car = new google.maps.Polyline({
 			path: [
@@ -278,7 +282,7 @@ export const CarLocEx = (props: {
 		bounds.extend(loc_start);
 		bounds.extend(loc_end);
 		bounds.extend({ lat: cur?.lat || 0, lng: cur?.lng || 0 });
-		bounds.extend(last_known);
+		if(last_known) bounds.extend(last_known);
 		map?.fitBounds(bounds, 150);
 
 		return () => {
