@@ -62,7 +62,8 @@ export const CarLocEx = (props: {
 					strokeColor: '#061E3A',
 					strokeWeight: 2
 				},
-				preserveViewport: true
+				preserveViewport: true,
+				suppressMarkers: true,
 			})
 
 		}
@@ -99,7 +100,9 @@ export const CarLocEx = (props: {
 					polylineOptions: {
 						strokeColor: '#061E3A',
 						strokeWeight: 2
-					}
+					},
+					preserveViewport: true,
+					suppressMarkers: true,
 				})
 
 				const loc = CarLocationManager.GetLocation(props.missionData.w.MIS_ID)
@@ -179,10 +182,41 @@ export const CarLocEx = (props: {
 			strokeWeight: 2,
 			map: map
 		});
-		
+
+		const marker_start = new google.maps.Marker({
+			position: { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
+			map: map,
+			title: 'Départ',
+			label: {
+				text: 'A',
+				color: 'white',
+				fontSize: '12px',
+				fontWeight: 'bold',
+			},
+		})
+
+		const marker_end = new google.maps.Marker({
+			position: { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LNG) },
+			map: map,
+			title: 'Arrivée',
+			label: {
+				text: 'B',
+				color: 'white',
+				fontSize: '12px',
+				fontWeight: 'bold',
+			},
+		})
+
+		map?.fitBounds([
+			{ lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
+			{ lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LNG) },
+			{ lat: cur?.lat || 0, lng: cur?.lng || 0 }
+		])
 
 		return () => {
 			line_from_start_to_car.setMap(null);
+			marker_start.setMap(null);
+			marker_end.setMap(null);
 		}
 
 	}, [props.showPath, cur])
