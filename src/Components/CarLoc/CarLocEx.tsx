@@ -5,6 +5,7 @@ import { LineLayer } from '@deck.gl/layers';
 import { useEffect, useRef, useState } from "react";
 import { LastKnownPositionInfo, MissionT } from "../../App";
 import { CarLocationManager } from "../../core/CarLocationManager/manager";
+import { Alert, Snackbar } from "@mui/material";
 
 function calculateRotation(lat1, lon1, lat2, lon2) {
 	const toRadians = (degrees) => degrees * Math.PI / 180;
@@ -79,10 +80,10 @@ export const CarLocEx = (props: {
 		const end_pos_lng = parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LNG)
 
 		const loc = CarLocationManager.GetLocation(props.missionData.w.MIS_ID)
-
+		const last_known = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
 
 		directionsService.route({
-			origin: loc,
+			origin: last_known,
 			destination: { lat: end_pos_lat, lng: end_pos_lng },
 			travelMode: google.maps.TravelMode.DRIVING,
 		}).then(response => {
@@ -167,60 +168,75 @@ export const CarLocEx = (props: {
 		console.log("Error while calculating lrl_diff_from_cur", e);
 	}
 
+	// THIS IS A MISE A DISPO
 	useEffect(() => {
 		if (!props.showPath) return;
 		
 		const m = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);
 		if(!m?.mad) return;
 
-		const marker_start = new google.maps.Marker({
-			position: { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
-			map: map,
-			title: 'Départ / Arrivée',
-			label: {
-				text: 'B',
-				color: 'white',
-				fontSize: '12px',
-				fontWeight: 'bold',
-			},
-		})
+		let marker_start: google.maps.Marker;
+		let line_from_start_to_car: google.maps.Polyline;
 
-		const line_from_start_to_car = new google.maps.Polyline({
-			path: [
-				{ lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
-				{ lat: cur?.lat || 0, lng: cur?.lng || 0 }
-			],
-			icons: [ { icon: { path: "M 0,0 0,1 Z", strokeOpacity: 1, scale: 2, }, offset: "0", repeat: "10px", }, ],
-			geodesic: true,
-			strokeColor: "#000070",
-			strokeOpacity: 0,
-			strokeWeight: 2,
-			map: map
-		});
+		if(cur && cur.lat && cur.lng && (cur?.lat != 0) && (cur?.lng != 0)) {
 
-		const bounds = new google.maps.LatLngBounds();
-		const loc_start = { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) }
-		bounds.extend(loc_start);
-		bounds.extend({ lat: cur?.lat || 0, lng: cur?.lng || 0 });
-		map?.fitBounds(bounds, 150);
+			marker_start = new google.maps.Marker({
+				position: { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
+				map: map,
+				title: 'Départ / Arrivée',
+				label: {
+					text: 'B',
+					color: 'white',
+					fontSize: '12px',
+					fontWeight: 'bold',
+				},
+			})
+	
+			line_from_start_to_car = new google.maps.Polyline({
+				path: [
+					{ lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
+					{ lat: cur?.lat || 0, lng: cur?.lng || 0 }
+				],
+				icons: [ { icon: { path: "M 0,0 0,1 Z", strokeOpacity: 1, scale: 2, }, offset: "0", repeat: "10px", }, ],
+				geodesic: true,
+				strokeColor: "#000070",
+				strokeOpacity: 0,
+				strokeWeight: 2,
+				map: map
+			});
+
+			const bounds = new google.maps.LatLngBounds();
+			const loc_start = { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) }
+			bounds.extend(loc_start);
+			bounds.extend({ lat: cur?.lat || 0, lng: cur?.lng || 0 });
+			map?.fitBounds(bounds, 150);
+
+		} else {
+			setNoPosAlert(true);
+		}
+
+		
 
 		return () => {
-			marker_start.setMap(null);
-			line_from_start_to_car.setMap(null);
+			marker_start?.setMap(null);
+			line_from_start_to_car?.setMap(null);
 		}
 	}, [props.showPath, cur]);
 
 
+	// THIS IS A NORMAL MISSION
 	useEffect(() => {
 		if (!props.showPath) return;
 		
 		const m = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);
 		if(m?.mad) return;
 
+		const last_known = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
+
 		const line_from_start_to_car = new google.maps.Polyline({
 			path: [
 				{ lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
-				{ lat: cur?.lat || 0, lng: cur?.lng || 0 }
+				last_known
 			],
 			icons: [ { icon: { path: "M 0,-1 1,0 0,-1 -1,0 0,-1 Z", strokeOpacity: 1, scale: 2, }, offset: "0", repeat: "10px", }, ],
 			geodesic: true,
@@ -262,7 +278,8 @@ export const CarLocEx = (props: {
 		bounds.extend(loc_start);
 		bounds.extend(loc_end);
 		bounds.extend({ lat: cur?.lat || 0, lng: cur?.lng || 0 });
-		map?.fitBounds(bounds);
+		bounds.extend(last_known);
+		map?.fitBounds(bounds, 150);
 
 		return () => {
 			line_from_start_to_car.setMap(null);
@@ -272,7 +289,22 @@ export const CarLocEx = (props: {
 
 	}, [props.showPath, cur])
 
+	const [noPosAlert, setNoPosAlert] = useState(false);
+
 	return [
+		<Snackbar
+		style={{zIndex: 9999, position: 'fixed', left: '65%', top: 0}}
+		open={noPosAlert} autoHideDuration={5000} onClose={() => setNoPosAlert(false)}
+		>
+			 <Alert
+				severity="info"
+				variant="filled"
+				sx={{ width: '100%' }}
+				onClose={() => setNoPosAlert(false)}
+			>
+				Aucune position pour cette mission
+			</Alert>
+		</Snackbar>,
 		<Marker
 			ref={iconRef}
 			position={CarLocationManager.GetLocation(props.missionData.w.MIS_ID)}
@@ -306,7 +338,7 @@ export const CarLocEx = (props: {
 				glyphColor={'green'}
 				background={'green'}
 				borderColor={'green'}
-				scale={.5}
+				scale={1}
 			/>
 		</AdvancedMarker> : null)
 

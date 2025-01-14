@@ -770,7 +770,7 @@ export function App() {
 
 														// If show closed is true, hide open missions
 														if (showClosed && parseStatusFromRequest(m.w) != "closed") return false;
-														
+
 														return true;
 													})
 													.sort((a, b) => {
@@ -850,7 +850,7 @@ export function App() {
 						<div className="vertical-right" style={{ color: 'white', height: '200', overflow: 'hidden' }}>
 							<Wrapper
 								apiKey={
-									"AIzaSyC3xc8_oSX0dt2GENFpNnmzIFtn2IlfaCs"
+									"AIzaSyDMZQ3-mM6E1c95TXCnuVmqB9xXwD-M_iY"
 								}
 								libraries={["geometry", "core", "maps"]}
 							>
