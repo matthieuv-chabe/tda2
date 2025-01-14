@@ -70,7 +70,11 @@ export class CarLocationManagerC {
 
         this.lastRefresh = new Date();
 
-        this._mergeMissions(await this._getMissions())
+		const ms = await this._getMissions()
+
+		if(ms.length == 0) { return; }
+
+        this._mergeMissions(ms)
         this._cleanMissions();
 
         console.log("CarLocationManager =======================================")
@@ -110,11 +114,19 @@ export class CarLocationManagerC {
     }
 
     private async _getMissions(): Promise<MissionInfo[]> {
-        const req = this?.clients.map(c => `${c.limo}_${c.name}`).join(",");
-        const res = await fetch(`https://rct.tda2.chabe.com/api/missions/clients/${req}`);
-        const data = await res.json() as Root[];
 
-        this.first_dispatch = this?.clients[0]?.limo || ""
+		let data: Root[] = [];
+
+        try {
+			const req = this?.clients.map(c => `${c.limo}_${c.name}`).join(",");
+			const res = await fetch(`https://rct.tda2.chabe.com/api/missions/clients/${req}`);
+			data = await res.json() as Root[];
+			this.first_dispatch = this?.clients[0]?.limo || ""
+		} catch (e) {
+			console.error("CarLocationManager: Error while fetching missions", e);
+			return [];
+		}
+
 
 		// Transport (mad) for chabelimited
 		// UK 2 10 19 9 14 11 12 6 20
