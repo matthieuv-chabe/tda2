@@ -144,7 +144,7 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 
 		const mis_to_text = (wmis: any): string => {
 			return wmis.LIE_LIBELLE || wmis.LIE_FORMATED
-				}
+		}
 
 		return {
 
@@ -402,7 +402,7 @@ export function App() {
 										cursor: 'pointer', padding: 5, aspectRatio: '1/1',
 										display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '50%',
 										color: 'white'
-									 }}
+									}}
 								>
 									<div
 										ref={disconnectBtnRef}
@@ -427,7 +427,7 @@ export function App() {
 											setDisconnectOpen(false);
 										}}
 									>
-									 FR
+										FR
 									</MenuItem>
 									<MenuItem
 										onClick={() => {
@@ -693,14 +693,14 @@ export function App() {
 														"Mission changed"
 													);
 													// updateOneMission(mission);
-												} }
+												}}
 												index={mission.id}
 												exp={selected == mission.id}
 												onClicked={(_, mis) => {
 													if (selected == mis.id)
 														setSelected(-1);
 													else setSelected(mis.id);
-												} } isSelected={false}											/>
+												}} isSelected={false} />
 										)),
 								]}
 							</div>
@@ -758,17 +758,17 @@ export function App() {
 													overflow: 'auto'
 												}}
 											>
-													{filteredData
+												{filteredData
 													.filter(m => {
 														if (!showAcc && m.acc) return false;
 														if (!showClosed && parseStatusFromRequest(m.w) == "closed") return false;
 														return true;
 													})
 													.sort((a, b) => {
-														
+
 														// If mission status is closed, put it at the end
-														if(parseStatusFromRequest(a.w) == "closed") return 1;
-														
+														if (parseStatusFromRequest(a.w) == "closed") return 1;
+
 														if (a.w.MIS_HEURE_DEBUT < b.w.MIS_HEURE_DEBUT) {
 															return -1;
 														}
@@ -804,7 +804,7 @@ export function App() {
 																	}
 																</span>
 																-
-																<span style={{color:'red'}}>
+																<span style={{ color: 'red' }}>
 																	{
 																		(row.w.MIS_HEURE_FIN || "")?.substring(0, 5)
 																	}
@@ -852,37 +852,37 @@ export function App() {
 								libraries={["geometry", "core", "maps"]}
 							>
 								{CarLocationManager.missions.length != 0 &&
-								<MapEx
-								center={{ lat: 48.8534, lng: 2.3488 }}
-									ondragstart={() => {
-										setIsFollowing(false);
-									}}
-								>
-									{
-										incoming_missions
-											.map((m, index) => {
+									<MapEx
+										center={{ lat: 48.8534, lng: 2.3488 }}
+										ondragstart={() => {
+											setIsFollowing(false);
+										}}
+									>
+										{
+											incoming_missions
+												.map((m, index) => {
 
-												const mis = CarLocationManager.missions.find(e => e.w.MIS_ID == m.id)
-												const loc = CarLocationManager.GetLocation(mis?.w.MIS_ID || -1)
+													const mis = CarLocationManager.missions.find(e => e.w.MIS_ID == m.id)
+													const loc = CarLocationManager.GetLocation(mis?.w.MIS_ID || -1)
 
-												return (
-													<CarLocEx
-														showPath={
-															m.id == selected
-														}
-														missionData={m}
-														missionLastKnownPosition={null}
-														onCarClicked={() => {
-															setSelected(m.id);
-															setIsFollowing(true);
-														}}
-														following={isFollowing}
-													/>
-												)
-											})
-									}
-								</MapEx>
-}
+													return (
+														<CarLocEx
+															showPath={
+																m.id == selected
+															}
+															missionData={m}
+															missionLastKnownPosition={null}
+															onCarClicked={() => {
+																setSelected(m.id);
+																setIsFollowing(true);
+															}}
+															following={isFollowing}
+														/>
+													)
+												})
+										}
+									</MapEx>
+								}
 							</Wrapper>
 						</div>
 					</div>

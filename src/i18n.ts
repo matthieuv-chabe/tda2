@@ -101,7 +101,7 @@ const resources = {
       "plannedArrivalAt": "Arrivée prévue à",
       "unknownPassenger": "Passager inconnu",
 	  "closed": "Terminée",
-	  "upcomingBooking": "Réservation à venir",
+	  "upcomingBooking": "Mission à venir",
 	  "rideStarted": "Mission démarrée",
 	  "chauffeurOnLocation": "Chauffeur sur place",
 	  "passengerDroppedOff": "Passager déposé",
