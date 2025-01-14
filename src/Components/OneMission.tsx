@@ -260,8 +260,7 @@ export const OneMission = (props: {
 								textAlign: "center",
 							}}
 						>
-							{/* <Typography>{props.mission.locations.from}</Typography> */}
-							<Typography>{props.mission.w}</Typography>
+							<Typography>{props.mission.locations.from}</Typography>
 							<Typography variant="subtitle2">{props.mission.w.MIS_HEURE_DEBUT.substring(0, 5)}</Typography>
 						</div>
 
