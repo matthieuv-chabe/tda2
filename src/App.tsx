@@ -798,17 +798,9 @@ export function App() {
 																{row.passenger}
 															</TableCell>
 															<TableCell align="left">
-																<span style={{ color: "green" }}>
-																	{
-																		(row.w.MIS_HEURE_DEBUT || "")?.substring(0, 5)
-																	}
-																</span>
-																-
-																<span style={{ color: 'red' }}>
-																	{
-																		(row.w.MIS_HEURE_FIN || "")?.substring(0, 5)
-																	}
-																</span>
+																<div>
+																	{(row.w.MIS_HEURE_DEBUT || "")?.substring(0, 5)}
+																</div>
 															</TableCell>
 															<TableCell align="right">
 																{row.locations.from}
