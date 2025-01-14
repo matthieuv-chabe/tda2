@@ -80,7 +80,11 @@ export const CarLocEx = (props: {
 		const end_pos_lng = parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LNG)
 
 		const loc = CarLocationManager.GetLocation(props.missionData.w.MIS_ID)
-		const last_known = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
+		let last_known: {lat:number, lng: number} | null = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
+
+		if(!last_known || !last_known.lat || !last_known.lng) {
+			last_known = { lat: start_pos_lat, lng: start_pos_lng }
+		}
 
 		directionsService.route({
 			origin: last_known,
@@ -246,7 +250,6 @@ export const CarLocEx = (props: {
 			geodesic: true,
 			strokeColor: "#000070",
 			strokeOpacity: 0,
-			strokeWeight: 2,
 			map: map
 		});
 
