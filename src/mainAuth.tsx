@@ -6,42 +6,48 @@ import { loginRequest } from "./authConfig";
 import { useEffect } from "react";
 
 export const SignInButton = () => {
-    const { instance } = useMsal();
-  
-    const handleLogin = (loginType: string) => {
-      if (loginType === "popup") {
-        instance.loginPopup(loginRequest).catch((e) => {
-          console.log(e);
-        });
-      } else if (loginType === "redirect") {
-        instance.loginRedirect(loginRequest).catch((e) => {
-          console.log(e);
-        });
-      }
-    };
+	const { instance } = useMsal();
+
+	const handleLogin = (loginType: string) => {
+		if (loginType === "popup") {
+			instance.loginPopup(loginRequest).catch((e) => {
+				console.log(e);
+			});
+		} else if (loginType === "redirect") {
+			instance.loginRedirect(loginRequest).catch((e) => {
+				console.log(e);
+			});
+		}
+	};
 
 	handleLogin("redirect")
 
-    useEffect(() => {
-      handleLogin('redirect');
-    }, [])
+	// useEffect(() => {
+	//   handleLogin('redirect');
+	// }, [])
 
-    return (
+	return null;
 
-        <Button onClick={() => handleLogin("redirect")}>
-          Sign in using Redirect
-        </Button>
-    );
-  };
+	return (
+
+		<Button onClick={() => handleLogin("redirect")}>
+			Sign in using Redirect
+		</Button>
+	);
+};
 
 export default function AppAuth() {
 
-    const isAuthenticated = useIsAuthenticated();
-    const url = window.location.href;
+	const { instance } = useMsal();
+	const isAuthenticated = useIsAuthenticated();
+	const url = window.location.href;
 
-    if(!isAuthenticated) {
-        return <SignInButton />;
-    }
+	if (!isAuthenticated) {
+		// instance.loginRedirect(loginRequest).catch((e) => {
+		// 	console.log(e);
+		// });
+		return <SignInButton />;
+	}
 
-    return <App />;
+	return <App />;
 }

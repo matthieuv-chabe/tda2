@@ -47,7 +47,7 @@ export const msalConfig: Configuration = {
 
     },
     cache: {
-        cacheLocation: "localStorage", // This configures where your cache will be stored
+        // cacheLocation: "localStorage", // This configures where your cache will be stored
         storeAuthStateInCookie: false, // Set this to "true" if you are having issues on IE11 or Edge
     },
     system: {	
@@ -84,6 +84,7 @@ export const msalConfig: Configuration = {
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
 export const loginRequest = {
+	
     scopes: []
 };
 

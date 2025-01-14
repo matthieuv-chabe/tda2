@@ -440,8 +440,11 @@ export function App() {
 									</MenuItem>
 									{/* <MenuDivider /> */}
 									<MenuItem onClick={() => {
-										instance.logout()
-										document.location.href = "/"
+										instance.logout({
+											postLogoutRedirectUri: "/",
+											account: null,
+										})
+										// document.location.href = "/"
 									}}>{t("logout")}</MenuItem>
 								</Menu>
 							</li>
@@ -649,7 +652,7 @@ export function App() {
 													window.location.reload();
 												}}
 											>
-												Actualiser la page
+												{t("refreshPage")}
 											</Button>
 										</Typography>
 									</div>
