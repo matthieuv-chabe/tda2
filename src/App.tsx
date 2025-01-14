@@ -764,7 +764,13 @@ export function App() {
 												{filteredData
 													.filter(m => {
 														if (!showAcc && m.acc) return false;
+
+														// If show closed is false, hide closed missions
 														if (!showClosed && parseStatusFromRequest(m.w) == "closed") return false;
+
+														// If show closed is true, hide open missions
+														if (showClosed && parseStatusFromRequest(m.w) != "closed") return false;
+														
 														return true;
 													})
 													.sort((a, b) => {
