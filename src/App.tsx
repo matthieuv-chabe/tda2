@@ -144,8 +144,8 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 
 		const mis_to_text = (wmis: any): string => {
 			if(!wmis.LIE_LIBELLE) {
-				alert("WMIS")
-				console.clear()
+				// alert("WMIS")
+				// console.clear()
 				console.error({wmis})
 			}
 			return wmis.LIE_LIBELLE || "??"

@@ -172,7 +172,8 @@ export class CarLocationManagerC {
             mission.information = t('noGeolocationData');
         }
 
-        if (JSON.stringify(mission.w.C_Gen_EtapePresence).indexOf("%DIC_LIEU_A_DEFINIR%") !== -1) {
+        // if (JSON.stringify(mission.w.C_Gen_EtapePresence).indexOf("%DIC_LIEU_A_DEFINIR%") !== -1) {
+		if(JSON.stringify(mission.w.C_Gen_EtapePresence[mission.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu).indexOf("DIC_LIEU_A_DEFINIR") !== -1) {
             mission.information = t('arrivalPlaceUndefined');
         }
 
