@@ -800,6 +800,8 @@ export function App() {
 															<TableCell align="left">
 																<div>
 																	{(row.w.MIS_HEURE_DEBUT || "")?.substring(0, 5)}
+																	-
+																	{(row.w.MIS_HEURE_FIN || "")?.substring(0, 5)}
 																</div>
 															</TableCell>
 															<TableCell align="right">
