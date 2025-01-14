@@ -142,6 +142,15 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 		const cgenchu = w.C_Gen_Chauffeur || { CHU_PRENOM: '', CHU_NOM: '', CHU_TEL_MOBILE_1: '' }
 		const cgenvoi = w.C_Gen_Voiture || { VOI_MODELE: '', VOI_LIBELLE: '' }
 
+		const mis_to_text = (wmis: any): string => {
+			if(!wmis.LIE_LIBELLE) {
+				alert("WMIS")
+				console.clear()
+				console.error({wmis})
+			}
+			return wmis.LIE_LIBELLE || "??"
+		}
+
 		return {
 
 			w: w,
@@ -158,8 +167,8 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 			pinned: false,
 			locations: {
 				cur: m.GetLocation(w.MIS_ID),
-				from: w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LIBELLE,
-				to: w.C_Gen_EtapePresence[w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LIBELLE,
+				from: mis_to_text(w.C_Gen_EtapePresence[0].C_Geo_Lieu),
+				to: mis_to_text(w.C_Gen_EtapePresence[w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu),
 			},
 			chauffeur_name: cgenchu.CHU_PRENOM + " " + cgenchu.CHU_NOM.toUpperCase(),
 			chauffeur_phone: cgenchu.CHU_TEL_MOBILE_1,

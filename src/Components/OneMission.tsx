@@ -214,6 +214,7 @@ export const OneMission = (props: {
 							}
 							<div>
 								<img
+									title={t('showImminentArrivals')}
 									src={arrowDown}
 									style={{
 										marginLeft: 10,

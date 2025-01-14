@@ -134,6 +134,8 @@ export const CarLocEx = (props: {
 		console.log("Error while calculating lrl_diff_from_cur", e);
 	}
 
+
+
     return [
         <Marker
             ref={iconRef}
@@ -146,16 +148,9 @@ export const CarLocEx = (props: {
 				props.showPath ? 1 : .5
 			}
 			icon={{
-				url: '/public/logocar.svg',
+				url: props.showPath ? '/public/logocarorange.svg' : '/public/logocar.svg',
 				scaledSize: new google.maps.Size(30, 30),
 			}}
-            // icon={{
-            //     fillColor: 'red',
-            //     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-            //     strokeColor: 'blue',
-            //     strokeWeight: 5,
-            //     scale: 4,
-            // }}
             onClick={() => {
                 props.onCarClicked?.();
             }}

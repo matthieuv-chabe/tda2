@@ -252,7 +252,7 @@ export class CarLocationManagerC {
             })
 
             if (mission.mad) {
-                mission.information = t('transportLastGeolocation') + " " + new Date(data.probable_location.candidates[0].date).toLocaleTimeString();
+                mission.information = t('transportLastGeolocation') + " " + new Date(data.probable_location.candidates[0].date).toLocaleTimeString().substring(0, 5).replace(":", 'h');
                 this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
                 this.locations.push({
                     missionId: mission.w.MIS_ID,
@@ -319,7 +319,7 @@ export class CarLocationManagerC {
                 }
 
                 mission.cache_polylines = lines.polylines;
-                mission.information = t('extrapolatedLastPosition') + mstohuman(new Date().getTime() - last_known_time.getTime()) + t('agoSuffix');
+                mission.information = t('extrapolatedLastPosition') + " " + mstohuman(new Date().getTime() - last_known_time.getTime()) + t('agoSuffix');
                 mission.debug = "geoloc time=" + last_known_time.toLocaleTimeString() + "<br />";
 
                 const loc_within_poly = lines.loc_within_poly;

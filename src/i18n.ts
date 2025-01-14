@@ -12,7 +12,7 @@ const resources = {
       "allMissions": "All Bookings",
       "imminentArrivals": "Imminent Arrivals",
       "search": "Search",
-      "showGreetings": "Show Greetings",
+      "showGreetings": "Show Meet & Greet",
       "showCompletedMissions": "Show Completed Bookings",
       "loadingMissions": "Loading missions...",
       "refreshPage": "Refresh Page",
