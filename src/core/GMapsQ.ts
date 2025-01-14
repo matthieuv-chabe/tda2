@@ -92,6 +92,8 @@ export function getPositionFromElapsedTime(
 ): Position | null {
   let cumulativeTime = 0;
 
+  debugger;
+
   for (let i = 0; i < polylinesWithTimes.length; i++) {
     const segment = polylinesWithTimes[i];
     const segmentStartTime = new Date(segment.startTime).getTime() / 1000; // Convert to seconds

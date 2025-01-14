@@ -47,7 +47,9 @@ export const CarLocEx = (props: {
             map?.setHeadingInteractionEnabled(true);
             // map?.setTilt(45);
             // map?.setZoom(1);
-            map?.setCenter(loc);
+            // map?.setCenter(loc);
+
+
 
             // map?.setHeading(90);
 
@@ -83,14 +85,36 @@ export const CarLocEx = (props: {
 
             if(props.showPath)
             {
+
+				const mission = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);
+
+
                 directionsRenderer.setMap(map);
-                directionsRenderer.setDirections(response);
                 directionsRenderer.setOptions({
                     polylineOptions: {
                         strokeColor: '#061E3A',
                         strokeWeight: 4
                     }
                 })
+
+				const loc = CarLocationManager.GetLocation(props.missionData.w.MIS_ID)
+
+				if(!mission?.mad) {
+					// ne pas afficher les trajets dans les mises à dispo
+					directionsRenderer.setDirections(response);
+
+
+					map?.fitBounds([
+						{ lat: start_pos_lat, lng: start_pos_lng },
+						{ lat: end_pos_lat, lng: end_pos_lng },
+						{ lat: loc.lat, lng: loc.lng }
+					])
+				} else {
+					// Is MaD
+					if(loc) map?.setCenter(loc);
+				}
+
+
             }
             else
             {
@@ -104,7 +128,7 @@ export const CarLocEx = (props: {
 
 		if(props.showPath && props.following) {
 			const loc = CarLocationManager.GetLocation(props.missionData.w.MIS_ID)
-			map?.setCenter(loc);
+			// map?.setCenter(loc);
 		}
 
 	}, [props.showPath, props.missionData, props.missionLastKnownPosition, props.following])
