@@ -123,8 +123,8 @@ export class CarLocationManagerC {
             w: d,
             acc: (d.MIS_TSE_ID == "12" || d.MIS_TSE_ID == "51"),
             mad: 
-				(this.first_dispatch == 'chabe') && (d.MIS_TSE_ID == "3" || d.MIS_TSE_ID == "22" || d.MIS_TSE_ID == "54")
-				||(this.first_dispatch == 'chabelimited' && (d.MIS_TSE_ID == "2" || d.MIS_TSE_ID == "10" || d.MIS_TSE_ID == "19" || d.MIS_TSE_ID == "9" || d.MIS_TSE_ID == "14" || d.MIS_TSE_ID == "11" || d.MIS_TSE_ID == "12" || d.MIS_TSE_ID == "6" || d.MIS_TSE_ID == "20")),
+				((this.first_dispatch == 'chabe') && (d.MIS_TSE_ID == "3" || d.MIS_TSE_ID == "22" || d.MIS_TSE_ID == "54"))
+				||((this.first_dispatch == 'chabelimited' && (d.MIS_TSE_ID == "2" || d.MIS_TSE_ID == "10" || d.MIS_TSE_ID == "19" || d.MIS_TSE_ID == "9" || d.MIS_TSE_ID == "14" || d.MIS_TSE_ID == "11" || d.MIS_TSE_ID == "12" || d.MIS_TSE_ID == "6" || d.MIS_TSE_ID == "20"))),
         } as MissionInfo));
     }
 
