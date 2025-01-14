@@ -3,7 +3,7 @@ import { Deck } from '@deck.gl/core';
 import { LineLayer } from '@deck.gl/layers';
 
 import { useEffect, useRef, useState } from "react";
-import { LastKnownPositionInfo } from "../../App";
+import { LastKnownPositionInfo, MissionT } from "../../App";
 import { CarLocationManager } from "../../core/CarLocationManager/manager";
 
 function calculateRotation(lat1, lon1, lat2, lon2) {
@@ -22,7 +22,7 @@ function calculateRotation(lat1, lon1, lat2, lon2) {
 
 
 export const CarLocEx = (props: {
-	missionData: any,
+	missionData: MissionT,
 	missionLastKnownPosition: LastKnownPositionInfo | null,
 	showPath?: boolean,
 	onCarClicked?: () => void,
@@ -112,16 +112,16 @@ export const CarLocEx = (props: {
 					directionsRenderer.setDirections(response);
 
 
-					map?.fitBounds([
-						{ lat: start_pos_lat, lng: start_pos_lng },
-						{ lat: end_pos_lat, lng: end_pos_lng },
-						{ lat: loc.lat, lng: loc.lng }
-					])
+					// map?.fitBounds([
+					// 	{ lat: start_pos_lat, lng: start_pos_lng },
+					// 	{ lat: end_pos_lat, lng: end_pos_lng },
+					// 	{ lat: loc.lat, lng: loc.lng }
+					// ])
 
 				} else {
 					// Is MaD
-					if (loc) map?.setCenter(loc);
-					map?.setZoom(15);
+					// if (loc) map?.setCenter(loc);
+					// map?.setZoom(15);
 				}
 
 
@@ -169,6 +169,53 @@ export const CarLocEx = (props: {
 
 	useEffect(() => {
 		if (!props.showPath) return;
+		
+		const m = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);
+		if(!m?.mad) return;
+
+		const marker_start = new google.maps.Marker({
+			position: { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
+			map: map,
+			title: 'Départ / Arrivée',
+			label: {
+				text: 'B',
+				color: 'white',
+				fontSize: '12px',
+				fontWeight: 'bold',
+			},
+		})
+
+		const line_from_start_to_car = new google.maps.Polyline({
+			path: [
+				{ lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
+				{ lat: cur?.lat || 0, lng: cur?.lng || 0 }
+			],
+			icons: [ { icon: { path: "M 0,0 0,1 Z", strokeOpacity: 1, scale: 2, }, offset: "0", repeat: "10px", }, ],
+			geodesic: true,
+			strokeColor: "#000070",
+			strokeOpacity: 0,
+			strokeWeight: 2,
+			map: map
+		});
+
+		const bounds = new google.maps.LatLngBounds();
+		const loc_start = { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) }
+		bounds.extend(loc_start);
+		bounds.extend({ lat: cur?.lat || 0, lng: cur?.lng || 0 });
+		map?.fitBounds(bounds, 150);
+
+		return () => {
+			marker_start.setMap(null);
+			line_from_start_to_car.setMap(null);
+		}
+	}, [props.showPath, cur]);
+
+
+	useEffect(() => {
+		if (!props.showPath) return;
+		
+		const m = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);
+		if(m?.mad) return;
 
 		const line_from_start_to_car = new google.maps.Polyline({
 			path: [
@@ -207,11 +254,15 @@ export const CarLocEx = (props: {
 			},
 		})
 
-		map?.fitBounds([
-			{ lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
-			{ lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LNG) },
-			{ lat: cur?.lat || 0, lng: cur?.lng || 0 }
-		])
+		const loc_start = { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) }
+		const loc_end = { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LNG) }
+
+		
+		const bounds = new google.maps.LatLngBounds();
+		bounds.extend(loc_start);
+		bounds.extend(loc_end);
+		bounds.extend({ lat: cur?.lat || 0, lng: cur?.lng || 0 });
+		map?.fitBounds(bounds);
 
 		return () => {
 			line_from_start_to_car.setMap(null);
