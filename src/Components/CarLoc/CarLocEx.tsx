@@ -231,7 +231,7 @@ export const CarLocEx = (props: {
 		const m = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);
 		if(m?.mad) return;
 
-		let last_known = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
+		let last_known: {lat:number, lng:number} | null = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
 		if(!last_known || !last_known.lat || !last_known.lng) {
 			// Set the last position to the first position
 			last_known = { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) }
