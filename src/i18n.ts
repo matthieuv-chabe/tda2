@@ -45,7 +45,7 @@ const resources = {
       "greeting": "Meet & Greet",
       "agoSuffix": "ago)",
       "missingDate": "Missing date",
-      "comingMission": "Coming bookings",
+      "comingMission": "Upcoming bookings",
       "unknown": "?",
       "plannedArrivalAt": "Planned arrival at",
       "unknownPassenger": "Unknown passenger",

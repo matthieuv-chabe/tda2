@@ -337,7 +337,7 @@ export class CarLocationManagerC {
 
             } else {
                 console.log("good")
-                mission.information = t('upToDatePosition') + " (" + time.toLocaleTimeString() + ")";
+                mission.information = t('upToDatePosition') + " (" + time.toLocaleTimeString().substring(0, 5).replace(':', 'h') + ")";
                 this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
                 this.locations.push({
                     missionId: mission.w.MIS_ID,
