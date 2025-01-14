@@ -1,0 +1,164 @@
+ID;Code ERP;Libelle ERP;Group;Group 2;Dispatch
+1;TA;Transfert A�roport;Airport Transfer;Transfer;chabe
+11;PT;Province Transfert;Transfer;Transfer;chabe
+12;ACF;Accueil;Meet & Greet;Meet & Greet;chabe
+13;CP;Courtoisie/Permanence;Courtesy;Miscellaneous;chabe
+16;TAA;Transfert A�roport Avec Accueil;Airport Transfer;Transfer;chabe
+17;TGB;Transfert Gare Bout De Quai;Train Station Transfer;Transfer;chabe
+18;TGA2;Transfert Gare Avec 2 Accueils;Train Station Transfer;Transfer;chabe
+19;TGP;Transfert Grand Paris;Transfer;Transfer;chabe
+20;ET;�tranger Transfert;Transfer;Transfer;chabe
+21;AU;Autres;Miscellaneous;Miscellaneous;chabe
+22;20%;Mise � disposition;Time Based;Time Based;chabe
+3;TS;Transferts Successifs;Time Based;Time Based;chabe
+4;THP;Transport Hors Paris;Time Based;Time Based;chabe
+44;3;Transport 3h;Flat Rate;Time Based;chabe
+45;4;Transport 4h;Flat Rate;Time Based;chabe
+46;6;Transport 6h;Flat Rate;Time Based;chabe
+47;8;Transport 8h;Flat Rate;Time Based;chabe
+48;10;Transport 10h;Flat Rate;Time Based;chabe
+49;12;Transport 12h;Flat Rate;Time Based;chabe
+5;TGA1;Transfert Gare Avec 1 Accueil;Train Station Transfer;Transfer;chabe
+50;14;Transport 14h;Flat Rate;Time Based;chabe
+51;AC;Accueil NF;Meet & Greet;Meet & Greet;chabe
+52;GU;Guide;Guide;Miscellaneous;chabe
+53;FC;Frais Chauffeurs;Miscellaneous;Miscellaneous;chabe
+54;TSE;Transferts Successifs �v�nements;Time Based;Time Based;chabe
+55;PM;Province Transport;Time Based;Time Based;chabe
+56;EM;�tranger Transport;Time Based;Time Based;chabe
+7;TV;Transfert Ville Paris;Transfer;Transfer;chabe
+9;TG;Transfert Gare;Train Station Transfer;Transfer;chabe
+1;FX;Transfert BDX;Transfer;Transfer;chabebdx
+2;M;Dispo;Time Based;Time Based;chabebdx
+3;H;H�tesse;Meet & Greet;Meet & Greet;chabebdx
+4;E;Etranger;Time Based;Time Based;chabebdx
+5;PX;Transport BDX;Time Based;Time Based;chabebdx
+6;FZ;Transfert BIA;Transfer;Transfer;chabebdx
+7;PZ;Transport BIA;Time Based;Time Based;chabebdx
+8;C;Coordinateur;Miscellaneous;Miscellaneous;chabebdx
+1;TLYS;TRANSFERT LYS;Transfer;Transfer;chabecra
+10;MAD;MAD;Time Based;Time Based;chabecra
+11;LOC;LOCATION;Miscellaneous;Miscellaneous;chabecra
+12;TVIS;Transfert Val d'Is�re;Transfer;Transfer;chabecra
+13;DVIS;Transport Val d'Is�re;Time Based;Time Based;chabecra
+2;DLYS;TRANSPORT LYS;Time Based;Time Based;chabecra
+3;SERV;SERVICE;Miscellaneous;Miscellaneous;chabecra
+4;ETR;ETRANGER;Time Based;Time Based;chabecra
+5;TMGV;TRANSFERT MGV;Transfer;Transfer;chabecra
+6;DMGV;TRANSPORT MGV;Time Based;Time Based;chabecra
+7;TCVL;TRANSFERT CVL;Transfer;Transfer;chabecra
+8;DCVL;TRANSPORT CVL;Time Based;Time Based;chabecra
+9;X;AUTRE;Miscellaneous;Miscellaneous;chabecra
+1;T;Transfer;Transfer;Transfer;chabeevent
+10;25%;Late cancellation;Miscellaneous;Miscellaneous;chabeevent
+11;50%;Late cancellation;Miscellaneous;Miscellaneous;chabeevent
+12;75%;Late cancellation;Miscellaneous;Miscellaneous;chabeevent
+13;100%;Late cancellation;Miscellaneous;Miscellaneous;chabeevent
+14;FC;Frais Chauffeurs;Miscellaneous;Miscellaneous;chabeevent
+2;M;Car at disposal;Time Based;Time Based;chabeevent
+3;TR;Training;Miscellaneous;Miscellaneous;chabeevent
+4;NC;Non-Chargeable;Miscellaneous;Miscellaneous;chabeevent
+5;C;Coordination;Miscellaneous;Miscellaneous;chabeevent
+6;MG;Meet & Greet;Meet & Greet;Meet & Greet;chabeevent
+7;AT;Arrival Transfer;Airport Transfer;Transfer;chabeevent
+8;DT;Departure Transfer;Airport Transfer;Transfer;chabeevent
+9;TS;Transferts Successifs;Time Based;Time Based;chabeevent
+1;T;Transfer;Transfer;Transfer;chabegcc
+10;IT;International Transfer;Transfer;Transfer;chabegcc
+11;IHS;International Hourly Service;Time Based;Time Based;chabegcc
+2;H;Hourly service;Time Based;Time Based;chabegcc
+3;S;Service;Miscellaneous;Miscellaneous;chabegcc
+6;LT;Lease Transfert;Transfer;Transfer;chabegcc
+7;LH;Lease Hourly;Time Based;Time Based;chabegcc
+8;ST;Share Transfert;Transfer;Transfer;chabegcc
+9;SH;Share Hourly;Time Based;Time Based;chabegcc
+1;T;Transfert;Transfer;Transfer;chabegva
+10;TC;Transfert Ville;Transfer;Transfer;chabegva
+11;TP;Transfert Point-to-Point;Transfer;Transfer;chabegva
+12;D2D;Service Door-to-Door;Airport Transfer;Transfer;chabegva
+13;CO;Coordinateur;Miscellaneous;Miscellaneous;chabegva
+14;CV;Convoyage;Miscellaneous;Miscellaneous;chabegva
+2;AD;Mise � disposition;Time Based;Time Based;chabegva
+3;S;Service;Miscellaneous;Miscellaneous;chabegva
+4;E;Etranger;Time Based;Time Based;chabegva
+5;RC;Location sans chauffeur;Miscellaneous;Miscellaneous;chabegva
+6;TE;Transfert EXO;Transfer;Transfer;chabegva
+7;TF;Transfert France;Transfer;Transfer;chabegva
+8;TA;Transfert A�roport;Airport Transfer;Transfer;chabegva
+9;TT;Transfert Trainstation;Train Station Transfer;Transfer;chabegva
+1;MTA;MI Trasferimento Aeroportuale;Airport Transfer;Transfer;chabeit
+10;RTE;RM Trasferimento Extra Urbano;Transfer;Transfer;chabeit
+11;MTE;MI Trasferimento Extra Urbano;Transfer;Transfer;chabeit
+12;ITE;IT Trasferimento Extra Urbano;Transfer;Transfer;chabeit
+13;ETE;EST InterCity Transfer;Transfer;Transfer;chabeit
+14;RD;RM Disposizione;Time Based;Time Based;chabeit
+15;MD;MI Disposizione;Time Based;Time Based;chabeit
+16;ID;IT Disposizione;Time Based;Time Based;chabeit
+17;ED;EST Car at Disposal;Time Based;Time Based;chabeit
+18;IST;IT Staff;Miscellaneous;Miscellaneous;chabeit
+19;EST;EST Staff;Miscellaneous;Miscellaneous;chabeit
+2;ITA;IT Trasferimento Aeroportuale;Airport Transfer;Transfer;chabeit
+20;ISV;IT Services;Miscellaneous;Miscellaneous;chabeit
+21;ESV;EST Services;Miscellaneous;Miscellaneous;chabeit
+22;WT;WT Transfer;Transfer;Transfer;chabeit
+23;WTA;WT Airport Transfer;Airport Transfer;Transfer;chabeit
+24;WD;WT Disposal;Time Based;Time Based;chabeit
+25;MCO;MI Trasferimento Oltre Confine;Transfer;Transfer;chabeit
+26;RMG;RM Meet & Greet;Meet & Greet;Meet & Greet;chabeit
+27;RST;RM Staff;Miscellaneous;Miscellaneous;chabeit
+28;RSV;RM Servizi;Miscellaneous;Miscellaneous;chabeit
+29;MMG;MI Meet & Greet;Meet & Greet;Meet & Greet;chabeit
+3;ETA;EST Airport Transfer;Airport Transfer;Transfer;chabeit
+30;MST;MI Staff;Miscellaneous;Miscellaneous;chabeit
+31;MSV;MI Servizi;Miscellaneous;Miscellaneous;chabeit
+32;IMG;IT Meet & Greet;Meet & Greet;Meet & Greet;chabeit
+33;EMG;EST Meet & Greet;Meet & Greet;Meet & Greet;chabeit
+34;ACT;Acconto;Miscellaneous;Miscellaneous;chabeit
+35;COM;Commissione;Miscellaneous;Miscellaneous;chabeit
+36;IDB;Stamp Duty;Miscellaneous;Miscellaneous;chabeit
+5;RTA;RM Trasferimento Aeroportuale;Airport Transfer;Transfer;chabeit
+6;RTC;RM Trasferimento Citt�/Urbano;Transfer;Transfer;chabeit
+7;MTC;MI Trasferimento Citt�/Urbano;Transfer;Transfer;chabeit
+8;ITC;IT Trasferimento Citt�/Urbano;Transfer;Transfer;chabeit
+9;ETC;EST City Transfer;Transfer;Transfer;chabeit
+1;T;UK Transfer;Transfer;Transfer;chabelimited
+10;ETB;UK Event Time Based;Time Based;Time Based;chabelimited
+11;IRTB;Intl Roadshow Time Based;Time Based;Time Based;chabelimited
+12;IETB;Intl Event Time Based;Time Based;Time Based;chabelimited
+13;HT;UK Hotel Transfer;Transfer;Transfer;chabelimited
+14;HTB;UK Hotel Time Based;Time Based;Time Based;chabelimited
+15;TC;UK Transfer CIP;Transfer;Transfer;chabelimited
+16;HTC;UK Hotel Transfer CIP;Transfer;Transfer;chabelimited
+17;ITC;Intl Transfer CIP;Transfer;Transfer;chabelimited
+18;EVC;UK Event CIP;Time Based;Time Based;chabelimited
+19;TBC;UK Time Based CIP;Time Based;Time Based;chabelimited
+2;TB;UK Time Based;Time Based;Time Based;chabelimited
+20;ITBC;Intl Time Based CIP;Time Based;Time Based;chabelimited
+3;RS;UK Roadshow;Time Based;Time Based;chabelimited
+4;EV;UK Event;Time Based;Time Based;chabelimited
+5;IT;Intl Transfer;Transfer;Transfer;chabelimited
+6;ITB;Intl Time Based;Time Based;Time Based;chabelimited
+7;IRS;Intl Roadshow;Time Based;Time Based;chabelimited
+8;IEV;Intl Event;Time Based;Time Based;chabelimited
+9;RTB;UK Roadshow Time Based;Time Based;Time Based;chabelimited
+1;T;Transfert;Transfer;Transfer;chabese
+2;M;Mise � disposition;Time Based;Time Based;chabese
+23;TR;Transfert Riviera;Transfer;Transfer;chabese
+24;TS;Transfert ST;Transfer;Transfer;chabese
+25;TM;Transfert M;Transfer;Transfer;chabese
+26;MS;Transport ST;Time Based;Time Based;chabese
+27;TMc;Transfert Mco;Transfer;Transfer;chabese
+28;MMc;Transport Mco;Time Based;Time Based;chabese
+29;MM;Transport M;Time Based;Time Based;chabese
+5;MR;Transport Rivera;Time Based;Time Based;chabese
+6;H;H�tesse;Meet & Greet;Meet & Greet;chabese
+7;C;Coordinateur;Miscellaneous;Miscellaneous;chabese
+11;M;MAD;Time Based;Time Based;chabetls
+12;TA;AIRBUS TRF;Airport Transfer;Transfer;chabetls
+14;TA+;TRANSFERT AIRBUS PLUS;Airport Transfer;Transfer;chabetls
+15;AU;AUTRE;Miscellaneous;Miscellaneous;chabetls
+2;TT;TOULOUSE TRF;Transfer;Transfer;chabetls
+4;E;ETRANGER;Time Based;Time Based;chabetls
+5;TD;TOULOUSE TRANSPORTS;Time Based;Time Based;chabetls
+7;C;COORDINATEUR;Miscellaneous;Miscellaneous;chabetls
+8;DA;AIRBUS TRANSPORTS;Time Based;Time Based;chabetlsLocked Dispatch: Item chabetls

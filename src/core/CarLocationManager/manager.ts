@@ -4,6 +4,7 @@ import { ClientInfo, LastReceivedLocationInfo, LocationInfo, MissionInfo } from 
 import { mstohuman } from "./utils";
 import I18 from '../..//i18n'
 import { Geo } from "../Geoloc";
+import { isWMissionMeetGreet, isWMissionTimeBased } from "../../business/missionWCategories";
 
 const t = I18.t.bind(I18)
 
@@ -134,10 +135,12 @@ export class CarLocationManagerC {
         return data.map((d) => ({
             w: d,
             acc:
+			// isWMissionMeetGreet(d.MIS_TSE_ID, this.first_dispatch),
 				(this.first_dispatch == 'chabe' && (d.MIS_TSE_ID == "12" || d.MIS_TSE_ID == "51"))
 				|| (this.first_dispatch == 'chabelimited' && (d.MIS_TSE_ID == ""))
 				,
-            mad: 
+            mad:
+			// isWMissionTimeBased(d.MIS_TSE_ID, this.first_dispatch),
 				((this.first_dispatch == 'chabe') && (d.MIS_TSE_ID == "3" || d.MIS_TSE_ID == "22" || d.MIS_TSE_ID == "54" || d.MIS_TSE_ID == "4"))
 				||((this.first_dispatch == 'chabelimited' && (d.MIS_TSE_ID == "2" || d.MIS_TSE_ID == "10" || d.MIS_TSE_ID == "19" || d.MIS_TSE_ID == "9" || d.MIS_TSE_ID == "14" || d.MIS_TSE_ID == "11" || d.MIS_TSE_ID == "12" || d.MIS_TSE_ID == "6" || d.MIS_TSE_ID == "20"))),
         } as MissionInfo));
@@ -397,6 +400,7 @@ export class CarLocationManagerC {
             .filter(m => m.w.MIS_SMI_ID !== "13")
             .filter(m => m.w.MIS_SMI_ID !== "21")
 
+		console.log("Removing missions with MIS_ETAT != 1", this.missions.filter(m => m.w.MIS_ETAT != "1").length)
         this.missions = this.missions.filter(m => m.w.MIS_ETAT == "1");
 
         this.missions.forEach(m => {
