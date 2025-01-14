@@ -187,7 +187,7 @@ export function App() {
 		"Authentification ..."
 	);
 	const reload_countdown = useCountdown(10, 1000, () => {
-		window.location.reload();
+		// window.location.reload();
 	}); // Reload the page after 1 hour ?
 
 	const [isFailed, setIsFailed] = useState<boolean>(false);

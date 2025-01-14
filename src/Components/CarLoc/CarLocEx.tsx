@@ -112,6 +112,7 @@ export const CarLocEx = (props: {
 				} else {
 					// Is MaD
 					if(loc) map?.setCenter(loc);
+					map?.setZoom(15);
 				}
 
 
