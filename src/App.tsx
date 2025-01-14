@@ -143,13 +143,8 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 		const cgenvoi = w.C_Gen_Voiture || { VOI_MODELE: '', VOI_LIBELLE: '' }
 
 		const mis_to_text = (wmis: any): string => {
-			if(!wmis.LIE_LIBELLE) {
-				// alert("WMIS")
-				// console.clear()
-				console.error({wmis})
-			}
-			return wmis.LIE_LIBELLE || "??"
-		}
+			return wmis.LIE_LIBELLE || wmis.LIE_FORMATED
+				}
 
 		return {
 
