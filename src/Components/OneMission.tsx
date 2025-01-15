@@ -76,7 +76,7 @@ export const OneMission = (props: {
 	const arrivalEstimation = CarLocationManager.missions.find(m => m.w.MIS_ID == props.mission.w.MIS_ID)?.remainingStr
 
 
-	let str = "Arrivée prévue à " + arrivalDefault.toLocaleTimeString().substring(0, 5);
+	let str = t('plannedArrivalAt') + " " + arrivalDefault.toLocaleTimeString().substring(0, 5);
 	let color = 'black'
 
 	if (arrivalEstimation && !isNaN(parseInt(arrivalEstimation))) {
@@ -88,16 +88,16 @@ export const OneMission = (props: {
 		}
 
 		if (v <= 0) {
-			str = "Chauffeur arrivé";
+			str = t('driverArrived');
 		} else {
-			str = "Arrivée estimée dans " + v + " min";
+			str = t('estimatedArrivalIn') + " " + v + " " + t('minutesSuffix');
 		}
 
 	}
 
 	const is_mad = isWMissionTimeBased(props.mission.w.MIS_TSE_ID, CarLocationManager.first_dispatch);
 	if(is_mad) {
-		str = "Fin mission à " + arrivalDefault.toLocaleTimeString().substring(0, 5);
+		str = t('missionEndsAt') + " " + arrivalDefault.toLocaleTimeString().substring(0, 5);
 	}
 
 	return (
