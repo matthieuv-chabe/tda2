@@ -230,7 +230,10 @@ export const CarLocEx = (props: {
 
 	// THIS IS A NORMAL MISSION
 	useEffect(() => {
-		if (!props.showPath) return;
+		if (!props.showPath) {			
+			directionsRenderer?.setMap(null);
+			return;
+		}
 		
 		const m = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);
 		if(m?.mad) return;
