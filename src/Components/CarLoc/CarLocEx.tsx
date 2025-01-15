@@ -1,12 +1,11 @@
 import { useMap, Marker, useMapsLibrary, AdvancedMarker, Pin } from "@vis.gl/react-google-maps";
-import { Deck } from '@deck.gl/core';
-import { LineLayer } from '@deck.gl/layers';
 
 import { useEffect, useRef, useState } from "react";
 import { LastKnownPositionInfo, MissionT } from "../../App";
 import { CarLocationManager } from "../../core/CarLocationManager/manager";
 import { Alert, Snackbar } from "@mui/material";
 import { t } from "i18next";
+import { isWMissionTimeBased } from "../../business/missionWCategories";
 
 function calculateRotation(lat1, lon1, lat2, lon2) {
 	const toRadians = (degrees) => degrees * Math.PI / 180;
@@ -299,6 +298,14 @@ export const CarLocEx = (props: {
 
 	const [noPosAlert, setNoPosAlert] = useState(false);
 
+	const last_received_geoloc = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
+	const is_being_extrapolated =
+		!isWMissionTimeBased(props.missionData.w.MIS_TSE_ID, CarLocationManager.first_dispatch)
+		&& (
+			last_received_geoloc && ((new Date().getTime() - last_received_geoloc.time.getTime()) > 1000 * 60 * 5)
+			|| !last_received_geoloc
+		)
+
 	return [
 		<Snackbar
 		style={{zIndex: 9999, position: 'fixed', left: '65%', top: 0}}
@@ -325,7 +332,11 @@ export const CarLocEx = (props: {
 				props.showPath ? 1 : .5
 			}
 			icon={{
-				url: props.showPath ? '/public/logocarorange.svg' : '/public/logocar.svg',
+				url: props.showPath
+					? is_being_extrapolated 
+						? '/public/logocarorange.svg'
+						: '/public/logocar.svg'
+					: '/public/logocargrey.svg',
 				scaledSize: new google.maps.Size(30, 30),
 			}}
 			onClick={() => {
