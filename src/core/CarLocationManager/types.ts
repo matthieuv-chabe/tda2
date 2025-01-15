@@ -14,6 +14,8 @@ export interface MissionInfo {
     cache_polylines?: any;
     debug?: string;
     do_not_compute?: boolean;
+
+	remainingStr?: string;
 }
 
 export interface LocationInfo {

@@ -12,6 +12,8 @@ import { MissionT } from "../App";
 import I18 from "../i18n";
 
 import arrowDown from "../../public/arrowBottom.svg";
+import { CarLocationManager } from "../core/CarLocationManager";
+import { isWMissionTimeBased } from "../business/missionWCategories";
 const t = I18.t.bind(I18)
 
 
@@ -70,6 +72,32 @@ export const OneMission = (props: {
 		return null;
 	}
 
+	const arrivalDefault = new Date(props.mission.w.MIS_DATE_DEBUT + 'T' + props.mission.w.MIS_HEURE_FIN);
+	const arrivalEstimation = CarLocationManager.missions.find(m => m.w.MIS_ID == props.mission.w.MIS_ID)?.remainingStr
+
+
+	let str = "Arrivée prévue à " + arrivalDefault.toLocaleTimeString().substring(0, 5);
+	let color = 'black'
+
+	if (arrivalEstimation && !isNaN(parseInt(arrivalEstimation))) {
+
+		if (parseInt(arrivalEstimation) < 5) {
+			color = 'red'
+		}
+
+		if (parseInt(arrivalEstimation) <= 0) {
+			str = "Chauffeur arrivé";
+		} else {
+			str = "Arrivée estimée dans " + arrivalEstimation;
+		}
+
+	}
+
+	const is_mad = isWMissionTimeBased(props.mission.w.MIS_TSE_ID, CarLocationManager.first_dispatch);
+	if(is_mad) {
+		str = "Fin mission à " + arrivalDefault.toLocaleTimeString().substring(0, 5);
+	}
+
 	return (
 		<>
 			<Accordion
@@ -95,7 +123,7 @@ export const OneMission = (props: {
 								width: "100%",
 							}}
 						>
-							<div style={{ flex: 1 }}>
+							<div style={{ flex: 1 }} title={props.mission.w.MIS_ID}>
 								{/* {JSON.stringify(props.mission.w)} */}
 								{/* #region Pin and tags */}
 								{/* <div
@@ -136,9 +164,15 @@ export const OneMission = (props: {
 									})}
 								</div> */}
 								<p>
-									{props.mission.w.MIS_ID + " "}
-									{t('plannedArrivalAt') + " "}
-									{props.mission.arrival.estimated}
+									{/* {props.mission.w.MIS_ID + " "} */}
+
+									<div style={{ color: color }}>
+										{
+											// ARRIVEE PREVUE
+											str
+										}
+									</div>
+
 									{
 										props.mission.acc &&
 										<div style={{ backgroundColor: "purple", color: "white", borderRadius: 5, padding: 1, display: "inline-block", marginLeft: 5, fontSize: "small" }}>
@@ -276,7 +310,7 @@ export const OneMission = (props: {
 							<Typography>
 								{
 									props.mission.locations.to.indexOf("%") != -1
-											? t('arrivalPlaceUndefined')
+										? t('arrivalPlaceUndefined')
 										: props.mission.locations.to
 								}
 							</Typography>

@@ -237,6 +237,8 @@ export class CarLocationManagerC {
                     startdate
                 )
 
+				mission.remainingStr = mstohuman(extp.remainingTime * 60 * 1000)
+
                 mission.information = extp.polylines.length > 1
                     ? t('fullExtrapolation')
                     : t('unknown')
@@ -341,6 +343,8 @@ export class CarLocationManagerC {
 					mission.information = t('unknownRouteToDestination');
 					return;
 				}
+
+				mission.remainingStr = mstohuman(lines.remainingTime * 60 * 1000)
 
                 const error_zero = JSON.stringify(lines).includes("ZERO_RESULTS");
                 if (error_zero) {
