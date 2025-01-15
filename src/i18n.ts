@@ -55,6 +55,7 @@ const resources = {
 	  "chauffeurOnLocation": "Chauffeur on location",
 	  "passengerDroppedOff": "Passenger dropped off",
 	  "no_position_for_this_mission": "No position for this booking",
+	  "last_known_position_of_the_vehicle": "Last known position of the vehicle",
     }
   },
   fr: {
@@ -107,6 +108,7 @@ const resources = {
 	  "chauffeurOnLocation": "Chauffeur sur place",
 	  "passengerDroppedOff": "Passager déposé",
 	  "no_position_for_this_mission": "Pas de position pour cette mission",
+	  "last_known_position_of_the_vehicle": "Dernière position connue du véhicule",
     }
   }
 };

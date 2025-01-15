@@ -337,7 +337,8 @@ export const CarLocEx = (props: {
 		((lrl && props.showPath && lrl_diff_from_cur) ? <AdvancedMarker
 			// ref={iconRef}
 			position={{ lat: lrl.lat, lng: lrl.lng }}
-			title={"Dernière position connue du véhicule"}
+			// title={"Dernière position connue du véhicule"}
+			title={t("last_known_position_of_the_vehicle")}
 			onClick={() => {
 				props.onCarClicked?.();
 			}}
