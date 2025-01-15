@@ -390,7 +390,7 @@ export class CarLocationManagerC {
 				)
 
 				if(extp instanceof Error) {
-					mission.information = "YEEP";
+					mission.information = "Impossible de charger les informations";
 					return;
 				}
 
