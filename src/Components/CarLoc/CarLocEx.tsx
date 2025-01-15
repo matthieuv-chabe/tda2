@@ -95,13 +95,7 @@ export const CarLocEx = (props: {
 			console.log("saged:")
 			// setSavedDirectionServices(response);
 
-			const m = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);
-			if(m && !m.remainingStr) {
-				const tottime = new Date(response.routes[0].legs[0].arrival_time?.value || "").getTime() - new Date(response.routes[0].legs[0].departure_time?.value || "").getTime();
-				const remtime = tottime - (new Date().getTime() - new Date(response.routes[0].legs[0].departure_time?.value || "").getTime());
-				m.remainingStr = remtime / 1000 / 60 + "";
-			}
-
+			
 			if (props.showPath) {
 
 				const mission = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);

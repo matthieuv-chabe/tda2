@@ -168,6 +168,9 @@ export class CarLocationManagerC {
 				cache_polylines: old.cache_polylines,
 				debug: old.debug,
 				do_not_compute: old.do_not_compute || false,
+				remainingStr: old.remainingStr,
+				acc: old.acc,
+				mad: old.mad
 			}
 		})
 
@@ -374,17 +377,25 @@ export class CarLocationManagerC {
 				console.log("good")
 				mission.information = t('upToDatePosition') + " (" + time.toLocaleTimeString().substring(0, 5).replace(':', 'h') + ")";
 
-				const last_known_time = time;
-				const now_time = new Date();
+				// Still extrapol to get time
 
-				// let tottime = 0
-				// let remtime = 0
-				// try {
-				// 	tottime = new Date(polylines[polylines.length - 1].endTime).getTime() - new Date(polylines[0].startTime).getTime()
-				// 	remtime = tottime - (new Date().getTime() - time.getTime())
-				// } catch {
-				// 	tottime = -1
-				// }
+				const startplace = p;
+				const endplace = mission.w.C_Gen_EtapePresence[mission.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu;
+				const startdate = time;
+
+				const extp = await ExtrapolFromLocAndTime(
+					{ lat: startplace.lat, lng: startplace.lon },
+					{ lat: parseFloat(endplace.LIE_LAT), lng: parseFloat(endplace.LIE_LNG) },
+					startdate
+				)
+
+				if(extp instanceof Error) {
+					mission.information = "YEEP";
+					return;
+				}
+
+				debugger;
+				mission.remainingStr = ((extp.remainingTime)/60/1000) + ""
 
 				this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
 				this.locations.push({

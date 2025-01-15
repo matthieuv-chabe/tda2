@@ -81,14 +81,16 @@ export const OneMission = (props: {
 
 	if (arrivalEstimation && !isNaN(parseInt(arrivalEstimation))) {
 
-		if (parseInt(arrivalEstimation) < 5) {
+		const v = parseInt(arrivalEstimation);
+
+		if (v < 5) {
 			color = 'red'
 		}
 
-		if (parseInt(arrivalEstimation) <= 0) {
+		if (v <= 0) {
 			str = "Chauffeur arrivé";
 		} else {
-			str = "Arrivée estimée dans " + arrivalEstimation;
+			str = "Arrivée estimée dans " + v + " min";
 		}
 
 	}
