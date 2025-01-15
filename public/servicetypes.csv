@@ -161,4 +161,4 @@ ID;Code ERP;Libelle ERP;Group;Group 2;Dispatch
 4;E;ETRANGER;Time Based;Time Based;chabetls
 5;TD;TOULOUSE TRANSPORTS;Time Based;Time Based;chabetls
 7;C;COORDINATEUR;Miscellaneous;Miscellaneous;chabetls
-8;DA;AIRBUS TRANSPORTS;Time Based;Time Based;chabetlsLocked Dispatch: Item chabetls
+8;DA;AIRBUS TRANSPORTS;Time Based;Time Based;chabetlsLocked
