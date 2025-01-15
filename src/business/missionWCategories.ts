@@ -20,12 +20,10 @@ export const isWMissionTimeBased = c.factory(
 	// First filter the data to get the desired row
 	(obj, code, erp) => {
 		const r = obj.ID === code && obj.Dispatch === erp
-		console.log({r})
 		return r
 	},
 	// Then transform the data to extract the information
 	obj => {
-		console.log({objtodet: obj, tb: obj && obj.length == 1 && obj[0].Group2 == 'Time Based'})
 		return obj && obj.length == 1 && obj[0].Group2 == 'Time Based'
 	}
 )

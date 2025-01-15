@@ -35,7 +35,7 @@ export class CsvCategorizer<T> {
 			const values = line.split(options.colSeparator);
 			const obj: any = {};
 			for (let i = 0; i < columns.length; i++) {
-				obj[columns[i].replace(/\s/, '')] = values[i];
+				obj[columns[i].replace(/\s/, '')] = (values[i] || "").replace('\r', '');
 			}
 			data.push(obj);
 		}

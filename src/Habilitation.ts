@@ -1,3 +1,4 @@
+import { children_flattener } from "./core/childrenFlattener"
 
 export interface HabilitationResponseBeforeParsing {
     userId: number
@@ -50,7 +51,9 @@ export class Habilitation {
         //  however, if it's still a number, we ignore the entry altogether
         //  because it means it's not found in Waynium
 
-        const subAccounts: SubAccount[] = data.account.children.map(subAccount => {
+		const allelements = children_flattener<SubAccount>([data.account]);
+
+        const subAccounts: SubAccount[] = allelements.map(subAccount => {
             const cliId = parseInt(subAccount.cliId);
             if (!isNaN(cliId)) {
                 return { cliId, dispatch: subAccount.dispatch };
