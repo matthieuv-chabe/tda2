@@ -14,7 +14,7 @@ type ServiceTypesT = {
 const text = await (await fetch('/public/servicetypes.csv')).text()
 const c = new CsvCategorizer<ServiceTypesT>(text, {colSeparator:';', rowSeparator:'\r\n'})
 
-
+alert(c.top)
 
 export const isWMissionTimeBased = c.factory(
 	// First filter the data to get the desired row
