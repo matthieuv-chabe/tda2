@@ -343,6 +343,7 @@ export const CarLocEx = (props: {
 				scaledSize: new google.maps.Size(30, 30),
 			}}
 			onClick={() => {
+				document.querySelector('#OneMission-' + props.missionData.w.MIS_ID)?.scrollIntoView({ behavior: 'smooth' });
 				props.onCarClicked?.();
 			}}
 

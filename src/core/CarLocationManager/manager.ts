@@ -337,15 +337,22 @@ export class CarLocationManagerC {
                     last_known_time
                 )
 
+				if(lines instanceof Error) {
+					mission.information = t('unknownRouteToDestination');
+					return;
+				}
+
                 const error_zero = JSON.stringify(lines).includes("ZERO_RESULTS");
                 if (error_zero) {
                     mission.information = t('impossiblePath');
                     return;
                 }
 
-                mission.cache_polylines = lines.polylines;
+                // mission.cache_polylines = lines.polylines;
                 mission.information = t('extrapolatedLastPosition') + " " + mstohuman(new Date().getTime() - last_known_time.getTime()) + t('agoSuffix');
                 mission.debug = "geoloc time=" + last_known_time.toLocaleTimeString() + "<br />";
+				mission.debug += "T=" + lines.totalTime + "<br />";
+				mission.debug += "R=" + lines.remainingTime + "<br />";
 
                 const loc_within_poly = lines.loc_within_poly;
 

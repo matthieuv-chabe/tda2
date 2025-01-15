@@ -1,4 +1,4 @@
-import { getPositionFromElapsedTime } from "./GMapsQ";
+import { getPositionFromElapsedTime, PolylineSegment } from "./GMapsQ";
 
 export const ExtrapolFromLocAndTime = async (
     loc: { lat: number; lng: number },
@@ -21,16 +21,26 @@ export const ExtrapolFromLocAndTime = async (
 
 
         const polylinest = await (await fetch(req)).text()
-        const polylines = JSON.parse(polylinest)
+        const polylines = JSON.parse(polylinest) as PolylineSegment[]
     
         const loc_within_poly = getPositionFromElapsedTime(
             polylines,
             (new Date().getTime() - time.getTime()) / 1000
         )
+
+		let tottime = 0
+		try {
+			tottime = new Date(polylines[polylines.length - 1].endTime).getTime() - new Date(polylines[0].startTime).getTime()
+		} catch {
+			debugger;
+			tottime = -1
+		}
     
         return {
             polylines,
-            loc_within_poly
-        }
+            loc_within_poly,
+			totalTime: tottime / 1000 /60,
+			remainingTime: (tottime - (new Date().getTime() - time.getTime())) / 1000 / 60
+		}
 
 }

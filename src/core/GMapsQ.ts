@@ -1,11 +1,5 @@
 import axios from "axios";
 
-interface PolylineSegment {
-  polyline: string;
-  startTime: Date;
-  endTime: Date;
-}
-
 export async function getPolylinesWithTimes(
   apiKey: string,
   origin: string,
@@ -75,7 +69,7 @@ export async function getPolylinesWithTimes(
 
 import polyline from "@mapbox/polyline"; // To decode polylines. Install with `npm install @mapbox/polyline`
 
-interface PolylineSegment {
+export type PolylineSegment = {
   polyline: string;
   startTime: Date;
   endTime: Date;
