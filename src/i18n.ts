@@ -54,6 +54,7 @@ const resources = {
 	  "rideStarted": "Ride started",
 	  "chauffeurOnLocation": "Chauffeur on location",
 	  "passengerDroppedOff": "Passenger dropped off",
+	  "no_position_for_this_mission": "No position for this booking",
     }
   },
   fr: {
@@ -105,6 +106,7 @@ const resources = {
 	  "rideStarted": "Mission démarrée",
 	  "chauffeurOnLocation": "Chauffeur sur place",
 	  "passengerDroppedOff": "Passager déposé",
+	  "no_position_for_this_mission": "Pas de position pour cette mission",
     }
   }
 };

@@ -2,7 +2,7 @@
 export const LicencePlate = (props: {platenum: string}) => {
     return (<>
 
-        <div style={{
+        {/* <div style={{
             display: "inline",
             backgroundColor: "blue",
             borderRadius: "3px",
@@ -10,7 +10,7 @@ export const LicencePlate = (props: {platenum: string}) => {
             paddingRight: 5,
             border: "solid 1px black",
             boxShadow: "0px 0px 1px 0px black",
-        }}>
+        }}> */}
             <div
                 style={{
                     display: 'inline',
@@ -21,7 +21,7 @@ export const LicencePlate = (props: {platenum: string}) => {
             >
                 {props.platenum}
             </div>
-        </div>
+        {/* </div> */}
 
     </>)
 }

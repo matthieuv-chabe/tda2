@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { LastKnownPositionInfo, MissionT } from "../../App";
 import { CarLocationManager } from "../../core/CarLocationManager/manager";
 import { Alert, Snackbar } from "@mui/material";
+import { t } from "i18next";
 
 function calculateRotation(lat1, lon1, lat2, lon2) {
 	const toRadians = (degrees) => degrees * Math.PI / 180;
@@ -309,7 +310,8 @@ export const CarLocEx = (props: {
 				sx={{ width: '100%' }}
 				onClose={() => setNoPosAlert(false)}
 			>
-				Aucune position pour cette mission
+				{/* Aucune position pour cette mission */}
+				{t("no_position_for_this_mission")}
 			</Alert>
 		</Snackbar>,
 		<Marker
