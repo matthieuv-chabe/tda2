@@ -29,10 +29,11 @@ export const ExtrapolFromLocAndTime = async (
         )
 
 		let tottime = 0
+		let remtime = 0
 		try {
 			tottime = new Date(polylines[polylines.length - 1].endTime).getTime() - new Date(polylines[0].startTime).getTime()
+			remtime = tottime - (new Date().getTime() - time.getTime())
 		} catch {
-			debugger;
 			tottime = -1
 		}
     
@@ -40,7 +41,7 @@ export const ExtrapolFromLocAndTime = async (
             polylines,
             loc_within_poly,
 			totalTime: tottime / 1000 /60,
-			remainingTime: (tottime - (new Date().getTime() - time.getTime())) / 1000 / 60
+			remainingTime: remtime
 		}
 
 }
