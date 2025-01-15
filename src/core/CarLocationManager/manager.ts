@@ -71,7 +71,13 @@ export class CarLocationManagerC {
 
         this.lastRefresh = new Date();
 
-		const ms = await this._getMissions()
+		let ms: MissionInfo[] = []
+		
+		try {
+			ms = await this._getMissions()
+		} catch (e) {
+			return
+		}
 
 		if(ms.length == 0) { return; }
 
@@ -120,11 +126,13 @@ export class CarLocationManagerC {
 
         try {
 			const req = this?.clients.map(c => `${c.limo}_${c.name}`).join(",");
-			const res = await fetch(`https://rct.tda2.chabe.com/api/missions/clients/${req}`);
-			data = await res.json() as Root[];
+			const res = await fetch(`https://rct.tda2.chabe.com/api/missions/clients/${req}`)
+			if(!res.ok) return []
+			const r = await res.text()
+			data = JSON.parse(r) as Root[];
 			this.first_dispatch = this?.clients[0]?.limo || ""
 		} catch (e) {
-			console.error("CarLocationManager: Error while fetching missions", e);
+			console.warn("CarLocationManager: Error while fetching missions", e);
 			return [];
 		}
 
@@ -134,15 +142,13 @@ export class CarLocationManagerC {
 
         return data.map((d) => ({
             w: d,
-            acc:
-			// isWMissionMeetGreet(d.MIS_TSE_ID, this.first_dispatch),
-				(this.first_dispatch == 'chabe' && (d.MIS_TSE_ID == "12" || d.MIS_TSE_ID == "51"))
-				|| (this.first_dispatch == 'chabelimited' && (d.MIS_TSE_ID == ""))
-				,
-            mad:
-			// isWMissionTimeBased(d.MIS_TSE_ID, this.first_dispatch),
-				((this.first_dispatch == 'chabe') && (d.MIS_TSE_ID == "3" || d.MIS_TSE_ID == "22" || d.MIS_TSE_ID == "54" || d.MIS_TSE_ID == "4"))
-				||((this.first_dispatch == 'chabelimited' && (d.MIS_TSE_ID == "2" || d.MIS_TSE_ID == "10" || d.MIS_TSE_ID == "19" || d.MIS_TSE_ID == "9" || d.MIS_TSE_ID == "14" || d.MIS_TSE_ID == "11" || d.MIS_TSE_ID == "12" || d.MIS_TSE_ID == "6" || d.MIS_TSE_ID == "20"))),
+            acc: isWMissionMeetGreet(d.MIS_TSE_ID, this.first_dispatch),
+				// (this.first_dispatch == 'chabe' && (d.MIS_TSE_ID == "12" || d.MIS_TSE_ID == "51"))
+				// || (this.first_dispatch == 'chabelimited' && (d.MIS_TSE_ID == ""))
+				// ,
+            mad: isWMissionTimeBased(d.MIS_TSE_ID, this.first_dispatch),
+				// ((this.first_dispatch == 'chabe') && (d.MIS_TSE_ID == "3" || d.MIS_TSE_ID == "22" || d.MIS_TSE_ID == "54" || d.MIS_TSE_ID == "4"))
+				// ||((this.first_dispatch == 'chabelimited' && (d.MIS_TSE_ID == "2" || d.MIS_TSE_ID == "10" || d.MIS_TSE_ID == "19" || d.MIS_TSE_ID == "9" || d.MIS_TSE_ID == "14" || d.MIS_TSE_ID == "11" || d.MIS_TSE_ID == "12" || d.MIS_TSE_ID == "6" || d.MIS_TSE_ID == "20"))),
         } as MissionInfo));
     }
 

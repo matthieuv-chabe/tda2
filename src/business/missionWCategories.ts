@@ -1,6 +1,5 @@
 
 import { CsvCategorizer } from "../csv/csv_categorizer"
-import servicetypes from "./servicetypes.csv"
 
 type ServiceTypesT = {
 	// ID;Code ERP;Libelle ERP;Group;Group 2;Show Dispatch Column Actions
@@ -12,7 +11,8 @@ type ServiceTypesT = {
 	Dispatch: string
 }
 
-const c = new CsvCategorizer<ServiceTypesT>(servicetypes, {colSeparator:';', rowSeparator:'\r\n'})
+const text = await (await fetch('/public/servicetypes.csv')).text()
+const c = new CsvCategorizer<ServiceTypesT>(text, {colSeparator:';', rowSeparator:'\r\n'})
 
 export const isWMissionTimeBased = c.factory(
 	// First filter the data to get the desired row
