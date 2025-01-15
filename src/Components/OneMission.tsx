@@ -81,7 +81,7 @@ export const OneMission = (props: {
 
 	if (arrivalEstimation && !isNaN(parseInt(arrivalEstimation))) {
 
-		const v = parseInt(arrivalEstimation) * 1.1 + 2; //Fix :)
+		const v = Math.ceil(parseInt(arrivalEstimation) * 1.1 + 2); //Fix :)
 
 		if (v < 5) {
 			color = 'red'
