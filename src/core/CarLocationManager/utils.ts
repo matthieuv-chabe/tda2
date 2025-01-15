@@ -11,5 +11,5 @@ export function mstohuman(ms: number): string {
     }
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
-    return `${hours}h${remainingMinutes}`;
+    return `${hours}h${remainingMinutes < 10 ? '0' : ''}${remainingMinutes}`;
 }
