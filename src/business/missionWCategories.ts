@@ -12,7 +12,7 @@ type ServiceTypesT = {
 }
 
 const text = await (await fetch('/public/servicetypes.csv')).text()
-const c = new CsvCategorizer<ServiceTypesT>(text, {colSeparator:';', rowSeparator:'\r\n'})
+const c = new CsvCategorizer<ServiceTypesT>(text, {colSeparator:';', rowSeparator:'\n'})
 
 alert(c.top)
 
