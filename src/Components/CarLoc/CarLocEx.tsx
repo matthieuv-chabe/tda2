@@ -257,7 +257,7 @@ export const CarLocEx = (props: {
 		const marker_start = new google.maps.Marker({
 			position: { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
 			map: map,
-			title: 'Départ',
+			title: props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LIBELLE || props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_FORMATED,
 			label: {
 				text: 'A',
 				color: 'white',
@@ -269,7 +269,7 @@ export const CarLocEx = (props: {
 		const marker_end = new google.maps.Marker({
 			position: { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LNG) },
 			map: map,
-			title: 'Arrivée',
+			title: props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LIBELLE || props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_FORMATED,
 			label: {
 				text: 'B',
 				color: 'white',
