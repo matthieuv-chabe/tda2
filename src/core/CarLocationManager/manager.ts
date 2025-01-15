@@ -394,7 +394,6 @@ export class CarLocationManagerC {
 					return;
 				}
 
-				debugger;
 				mission.remainingStr = ((extp.remainingTime)/60/1000) + ""
 
 				this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
