@@ -433,19 +433,19 @@ export class CarLocationManagerC {
 			}
 		});
 
-		// this.missions.forEach(m => {
-		// 	const enddate = new Date(m.w.MIS_DATE_DEBUT + "T" + m.w.MIS_HEURE_FIN);
-		// 	const now = new Date();
-		// 	if (Math.floor((now.getTime() - enddate.getTime()) / 1000 / 60) > 60) {
-		// 		m.debug = "ended";
-		// 		m.do_not_compute = true;
-		// 	}
-		// })
+		this.missions.forEach(m => {
+			const enddate = new Date(m.w.MIS_DATE_DEBUT + "T" + m.w.MIS_HEURE_FIN);
+			const now = new Date();
+			if (Math.floor((now.getTime() - enddate.getTime()) / 1000 / 60) > 60) {
+				m.debug = "ended";
+				m.do_not_compute = true;
+			}
+		})
 
-		// this.missions = this.missions
-		// 	.filter(m => m.w.MIS_SMI_ID !== "7")
-		// 	.filter(m => m.w.MIS_SMI_ID !== "13")
-		// 	.filter(m => m.w.MIS_SMI_ID !== "21")
+		this.missions = this.missions
+			.filter(m => m.w.MIS_SMI_ID !== "7")
+			.filter(m => m.w.MIS_SMI_ID !== "13")
+			.filter(m => m.w.MIS_SMI_ID !== "21")
 
 		console.log("Removing missions with MIS_ETAT != 1", this.missions.filter(m => m.w.MIS_ETAT != "1").length)
 		this.missions = this.missions.filter(m => m.w.MIS_ETAT == "1");
