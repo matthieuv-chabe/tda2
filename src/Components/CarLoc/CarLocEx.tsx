@@ -62,7 +62,7 @@ export const CarLocEx = (props: {
 			directionsRenderer?.setOptions({
 				polylineOptions: {
 					strokeColor: '#061E3A',
-					strokeWeight: 2
+					strokeWeight: 3
 				},
 				preserveViewport: true,
 				suppressMarkers: true,
@@ -107,7 +107,7 @@ export const CarLocEx = (props: {
 				directionsRenderer.setOptions({
 					polylineOptions: {
 						strokeColor: '#061E3A',
-						strokeWeight: 2
+						strokeWeight: 3
 					},
 					preserveViewport: true,
 					suppressMarkers: true,
