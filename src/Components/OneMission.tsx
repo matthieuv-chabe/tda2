@@ -14,6 +14,8 @@ import I18 from "../i18n";
 import arrowDown from "../../public/arrowBottom.svg";
 import { CarLocationManager } from "../core/CarLocationManager";
 import { isWMissionTimeBased } from "../business/missionWCategories";
+import { WGetFirstLastLoc } from "../core/waynium";
+import { haversineDistance } from "../core/utils/maps/harvesine";
 const t = I18.t.bind(I18)
 
 
@@ -93,6 +95,19 @@ export const OneMission = (props: {
 			str = t('estimatedArrivalIn') + " " + v + " " + t('minutesSuffix');
 		}
 
+	}
+
+	
+
+	// If the driver is less than 30m away from the arrival location, we display "arrived" too
+	const curloc = CarLocationManager.GetLocation(props.mission.id + "");
+	const endpoint = WGetFirstLastLoc(props.mission.w).endLoc;
+
+	if (curloc && endpoint) {
+		const distance_in_km = haversineDistance(curloc.lat, curloc.lng, parseFloat(endpoint.LIE_LAT), parseFloat(endpoint.LIE_LNG));
+		if (distance_in_km < 0.05) { // 50m
+			t('driverArrived');
+		}
 	}
 
 	const is_mad = isWMissionTimeBased(props.mission.w.MIS_TSE_ID, CarLocationManager.first_dispatch);
