@@ -121,7 +121,7 @@ function waynium_to_missiont(w: any): MissionT | null {
 			eastr = "??"
 		}
 
-		try {
+		try { 
 			eastr = ea.toTimeString()?.substring(0, 5)
 		} catch (e) {
 			eastr = "??"

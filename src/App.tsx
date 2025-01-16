@@ -43,6 +43,7 @@ import MenuDivider from "antd/es/menu/MenuDivider";
 import useConfig from "antd/es/config-provider/hooks/useConfig";
 import { Switch } from "antd"
 import { useBusinessSearch } from "./Hooks/useBusinessSearch";
+import { WGetFirstLastLoc } from "./core/waynium";
 
 GeolocActualizer.hi();
 
@@ -146,6 +147,9 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 			return wmis.LIE_LIBELLE || wmis.LIE_FORMATED
 		}
 
+				const wlocs = WGetFirstLastLoc(w)
+		
+
 		return {
 
 			w: w,
@@ -162,8 +166,8 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 			pinned: false,
 			locations: {
 				cur: m.GetLocation(w.MIS_ID),
-				from: mis_to_text(w.C_Gen_EtapePresence[0].C_Geo_Lieu),
-				to: mis_to_text(w.C_Gen_EtapePresence[w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu),
+				from: mis_to_text(wlocs.startLoc),
+				to: mis_to_text(wlocs.endLoc),
 			},
 			chauffeur_name: cgenchu.CHU_PRENOM + " " + cgenchu.CHU_NOM.toUpperCase(),
 			chauffeur_phone: cgenchu.CHU_TEL_MOBILE_1,
