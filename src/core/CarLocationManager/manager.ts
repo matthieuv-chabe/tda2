@@ -12,6 +12,7 @@ export class CarLocationManagerC {
 	public first_dispatch: string = ""
 	private clients: ClientInfo[] = [];
 	public missions: MissionInfo[] = [];
+	public allmissions: MissionInfo[] = [];
 	public locations: LocationInfo[] = [];
 	public lastReceivedLocation: LastReceivedLocationInfo[] = [];
 	public lastRefresh = new Date();
@@ -396,12 +397,12 @@ export class CarLocationManagerC {
 					startdate
 				)
 
-				if(extp instanceof Error) {
+				if (extp instanceof Error) {
 					mission.information = "Impossible de charger les informations";
 					return;
 				}
 
-				mission.remainingStr = ((extp.remainingTime)/60/1000) + ""
+				mission.remainingStr = ((extp.remainingTime) / 60 / 1000) + ""
 
 				this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
 				this.locations.push({
@@ -433,6 +434,9 @@ export class CarLocationManagerC {
 			}
 		});
 
+		this.allmissions = [...this.missions];
+
+
 		this.missions.forEach(m => {
 			const enddate = new Date(m.w.MIS_DATE_DEBUT + "T" + m.w.MIS_HEURE_FIN);
 			const now = new Date();
@@ -442,10 +446,20 @@ export class CarLocationManagerC {
 			}
 		})
 
-		this.missions = this.missions
-			.filter(m => m.w.MIS_SMI_ID !== "7")
-			.filter(m => m.w.MIS_SMI_ID !== "13")
-			.filter(m => m.w.MIS_SMI_ID !== "21")
+		// this.missions = this.missions
+		// 	.filter(m => m.w.MIS_SMI_ID !== "7")
+		// 	.filter(m => m.w.MIS_SMI_ID !== "13")
+		// 	.filter(m => m.w.MIS_SMI_ID !== "21")
+
+		for (let i = 0; i < this.missions.length; i++) {
+			if (
+				this.missions[i].w.MIS_SMI_ID == "7"
+				|| this.missions[i].w.MIS_SMI_ID == "13"
+				|| this.missions[i].w.MIS_SMI_ID == "21"
+			) {
+				this.missions[i].do_not_compute = true;
+			}
+		}
 
 		console.log("Removing missions with MIS_ETAT != 1", this.missions.filter(m => m.w.MIS_ETAT != "1").length)
 		this.missions = this.missions.filter(m => m.w.MIS_ETAT == "1");

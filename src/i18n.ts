@@ -60,6 +60,7 @@ const resources = {
       "estimatedArrivalIn": "Estimated arrival in",
       "minutesSuffix": "min",
       "missionEndsAt": "Booking ending at",
+	  "endOfMissionNotAvailable": "End time not available",
     }
   },
   fr: {
@@ -117,6 +118,7 @@ const resources = {
       "estimatedArrivalIn": "Arrivée estimée dans",
       "minutesSuffix": "min",
       "missionEndsAt": "Fin mission à",
+	  "endOfMissionNotAvailable": "Heure de fin non indiquée",
     }
   }
 };
