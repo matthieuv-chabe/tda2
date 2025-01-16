@@ -36,6 +36,7 @@ import { useCountdown } from "./Hooks/useCountdown";
 import * as authconfig from "./authConfig";
 import { CarLocEx } from "./Components/CarLoc/CarLocEx";
 import { MapEx } from "./Components/MapEx";
+import { WGetFirstLastLoc } from "./core/waynium";
 GeolocActualizer.hi();
 
 // const validate_url_tab = (value: string) => ['tab_missions_to_hotel', 'tab_missions_from_hotel', 'tab_missions_done'].includes(value)
@@ -129,6 +130,8 @@ function waynium_to_missiont(w: any): MissionT | null {
 		const cgenchu = w.C_Gen_Chauffeur || { CHU_PRENOM: '', CHU_NOM: '', CHU_TEL_MOBILE_1: '' }
 		const cgenvoi = w.C_Gen_Voiture || { VOI_MODELE: '', VOI_LIBELLE: '' }
 
+		const wlocs = WGetFirstLastLoc(w)
+
 		return {
 
 			w: w,
@@ -142,8 +145,8 @@ function waynium_to_missiont(w: any): MissionT | null {
 			},
 			pinned: false,
 			locations: {
-				from: w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LIBELLE,
-				to: w.C_Gen_EtapePresence[1].C_Geo_Lieu.LIE_LIBELLE,
+				from: wlocs.startLoc.LIE_LIBELLE,
+				to: wlocs.endLoc.LIE_LIBELLE,
 			},
 			chauffeur_name: cgenchu.CHU_PRENOM + " " + cgenchu.CHU_NOM.toUpperCase(),
 			chauffeur_phone: cgenchu.CHU_TEL_MOBILE_1,
