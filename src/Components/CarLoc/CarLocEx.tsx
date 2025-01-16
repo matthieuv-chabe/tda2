@@ -82,9 +82,9 @@ export const CarLocEx = (props: {
 		const end_pos_lng = parseFloat(endLoc.LIE_LNG);
 
 		const loc = CarLocationManager.GetLocation(props.missionData.w.MIS_ID)
-		let last_known: {lat:number, lng: number} | null = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
+		let last_known: { lat: number, lng: number } | null = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
 
-		if(!last_known || !last_known.lat || !last_known.lng) {
+		if (!last_known || !last_known.lat || !last_known.lng) {
 			last_known = { lat: start_pos_lat, lng: start_pos_lng }
 		}
 
@@ -97,7 +97,7 @@ export const CarLocEx = (props: {
 			console.log("saged:")
 			// setSavedDirectionServices(response);
 
-			
+
 			if (props.showPath) {
 
 				const mission = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);
@@ -178,14 +178,14 @@ export const CarLocEx = (props: {
 	// THIS IS A MISE A DISPO
 	useEffect(() => {
 		if (!props.showPath) return;
-		
+
 		const m = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);
-		if(!m?.mad) return;
+		if (!m?.mad) return;
 
 		let marker_start: google.maps.Marker;
 		let line_from_start_to_car: google.maps.Polyline;
 
-		if(cur && cur.lat && cur.lng && (cur?.lat != 0) && (cur?.lng != 0)) {
+		if (cur && cur.lat && cur.lng && (cur?.lat != 0) && (cur?.lng != 0)) {
 
 			const { startLoc } = WGetFirstLastLoc(props.missionData.w);
 
@@ -200,13 +200,13 @@ export const CarLocEx = (props: {
 					fontWeight: 'bold',
 				},
 			})
-	
+
 			line_from_start_to_car = new google.maps.Polyline({
 				path: [
 					{ lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) },
 					{ lat: cur?.lat || 0, lng: cur?.lng || 0 }
 				],
-				icons: [ { icon: { path: "M 0,0 0,1 Z", strokeOpacity: 1, scale: 2, }, offset: "0", repeat: "10px", }, ],
+				icons: [{ icon: { path: "M 0,0 0,1 Z", strokeOpacity: 1, scale: 2, }, offset: "0", repeat: "10px", },],
 				geodesic: true,
 				strokeColor: "#000070",
 				strokeOpacity: 0,
@@ -214,17 +214,11 @@ export const CarLocEx = (props: {
 				map: map
 			});
 
-			const bounds = new google.maps.LatLngBounds();
-			const loc_start = { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) }
-			bounds.extend(loc_start);
-			bounds.extend({ lat: cur?.lat || 0, lng: cur?.lng || 0 });
-			map?.fitBounds(bounds, 150);
-
 		} else {
 			setNoPosAlert(true);
 		}
 
-		
+
 
 		return () => {
 			marker_start?.setMap(null);
@@ -232,19 +226,33 @@ export const CarLocEx = (props: {
 		}
 	}, [props.showPath, cur]);
 
+	// Center MaD only when clicking on the mission (ignore car movement)
+	useEffect(() => {
+		const { startLoc } = WGetFirstLastLoc(props.missionData.w);
+
+		const bounds = new google.maps.LatLngBounds();
+		const loc_start = { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) }
+		bounds.extend(loc_start);
+		bounds.extend({ lat: cur?.lat || 0, lng: cur?.lng || 0 });
+		if (cur?.lat && cur?.lng && cur.lat != 0 && cur.lng != 0)
+			map?.fitBounds(bounds, 150);
+	}, [props.showPath])
+
 
 	// THIS IS A NORMAL MISSION
+	const already_selected_before = useRef(false);
 	useEffect(() => {
-		if (!props.showPath) {			
+		if (!props.showPath) {
+			already_selected_before.current = false;
 			directionsRenderer?.setMap(null);
 			return;
 		}
-		
-		const m = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);
-		if(m?.mad) return;
 
-		let last_known: {lat:number, lng:number} | null = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
-		if(!last_known || !last_known.lat || !last_known.lng) {
+		const m = CarLocationManager.missions.find(m => m.w.MIS_ID === props.missionData.w.MIS_ID);
+		if (m?.mad) return;
+
+		let last_known: { lat: number, lng: number } | null = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
+		if (!last_known || !last_known.lat || !last_known.lng) {
 			// Set the last position to the first position
 			const { startLoc } = WGetFirstLastLoc(props.missionData.w);
 			last_known = { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) }
@@ -255,7 +263,7 @@ export const CarLocEx = (props: {
 				{ lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
 				last_known
 			],
-			icons: [ { icon: { path: "M 0,-1 1,0 0,-1 -1,0 0,-1 Z", strokeOpacity: 1, scale: 2, }, offset: "0", repeat: "10px", }, ],
+			icons: [{ icon: { path: "M 0,-1 1,0 0,-1 -1,0 0,-1 Z", strokeOpacity: 1, scale: 2, }, offset: "0", repeat: "10px", },],
 			geodesic: true,
 			strokeColor: "#000070",
 			strokeOpacity: 0,
@@ -291,13 +299,19 @@ export const CarLocEx = (props: {
 		const loc_start = { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) }
 		const loc_end = { lat: parseFloat(endLoc.LIE_LAT), lng: parseFloat(endLoc.LIE_LNG) }
 
-		
+
 		const bounds = new google.maps.LatLngBounds();
 		bounds.extend(loc_start);
 		bounds.extend(loc_end);
-		bounds.extend({ lat: cur?.lat || 0, lng: cur?.lng || 0 });
-		if(last_known) bounds.extend(last_known);
-		map?.fitBounds(bounds, 150);
+		if (cur?.lat && cur?.lng && cur.lat != 0 && cur.lng != 0)
+			bounds.extend(cur);
+		if (last_known) bounds.extend(last_known);
+
+		if (!already_selected_before.current) {
+			map?.fitBounds(bounds, 150);
+		}
+
+		already_selected_before.current = true;
 
 		return () => {
 			line_from_start_to_car.setMap(null);
@@ -319,10 +333,10 @@ export const CarLocEx = (props: {
 
 	return [
 		<Snackbar
-		style={{zIndex: 9999, position: 'fixed', left: '65%', top: 0}}
-		open={noPosAlert} autoHideDuration={5000} onClose={() => setNoPosAlert(false)}
+			style={{ zIndex: 9999, position: 'fixed', left: '65%', top: 0 }}
+			open={noPosAlert} autoHideDuration={5000} onClose={() => setNoPosAlert(false)}
 		>
-			 <Alert
+			<Alert
 				severity="info"
 				variant="filled"
 				sx={{ width: '100%' }}
@@ -344,7 +358,7 @@ export const CarLocEx = (props: {
 			}
 			icon={{
 				url: props.showPath
-					? is_being_extrapolated 
+					? is_being_extrapolated
 						? '/public/logocarorange.svg'
 						: '/public/logocar.svg'
 					: '/public/logocargrey.svg',
