@@ -404,3 +404,19 @@ export interface Root {
     CHU_NB_HEURE_MENSUEL: string
   }
   
+export function WGetFirstLastLoc(w: Root) {
+
+
+	const steps = w.C_Gen_EtapePresence;
+	const sorted = steps.sort((a, b) => {
+		return parseInt(a.EPR_TRI) - parseInt(b.EPR_TRI);
+	});
+	const filtered = sorted.filter((s) => {
+		return s.EPR_FLAG_ANNULER !== "1";
+	});
+
+	return {
+		startLoc: filtered[0].C_Geo_Lieu,
+		endLoc: filtered[filtered.length - 1].C_Geo_Lieu
+	}
+}

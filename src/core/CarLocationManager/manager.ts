@@ -1,5 +1,5 @@
 import { ExtrapolFromLocAndTime } from "../CarLocationExtrapol";
-import { Root } from "../waynium";
+import { Root, WGetFirstLastLoc } from "../waynium";
 import { ClientInfo, LastReceivedLocationInfo, LocationInfo, MissionInfo } from "./types";
 import { mstohuman } from "./utils";
 import I18 from '../..//i18n'
@@ -113,6 +113,12 @@ export class CarLocationManagerC {
 				console.log("Processing mission", mission.w.MIS_ID, "in", start_in_minutes, "minutes");
 				console.log("Chauffeur=" + (mission.w.C_Gen_Chauffeur?.CHU_NOM || "N/A"))
 
+				const { startLoc, endLoc } = WGetFirstLastLoc(mission.w);
+
+				if (JSON.stringify(endLoc).indexOf("DIC_LIEU_A_DEFINIR") !== -1) {
+					mission.information = t('arrivalPlaceUndefined');
+				}
+
 				await this._update_geolocation_information(mission);
 			} catch (e) {
 				console.error("CarLocationManager: Error while processing mission", mission.w.MIS_ID);
@@ -199,8 +205,9 @@ export class CarLocationManagerC {
 			mission.information = t('noGeolocationData');
 		}
 
-		// if (JSON.stringify(mission.w.C_Gen_EtapePresence).indexOf("%DIC_LIEU_A_DEFINIR%") !== -1) {
-		if (JSON.stringify(mission.w.C_Gen_EtapePresence[mission.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu).indexOf("DIC_LIEU_A_DEFINIR") !== -1) {
+		const { startLoc, endLoc } = WGetFirstLastLoc(mission.w);
+
+		if (JSON.stringify(endLoc).indexOf("DIC_LIEU_A_DEFINIR") !== -1) {
 			mission.information = t('arrivalPlaceUndefined');
 		}
 
@@ -221,8 +228,8 @@ export class CarLocationManagerC {
 				return;
 			}
 
-			const startplace = mission.w.C_Gen_EtapePresence[0].C_Geo_Lieu;
-			const endplace = mission.w.C_Gen_EtapePresence[mission.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu;
+			const startplace = startLoc;
+			const endplace = endLoc;
 
 			if (!startplace || !endplace || !startplace.LIE_LAT || !startplace.LIE_LNG || !endplace.LIE_LAT || !endplace.LIE_LNG) {
 				mission.information = t('notEnoughData');
@@ -303,8 +310,8 @@ export class CarLocationManagerC {
 
 			mission.debug = mission.w.MIS_ID + " elastic last date time: " + time.toLocaleTimeString() + "<br />";
 
-			const startplace = mission.w.C_Gen_EtapePresence[0].C_Geo_Lieu;
-			const endplace = mission.w.C_Gen_EtapePresence[mission.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu;
+			const startplace = startLoc;
+			const endplace = endLoc;
 			if (startplace.LIE_LAT == endplace.LIE_LAT && startplace.LIE_LNG == endplace.LIE_LNG) {
 				this.locations = this.locations.filter(l => l.missionId !== mission.w.MIS_ID);
 				this.locations.push({
@@ -330,7 +337,7 @@ export class CarLocationManagerC {
 				const last_known_location = data.probable_location.location;
 				const last_known_time = new Date(data.probable_location.candidates[0].date);
 
-				const arr = mission.w.C_Gen_EtapePresence[mission.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu;
+				const arr = endLoc;
 				const arr_loc = {
 					lat: parseFloat(arr.LIE_LAT),
 					lng: parseFloat(arr.LIE_LNG)
@@ -380,7 +387,7 @@ export class CarLocationManagerC {
 				// Still extrapol to get time
 
 				const startplace = p;
-				const endplace = mission.w.C_Gen_EtapePresence[mission.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu;
+				const endplace = endLoc;
 				const startdate = time;
 
 				const extp = await ExtrapolFromLocAndTime(

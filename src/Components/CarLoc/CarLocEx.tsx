@@ -6,6 +6,7 @@ import { CarLocationManager } from "../../core/CarLocationManager/manager";
 import { Alert, Snackbar } from "@mui/material";
 import { t } from "i18next";
 import { isWMissionTimeBased } from "../../business/missionWCategories";
+import { WGetFirstLastLoc } from "../../core/waynium";
 
 function calculateRotation(lat1, lon1, lat2, lon2) {
 	const toRadians = (degrees) => degrees * Math.PI / 180;
@@ -74,10 +75,11 @@ export const CarLocEx = (props: {
 
 		if (!directionsService || !directionsRenderer) return;
 
-		const start_pos_lat = parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT)
-		const start_pos_lng = parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG)
-		const end_pos_lat = parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LAT)
-		const end_pos_lng = parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LNG)
+		const { startLoc, endLoc } = WGetFirstLastLoc(props.missionData.w);
+		const start_pos_lat = parseFloat(startLoc.LIE_LAT);
+		const start_pos_lng = parseFloat(startLoc.LIE_LNG);
+		const end_pos_lat = parseFloat(endLoc.LIE_LAT);
+		const end_pos_lng = parseFloat(endLoc.LIE_LNG);
 
 		const loc = CarLocationManager.GetLocation(props.missionData.w.MIS_ID)
 		let last_known: {lat:number, lng: number} | null = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
@@ -185,8 +187,10 @@ export const CarLocEx = (props: {
 
 		if(cur && cur.lat && cur.lng && (cur?.lat != 0) && (cur?.lng != 0)) {
 
+			const { startLoc } = WGetFirstLastLoc(props.missionData.w);
+
 			marker_start = new google.maps.Marker({
-				position: { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
+				position: { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) },
 				map: map,
 				title: 'Départ / Arrivée',
 				label: {
@@ -199,7 +203,7 @@ export const CarLocEx = (props: {
 	
 			line_from_start_to_car = new google.maps.Polyline({
 				path: [
-					{ lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
+					{ lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) },
 					{ lat: cur?.lat || 0, lng: cur?.lng || 0 }
 				],
 				icons: [ { icon: { path: "M 0,0 0,1 Z", strokeOpacity: 1, scale: 2, }, offset: "0", repeat: "10px", }, ],
@@ -211,7 +215,7 @@ export const CarLocEx = (props: {
 			});
 
 			const bounds = new google.maps.LatLngBounds();
-			const loc_start = { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) }
+			const loc_start = { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) }
 			bounds.extend(loc_start);
 			bounds.extend({ lat: cur?.lat || 0, lng: cur?.lng || 0 });
 			map?.fitBounds(bounds, 150);
@@ -242,7 +246,8 @@ export const CarLocEx = (props: {
 		let last_known: {lat:number, lng:number} | null = CarLocationManager.GetLastReceivedLocation(props.missionData.w.MIS_ID);
 		if(!last_known || !last_known.lat || !last_known.lng) {
 			// Set the last position to the first position
-			last_known = { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) }
+			const { startLoc } = WGetFirstLastLoc(props.missionData.w);
+			last_known = { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) }
 		}
 
 		const line_from_start_to_car = new google.maps.Polyline({
@@ -257,8 +262,10 @@ export const CarLocEx = (props: {
 			map: map
 		});
 
+		const { startLoc, endLoc } = WGetFirstLastLoc(props.missionData.w);
+
 		const marker_start = new google.maps.Marker({
-			position: { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
+			position: { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) },
 			map: map,
 			title: props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LIBELLE || props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_FORMATED,
 			label: {
@@ -270,7 +277,7 @@ export const CarLocEx = (props: {
 		})
 
 		const marker_end = new google.maps.Marker({
-			position: { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LNG) },
+			position: { lat: parseFloat(endLoc.LIE_LAT), lng: parseFloat(endLoc.LIE_LNG) },
 			map: map,
 			title: props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LIBELLE || props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_FORMATED,
 			label: {
@@ -281,8 +288,8 @@ export const CarLocEx = (props: {
 			},
 		})
 
-		const loc_start = { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) }
-		const loc_end = { lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LNG) }
+		const loc_start = { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) }
+		const loc_end = { lat: parseFloat(endLoc.LIE_LAT), lng: parseFloat(endLoc.LIE_LNG) }
 
 		
 		const bounds = new google.maps.LatLngBounds();
