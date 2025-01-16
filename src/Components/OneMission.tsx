@@ -105,7 +105,7 @@ export const OneMission = (props: {
 
 	if (curloc && endpoint) {
 		const distance_in_km = haversineDistance(curloc.lat, curloc.lng, parseFloat(endpoint.LIE_LAT), parseFloat(endpoint.LIE_LNG));
-		if (distance_in_km < 0.05) { // 50m
+		if (distance_in_km < 0.08) { // 50m
 			t('driverArrived');
 		}
 	}
