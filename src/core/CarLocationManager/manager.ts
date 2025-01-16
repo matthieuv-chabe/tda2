@@ -450,11 +450,11 @@ export class CarLocationManagerC {
 		console.log("Removing missions with MIS_ETAT != 1", this.missions.filter(m => m.w.MIS_ETAT != "1").length)
 		this.missions = this.missions.filter(m => m.w.MIS_ETAT == "1");
 
-		this.missions.forEach(m => {
-			if (m.w.MIS_HEURE_REEL_FIN != null) {
-				m.do_not_compute = true;
-			}
-		});
+		// this.missions.forEach(m => {
+		// 	if (m.w.MIS_HEURE_REEL_FIN != null) {
+		// 		m.do_not_compute = true;
+		// 	}
+		// });
 
 		this.missions.forEach(m => {
 			m.w.C_Gen_EtapePresence = m.w.C_Gen_EtapePresence.sort((a, b) => a.EPR_TRI - b.EPR_TRI);
