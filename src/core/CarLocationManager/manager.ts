@@ -347,7 +347,7 @@ export class CarLocationManagerC {
 					return;
 				}
 
-				mission.remainingStr = mstohuman(lines.remainingTime * 60 * 1000)
+				mission.remainingStr = (lines.remainingTime / 60 / 1000) + ""
 
 				const error_zero = JSON.stringify(lines).includes("ZERO_RESULTS");
 				if (error_zero) {
