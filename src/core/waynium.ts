@@ -412,7 +412,7 @@ export function WGetFirstLastLoc(w: Root) {
 		return parseInt(a.EPR_TRI) - parseInt(b.EPR_TRI);
 	});
 	const filtered = sorted.filter((s) => {
-		return s.EPR_FLAG_ANNULER !== "1";
+		return s.EPR_FLAG_ANNULER != "1";
 	});
 
 	return {
