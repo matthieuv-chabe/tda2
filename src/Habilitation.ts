@@ -62,6 +62,12 @@ export class Habilitation {
         })
         .filter(subAccount => subAccount !== null) as SubAccount[];
 
+		const tags = data.rights;
+		if(tags.includes("CustomerPortal.Access")) {
+			document.querySelector("li:has(#nav-dashboard)").style.display = "block";
+			document.querySelector("li:has(#nav-passenger)")!.style.display = "block";
+		}
+
         return {
             ...data,
             subAccounts

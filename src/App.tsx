@@ -311,12 +311,13 @@ export function App() {
 			<div className="page">
 				<nav id="navbar" className="navbar-chabe">
 					<menu>
-						<li>
+						<li style={{display:"none"}}>
 							<a
 								id="nav-dashboard"
 								className="nav-link"
 								href="https://agreeable-hill-038a64303.4.azurestaticapps.net/dashboard"
 								aria-current="page"
+								
 							>
 								<img
 									src="https://agreeable-hill-038a64303.4.azurestaticapps.net//static/media/nav-home-icon.e0d99f32dc8c1b2787e29f865cbf6da1.svg"
@@ -324,7 +325,7 @@ export function App() {
 								/>
 							</a>
 						</li>
-						<li>
+						<li style={{display:"none"}}>
 							<a
 								id="nav-passenger"
 								className="nav-link"
@@ -338,9 +339,9 @@ export function App() {
 						</li>
 						<li>
 							<a
-								id="nav-dashboard"
+								id="nav-tda"
 								className="nav-link is-active"
-								href="/dashboard"
+								href="/"
 								aria-current="page"
 								style={{
 									backgroundColor: "#001c40",
