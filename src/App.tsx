@@ -645,21 +645,6 @@ export function App() {
 												style={{ marginTop: 10 }}
 											></div>
 											<Button
-												variant="contained"
-												style={{
-													borderRadius: 0,
-													backgroundColor: "#001c40",
-													boxShadow: "none",
-												}}
-												onClick={() => {
-													setIncreasedMiddleSize(
-														true
-													);
-												}}
-											>
-												{t("showAllMissions")}
-											</Button>
-											<Button
 												style={{
 													color: "#001c40",
 												}}

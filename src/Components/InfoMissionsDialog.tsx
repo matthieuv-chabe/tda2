@@ -25,7 +25,7 @@ export const InfoMissionsDialog = () => {
                 </DialogContentText>
             </DialogContent>
         </Dialog>
-        <InfoOutlined style={{cursor:"help"}} onClick={() => setOpen(true)} />
+        <InfoOutlined style={{cursor:"help", transform: 'translateY(7px) translateX(5px)'}} onClick={() => setOpen(true)} />
     </>
 
 }
