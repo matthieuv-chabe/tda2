@@ -147,8 +147,8 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 			return wmis.LIE_LIBELLE || wmis.LIE_FORMATED
 		}
 
-				const wlocs = WGetFirstLastLoc(w)
-		
+		const wlocs = WGetFirstLastLoc(w)
+
 
 		return {
 
@@ -278,7 +278,16 @@ export function App() {
 
 			setLoadingMsg("Done !");
 			Refresh();
+
 			setIsLoading(false);
+
+			setTimeout(() => {
+				CarLocationManager.Refresh(true).then(() => {
+					setAllMissions(CarLocationManager.missions.map(e => waynium_to_missiont(
+						e.w, CarLocationManager, e
+					)).filter(e => e != null))
+				})
+			}, 4000)
 
 		})();
 
@@ -315,13 +324,13 @@ export function App() {
 			<div className="page">
 				<nav id="navbar" className="navbar-chabe">
 					<menu>
-						<li style={{display:"none"}}>
+						<li style={{ display: "none" }}>
 							<a
 								id="nav-dashboard"
 								className="nav-link"
 								href="https://agreeable-hill-038a64303.4.azurestaticapps.net/dashboard"
 								aria-current="page"
-								
+
 							>
 								<img
 									src="https://agreeable-hill-038a64303.4.azurestaticapps.net//static/media/nav-home-icon.e0d99f32dc8c1b2787e29f865cbf6da1.svg"
@@ -329,7 +338,7 @@ export function App() {
 								/>
 							</a>
 						</li>
-						<li style={{display:"none"}}>
+						<li style={{ display: "none" }}>
 							<a
 								id="nav-passenger"
 								className="nav-link"

@@ -16,6 +16,7 @@ import { CarLocationManager } from "../core/CarLocationManager";
 import { isWMissionTimeBased } from "../business/missionWCategories";
 import { WGetFirstLastLoc } from "../core/waynium";
 import { haversineDistance } from "../core/utils/maps/harvesine";
+import { parseStatusFromRequest } from "../core/bluesoft";
 const t = I18.t.bind(I18)
 
 
@@ -123,6 +124,8 @@ export const OneMission = (props: {
 		}
 
 	}
+
+	if(parseStatusFromRequest(props.mission.w) =='closed') return null;
 
 	return (
 		<>
