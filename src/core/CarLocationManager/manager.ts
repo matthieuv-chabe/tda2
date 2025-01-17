@@ -248,7 +248,7 @@ export class CarLocationManagerC {
 					startdate
 				)
 
-				mission.remainingStr = extp.remainingTime
+				mission.remainingStr = extp.remainingTime / 1000 / 60
 
 				mission.information = extp.polylines.length > 1
 					? t('fullExtrapolation')
