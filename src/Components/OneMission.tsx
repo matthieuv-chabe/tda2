@@ -208,7 +208,7 @@ export const OneMission = (props: {
 									}
 								</p>
 								{/* <p>Dans {props.mission.arrival.remaining}</p> */}
-								{props.mission.info == "" ? t('loading') : null}
+								{props.mission.info == "" ? <span style={{fontSize:'small'}}>{t('loading')}</span> : null}
 								{props.mission.info && props.mission.info[0] != '?' && props.mission.info[0] != 'V' && <p style={{ color: "orange", fontSize: "small" }}>{props.mission.info}</p>}
 								{props.mission.info && props.mission.info[0] == '?' && <p style={{ color: "darkblue", fontSize: "small" }}>{props.mission.info.substring(1)}</p>}
 								{props.mission.info && props.mission.info[0] == 'V' && <p style={{ color: "green", fontSize: "small" }}>{props.mission.info.substring(1)}</p>}
