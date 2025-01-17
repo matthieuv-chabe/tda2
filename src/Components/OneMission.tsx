@@ -88,7 +88,7 @@ export const OneMission = (props: {
 		if (distance_in_km < .05) { // 50m
 			str = t('driverArrived');
 			const x = CarLocationManager.missions.find(m => m.w.MIS_ID == props.mission.w.MIS_ID)
-			if(x != undefined) x.do_not_compute = true
+			// if(x != undefined) x.do_not_compute = true
 		}
 	}
 
