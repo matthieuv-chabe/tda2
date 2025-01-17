@@ -61,6 +61,7 @@ const resources = {
       "minutesSuffix": "min",
       "missionEndsAt": "Booking ending at",
 	  "endOfMissionNotAvailable": "End time not available",
+	  'canceled': 'Canceled',
     }
   },
   fr: {
@@ -103,12 +104,12 @@ const resources = {
       "greeting": "Accueil",
       "agoSuffix": ")",
       "missingDate": "Date manquante",
-      "comingMission": "VMission à venir",
+      "comingMission": "Mission à venir",
       "unknown": "?",
       "plannedArrivalAt": "Arrivée prévue à",
       "unknownPassenger": "Passager inconnu",
 	  "closed": "Terminée",
-	  "upcomingBooking": "VMission à venir",
+	  "upcomingBooking": "Mission à venir",
 	  "rideStarted": "Mission démarrée",
 	  "chauffeurOnLocation": "Chauffeur sur place",
 	  "passengerDroppedOff": "Passager déposé",
@@ -119,6 +120,7 @@ const resources = {
       "minutesSuffix": "min",
       "missionEndsAt": "Fin mission à",
 	  "endOfMissionNotAvailable": "Heure de fin non indiquée",
+	  'canceled': 'Annulée',
     }
   }
 };
