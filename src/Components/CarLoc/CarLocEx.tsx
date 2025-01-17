@@ -189,30 +189,35 @@ export const CarLocEx = (props: {
 
 			const { startLoc } = WGetFirstLastLoc(props.missionData.w);
 
-			marker_start = new google.maps.Marker({
-				position: { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) },
-				map: map,
-				title: 'Départ / Arrivée',
-				label: {
-					text: 'B',
-					color: 'white',
-					fontSize: '12px',
-					fontWeight: 'bold',
-				},
-			})
+			
 
-			line_from_start_to_car = new google.maps.Polyline({
-				path: [
-					{ lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) },
-					{ lat: cur?.lat || 0, lng: cur?.lng || 0 }
-				],
-				icons: [{ icon: { path: "M 0,0 0,1 Z", strokeOpacity: 1, scale: 2, }, offset: "0", repeat: "10px", },],
-				geodesic: true,
-				strokeColor: "#000070",
-				strokeOpacity: 0,
-				strokeWeight: 2,
-				map: map
-			});
+			if (parseFloat(startLoc.LIE_LAT) != 0 && parseFloat(startLoc.LIE_LNG) != 0) {
+
+				marker_start = new google.maps.Marker({
+					position: { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) },
+					map: map,
+					title: 'Départ / Arrivée',
+					label: {
+						text: startLoc.LIE_LAT,
+						color: 'white',
+						fontSize: '12px',
+						fontWeight: 'bold',
+					},
+				})
+
+				line_from_start_to_car = new google.maps.Polyline({
+					path: [
+						{ lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) },
+						{ lat: cur?.lat, lng: cur?.lng }
+					],
+					icons: [{ icon: { path: "M 0,0 0,1 Z", strokeOpacity: 1, scale: 2, }, offset: "0", repeat: "10px", },],
+					geodesic: true,
+					strokeColor: "#000070",
+					strokeOpacity: 0,
+					strokeWeight: 2,
+					map: map
+				});
+			}
 
 		} else {
 			setNoPosAlert(true);
@@ -258,9 +263,12 @@ export const CarLocEx = (props: {
 			last_known = { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) }
 		}
 
+		const locs = WGetFirstLastLoc(props.missionData.w);
+
+
 		const line_from_start_to_car = new google.maps.Polyline({
 			path: [
-				{ lat: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LAT), lng: parseFloat(props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LNG) },
+				{ lat: parseFloat(locs.startLoc.LIE_LAT), lng: parseFloat(locs.startLoc.LIE_LNG) },
 				last_known
 			],
 			icons: [{ icon: { path: "M 0,-1 1,0 0,-1 -1,0 0,-1 Z", strokeOpacity: 1, scale: 2, }, offset: "0", repeat: "10px", },],
@@ -275,7 +283,7 @@ export const CarLocEx = (props: {
 		const marker_start = new google.maps.Marker({
 			position: { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) },
 			map: map,
-			title: props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_LIBELLE || props.missionData.w.C_Gen_EtapePresence[0].C_Geo_Lieu.LIE_FORMATED,
+			title: startLoc.LIE_LIBELLE || startLoc.LIE_FORMATED,
 			label: {
 				text: 'A',
 				color: 'white',
@@ -287,7 +295,7 @@ export const CarLocEx = (props: {
 		const marker_end = new google.maps.Marker({
 			position: { lat: parseFloat(endLoc.LIE_LAT), lng: parseFloat(endLoc.LIE_LNG) },
 			map: map,
-			title: props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_LIBELLE || props.missionData.w.C_Gen_EtapePresence[props.missionData.w.C_Gen_EtapePresence.length - 1].C_Geo_Lieu.LIE_FORMATED,
+			title: endLoc.LIE_LIBELLE || endLoc.LIE_FORMATED,
 			label: {
 				text: 'B',
 				color: 'white',

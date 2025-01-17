@@ -74,6 +74,8 @@ export const OneMission = (props: {
 		return null;
 	}
 
+	const isTimeBasedMission = isWMissionTimeBased(props.mission.w.MIS_TSE_ID, CarLocationManager.first_dispatch);
+
 	const arrivalDefault = new Date(props.mission.w.MIS_DATE_DEBUT + 'T' + props.mission.w.MIS_HEURE_FIN);
 	const arrivalEstimation = CarLocationManager.missions.find(m => m.w.MIS_ID == props.mission.w.MIS_ID)?.remainingStr
 
@@ -81,7 +83,7 @@ export const OneMission = (props: {
 	let str = t('plannedArrivalAt') + " " + arrivalDefault.toLocaleTimeString().substring(0, 5);
 	let color = 'black'
 
-	if (arrivalEstimation && !isNaN(parseInt(arrivalEstimation))) {
+	if (arrivalEstimation && !isNaN(parseInt(arrivalEstimation)) && isTimeBasedMission) {
 
 		const v = Math.ceil(parseInt(arrivalEstimation) * 1.1 + 2); //Fix :)
 
@@ -206,7 +208,7 @@ export const OneMission = (props: {
 									}
 								</p>
 								{/* <p>Dans {props.mission.arrival.remaining}</p> */}
-								{props.mission.info == "" ? <Skeleton variant="rectangular" width={210} height={20} /> : null}
+								{props.mission.info == "" ? t('loading') : null}
 								{props.mission.info && props.mission.info[0] != '?' && props.mission.info[0] != 'V' && <p style={{ color: "orange", fontSize: "small" }}>{props.mission.info}</p>}
 								{props.mission.info && props.mission.info[0] == '?' && <p style={{ color: "darkblue", fontSize: "small" }}>{props.mission.info.substring(1)}</p>}
 								{props.mission.info && props.mission.info[0] == 'V' && <p style={{ color: "green", fontSize: "small" }}>{props.mission.info.substring(1)}</p>}
