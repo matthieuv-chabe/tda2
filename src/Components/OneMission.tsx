@@ -90,8 +90,8 @@ export const OneMission = (props: {
 		}
 	}
 
-	const is_mad = isWMissionTimeBased(props.mission.w.MIS_TSE_ID, CarLocationManager.first_dispatch);
-	if(is_mad) {
+	// const is_mad = isWMissionTimeBased(props.mission.w.MIS_TSE_ID, CarLocationManager.first_dispatch);
+	if(true) {
 		const date = arrivalDefault.toLocaleTimeString().substring(0, 5);
 
 		if(date.indexOf("Inval") != -1) {
