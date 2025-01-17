@@ -87,21 +87,25 @@ export const OneMission = (props: {
 		const distance_in_km = haversineDistance(curloc.lat, curloc.lng, parseFloat(endpoint.LIE_LAT), parseFloat(endpoint.LIE_LNG));
 		if (distance_in_km < .05) { // 50m
 			str = t('driverArrived');
-			CarLocationManager.missions.find(m => m.w.MIS_ID == props.mission.w.MIS_ID)?.do_not_compute = true;
+			const x = CarLocationManager.missions.find(m => m.w.MIS_ID == props.mission.w.MIS_ID)
+			if(x != undefined) x.do_not_compute = true
 		}
 	}
 
-	const is_mad = isWMissionTimeBased(props.mission.w.MIS_TSE_ID, CarLocationManager.first_dispatch);
+	try {
+		const is_mad = isWMissionTimeBased(props.mission.w.MIS_TSE_ID, CarLocationManager.first_dispatch);
 	if(is_mad) {
 
-			str = t('missionEndsAt') + " " + arrivalDefault.toLocaleTimeString().substring(0, 5);
+		str = t('missionEndsAt') + " " + arrivalDefault.toLocaleTimeString().substring(0, 5);
 
 	}
 
 	const date = arrivalDefault.toLocaleTimeString().substring(0, 5);
-
 	if(date.indexOf("Inval") != -1) {
 		str = t('endOfMissionNotAvailable')
+	}
+	} catch (e) {
+		console.error(e)
 	}
 
 	if(parseStatusFromRequest(props.mission.w) =='closed') return null;
