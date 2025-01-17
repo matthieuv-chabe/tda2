@@ -87,6 +87,7 @@ export const OneMission = (props: {
 		const distance_in_km = haversineDistance(curloc.lat, curloc.lng, parseFloat(endpoint.LIE_LAT), parseFloat(endpoint.LIE_LNG));
 		if (distance_in_km < .05) { // 50m
 			str = t('driverArrived');
+			CarLocationManager.missions.find(m => m.w.MIS_ID == props.mission.w.MIS_ID)?.do_not_compute = true;
 		}
 	}
 
