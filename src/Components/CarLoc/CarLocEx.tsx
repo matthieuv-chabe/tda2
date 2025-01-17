@@ -309,7 +309,7 @@ export const CarLocEx = (props: {
 
 
 		const bounds = new google.maps.LatLngBounds();
-		bounds.extend(loc_start);
+		// bounds.extend(loc_start);
 		bounds.extend(loc_end);
 		if (cur?.lat && cur?.lng && cur.lat != 0 && cur.lng != 0)
 			bounds.extend(cur);
