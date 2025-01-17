@@ -44,6 +44,7 @@ import useConfig from "antd/es/config-provider/hooks/useConfig";
 import { Switch } from "antd"
 import { useBusinessSearch } from "./Hooks/useBusinessSearch";
 import { WGetFirstLastLoc } from "./core/waynium";
+import { t } from "i18next";
 
 GeolocActualizer.hi();
 
@@ -101,7 +102,7 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 		const lname = ((p1.PAS_NOM || "") as string).trim()
 
 		if (fname == "" && lname == "") {
-			return "??";
+			return t('unknownPassenger');
 		}
 
 		if (fname == "") {
