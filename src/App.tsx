@@ -102,7 +102,7 @@ function waynium_to_missiont(w: any, m: CarLocationManagerC, e: MissionInfo): Mi
 		const lname = ((p1.PAS_NOM || "") as string).trim()
 
 		if (fname == "" && lname == "") {
-			return t('unknownPassenger');
+			return '??';
 		}
 
 		if (fname == "") {
@@ -819,7 +819,8 @@ export function App() {
 																component="th"
 																scope="row"
 															>
-																{row.passenger}
+																{row.passenger == "??" && t("unknownPassenger")}
+																{row.passenger != "??" && row.passenger}
 															</TableCell>
 															<TableCell align="left">
 																<div>
