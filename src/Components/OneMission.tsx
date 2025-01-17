@@ -43,33 +43,10 @@ export const OneMission = (props: {
 
 	const additionalcss = props.exp ? { filter: "none" } : {};
 
-	// try {
-	// 	const shouldShow = props.mission.arrival.remaining
-
-	// 	// alert(shouldShow)
-
-	// 	const hours = parseInt(shouldShow.split(" ")[0].replace("h", ""))
-	// 	const mins = parseInt(shouldShow.split(" ")[1].replace("min", ""))
-
-	// 	// alert(hours + " " + mins)
-
-	// 	if(hours <= 0 || ( hours == 0 && mins > 45)) {
-	// 		return null
-	// 	} 
-
-	// }	catch(e) {
-	// 	return JSON.stringify(e)
-	// }
-
 	const arrival_estimated = props.mission.w.MIS_DATE_DEBUT + 'T' + props.mission.w.MIS_HEURE_FIN;
 	const date_ae = new Date(arrival_estimated);
 	const date_now = new Date();
 
-	const diff_in_minutes = Math.floor((date_ae.getTime() - date_now.getTime()) / 60000);
-
-	// if(Math.abs(diff_in_minutes) > 45) {
-	// 	return null;
-	// };
 
 	if (props.mission.debug == 'do_not_compute') {
 		return null;
@@ -153,45 +130,7 @@ export const OneMission = (props: {
 							}}
 						>
 							<div style={{ flex: 1 }} title={props.mission.w.MIS_ID}>
-								{/* {JSON.stringify(props.mission.w)} */}
-								{/* #region Pin and tags */}
-								{/* <div
-									style={{
-										display: "flex",
-										flexDirection: "row",
-										alignItems: "center",
-										marginBottom: 5,
-
-										// 5px space between chips
-										gap: 5,
-									}}
-								>
-									<PinIcon
-										color="grey"
-										pinned={props.mission.pinned}
-										onPinChange={(pinned) => {
-											console.log("Pin change", pinned)
-											props.onMissionChange({
-												...props.mission,
-												pinned: pinned
-											})
-										}
-										}
-									/>
-
-									{props.mission.tags.map((tag, index) => {
-										return (
-											<Chip
-												style={{
-													border: tag == 'VIP' ? "solid gold 2px" : undefined,
-												}}
-												key={index}
-												label={tag}
-												size="small"
-											/>
-										);
-									})}
-								</div> */}
+								
 								<p>
 									{/* {props.mission.w.MIS_ID + " "} */}
 
@@ -264,15 +203,7 @@ export const OneMission = (props: {
 												)}
 										</span>
 									</p>
-									{/* <Typography
-									sx={{ mb: 1.5 }}
-									color="text.secondary"
-									style={{
-										textAlign: "right",
-									}}
-								>
-									+33 6 12 34 56 78
-								</Typography> */}
+
 								</div>
 							}
 							<div>
@@ -287,18 +218,7 @@ export const OneMission = (props: {
 							</div>
 						</div>
 
-						{/* <div
-							style={{
-								margin: 0,
-								padding: 0,
-								width: "100%",
-								textAlign: "center",
-								fontSize: 14,
-								color: "rgba(0, 0, 0, 0.54)",
-							}}
-						>
-							Voir plus
-						</div> */}
+						
 					</div>
 				</AccordionSummary>
 
