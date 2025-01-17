@@ -83,7 +83,7 @@ export const OneMission = (props: {
 	let str = t('plannedArrivalAt') + " " + arrivalDefault.toLocaleTimeString().substring(0, 5);
 	let color = 'black'
 
-	if (arrivalEstimation && !isNaN(parseInt(arrivalEstimation)) && isTimeBasedMission) {
+	if (arrivalEstimation && !isNaN(parseInt(arrivalEstimation)) && !isTimeBasedMission) {
 
 		const v = Math.ceil(parseInt(arrivalEstimation) * 1.1 + 2); //Fix :)
 
