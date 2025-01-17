@@ -289,7 +289,7 @@ export function App() {
 			setAllMissions(CarLocationManager.missions.map(e => waynium_to_missiont(
 				e.w, CarLocationManager, e
 			)).filter(e => e != null))
-		}, 300);
+		}, 10_000);
 
 		return () => clearInterval(interval);
 	}, [])
