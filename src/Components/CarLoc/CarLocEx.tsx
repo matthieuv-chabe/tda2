@@ -198,7 +198,7 @@ export const CarLocEx = (props: {
 					map: map,
 					title: 'Départ / Arrivée',
 					label: {
-						text: startLoc.LIE_LAT,
+						text: 'B',
 						color: 'white',
 						fontSize: '12px',
 						fontWeight: 'bold',
