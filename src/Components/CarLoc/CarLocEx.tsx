@@ -187,14 +187,15 @@ export const CarLocEx = (props: {
 
 		if (cur && cur.lat && cur.lng && (cur?.lat != 0) && (cur?.lng != 0)) {
 
-			const { startLoc } = WGetFirstLastLoc(props.missionData.w);
-
-			
+			const { startLoc, endLoc } = WGetFirstLastLoc(props.missionData.w);
 
 			if (parseFloat(startLoc.LIE_LAT) != 0 && parseFloat(startLoc.LIE_LNG) != 0) {
 
 				marker_start = new google.maps.Marker({
-					position: { lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) },
+					position: {
+						lat: parseFloat(endLoc.LIE_LAT) || parseFloat(startLoc.LIE_LAT),
+						lng: parseFloat(endLoc.LIE_LNG) || parseFloat(startLoc.LIE_LNG)
+					},
 					map: map,
 					title: 'Départ / Arrivée',
 					label: {
@@ -207,7 +208,10 @@ export const CarLocEx = (props: {
 
 				line_from_start_to_car = new google.maps.Polyline({
 					path: [
-						{ lat: parseFloat(startLoc.LIE_LAT), lng: parseFloat(startLoc.LIE_LNG) },
+						{
+							lat: parseFloat(endLoc.LIE_LAT) || parseFloat(startLoc.LIE_LAT),
+							lng: parseFloat(endLoc.LIE_LNG) || parseFloat(startLoc.LIE_LNG)
+						},
 						{ lat: cur?.lat, lng: cur?.lng }
 					],
 					icons: [{ icon: { path: "M 0,0 0,1 Z", strokeOpacity: 1, scale: 2, }, offset: "0", repeat: "10px", },],
