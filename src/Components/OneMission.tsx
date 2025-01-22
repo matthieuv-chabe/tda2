@@ -39,6 +39,10 @@ export const OneMission = (props: {
 	onClicked: (index: number, mission: MissionT) => void;
 	isSelected: boolean; // New prop
 }) => {
+
+	if(!props) return null;
+	if(!props.mission.w.MIS_HEURE_DEBUT) return null;
+
 	const exp = props.exp || props.isSelected; // Use the new prop
 
 	const additionalcss = props.exp ? { filter: "none" } : {};
@@ -250,7 +254,7 @@ export const OneMission = (props: {
 							}}
 						>
 							<Typography>{props.mission.locations.from}</Typography>
-							<Typography variant="subtitle2">{props.mission.w.MIS_HEURE_DEBUT.substring(0, 5)}</Typography>
+							<Typography variant="subtitle2">{(props.mission.w.MIS_HEURE_DEBUT || "").substring(0, 5)}</Typography>
 						</div>
 
 						<div>
