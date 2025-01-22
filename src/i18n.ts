@@ -104,7 +104,7 @@ const resources = {
       "greeting": "Accueil",
       "agoSuffix": ")",
       "missingDate": "Date manquante",
-      "comingMission": "?Mission à venir",
+      "comingMission": "VMission à venir",
       "unknown": "?",
       "plannedArrivalAt": "Arrivée prévue à",
       "unknownPassenger": "Passager inconnu",
