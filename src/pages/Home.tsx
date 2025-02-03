@@ -26,8 +26,14 @@ export const PageHome = () => {
         selectedMission: null,
         textFilter: "",
     });
-    const setSelectedMission = (missionId: number) => { setUserSelectionContext({...userSelectionContext, selectedMission: missionId}) }
     const setHasUserMovedMap = (hasUserMovedMap: boolean) => { setUserSelectionContext({...userSelectionContext, hasUserMovedMap: hasUserMovedMap}) }
+    const setSelectedMission = (missionId: number) => {
+        // Scroll to the mission
+        document.getElementById("OneMission-"+missionId)?.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
+        setUserSelectionContext({...userSelectionContext, selectedMission: missionId})
+        // Reset the map movement state
+        setHasUserMovedMap(false)
+    }
 
     return (
         <UserSelectionContext.Provider value={{...userSelectionContext, setSelectedMission, setHasUserMovedMap}}>

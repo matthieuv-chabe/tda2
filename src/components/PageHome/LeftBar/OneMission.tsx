@@ -10,7 +10,7 @@ export const OneMission = (props: {
     const userselection = useUserSelectionContext();    
 
     const { t } = useTranslation()
-    const passenger_text = props.mission.passengers[0]?.name || t("unknownPassenger")
+    const passenger_text = props.mission.passengers[0]?.name || <p style={{color: 'grey'}}>{t("unknownPassenger")}</p>
 
     return (
         <Accordion
