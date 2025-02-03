@@ -6,6 +6,7 @@ type response = paths['/v1/missions/filter']['post']['responses']['200']['conten
 export function useMissions(wayniumclientids: string[]) {
     return useQuery<response>({
         queryKey: ['missions'],
+        refetchInterval: 60 * 1000, // Refresh the missions every minute
         queryFn: async (): Promise<Array<any>> => {
             
 

@@ -6,6 +6,7 @@ type response = paths['/v1/geolocation/missions/tda']['post']['responses']['200'
 export function useGeolocationInfo(wayniumMissionIds: string[]) {
     return useQuery<response>({
         queryKey: ['geolocations'],
+        refetchInterval: 10000,
         queryFn: async (): Promise<response> => {
             
 
