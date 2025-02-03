@@ -9,7 +9,6 @@ export const LeftBarSmall = (props: {
 
     return (
         <>
-        {missions_to_show?.length}
             <div
                 style={{ width: "100%" }}
                 id="midscreencolorchangediv"

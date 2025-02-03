@@ -4,7 +4,7 @@ import type { paths } from "../../generated/openapi"
 type response = paths['/v1/missions/filter']['post']['responses']['200']['content']['application/json']
 
 export function useMissions(wayniumclientids: string[]) {
-    return useQuery({
+    return useQuery<response>({
         queryKey: ['missions'],
         queryFn: async (): Promise<Array<any>> => {
             
