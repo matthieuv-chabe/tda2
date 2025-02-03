@@ -30,9 +30,8 @@ export const PageHome = () => {
     const setSelectedMission = (missionId: number) => {
         // Scroll to the mission
         document.getElementById("OneMission-"+missionId)?.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
-        setUserSelectionContext({...userSelectionContext, selectedMission: missionId})
-        // Reset the map movement state
-        setHasUserMovedMap(false)
+        // Update the state with the newly selected item and reset the map move flag
+        setUserSelectionContext({...userSelectionContext, selectedMission: missionId, hasUserMovedMap: false})
     }
 
     return (
