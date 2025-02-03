@@ -7,6 +7,9 @@ import { useMsalToken } from "../hooks/useMsalToken"
 import { useBsHabilitations } from "../hooks/useBsHabilitations"
 import { useMissions } from "../hooks/useMissions"
 import { useGeolocationInfo } from "../hooks/useGeolocationInfo"
+import UserSelectionContext, { UserSelectionContextType } from "../components/PageHome/RightMap/UserSelectionContext"
+import { useState } from "react"
+import { useMissionFilter } from "../hooks/useMissionFilter"
 
 
 export const PageHome = () => {
@@ -15,12 +18,21 @@ export const PageHome = () => {
     const { msalToken } = useMsalToken(instance)
     const { data: habilitation } = useBsHabilitations(msalToken)
     const { data: missions } = useMissions(habilitation?.subAccounts.filter(a => a.dispatch == 'chabe').map(a => ""+a.cliId) || [])
-    const { data: geoloc} = useGeolocationInfo(missions?.map(m => m.wayniumid) || [])
+    const filteredMissions = useMissionFilter({data: missions || []})
+    const { data: geoloc} = useGeolocationInfo(filteredMissions?.map(m => m.wayniumid) || [])
+
+    const [userSelectionContext, setUserSelectionContext] = useState<any>({
+        hasUserMovedMap: false,
+        selectedMission: null,
+        textFilter: "",
+    });
+    const setSelectedMission = (missionId: number) => { setUserSelectionContext({...userSelectionContext, selectedMission: missionId}) }
+    const setHasUserMovedMap = (hasUserMovedMap: boolean) => { setUserSelectionContext({...userSelectionContext, hasUserMovedMap: hasUserMovedMap}) }
 
     return (
-        <>
-            <LeftBar missions={missions || []} />
-            <RightMap missions={missions || []} geolocations={geoloc || []} />
-        </>
+        <UserSelectionContext.Provider value={{...userSelectionContext, setSelectedMission, setHasUserMovedMap}}>
+            <LeftBar missions={filteredMissions || []} />
+            <RightMap missions={filteredMissions || []} geolocations={geoloc || []} />
+        </UserSelectionContext.Provider>
     )
 }
