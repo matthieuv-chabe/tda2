@@ -18,17 +18,15 @@ export async function getAccessToken(instance: IPublicClientApplication) {
 
 export const useMsalToken = (msalInstance: IPublicClientApplication) => {
     
-    const tokenRef = useRef<{ token: string; current: AuthenticationResult } | null>(null);
-    const respRef = useRef<AuthenticationResult | null>(null);
-
+    const respRef = useState<AuthenticationResult | null>(null);
     
     useEffect(() => {
         getAccessToken(msalInstance).then((resp) => {
-            tokenRef.current = { token: resp.accessToken, current: resp };
-            respRef.current = resp;
+            // respRef.current = resp;
+			respRef[1](resp)
         });
     }, [msalInstance]);
 
-    return { msalToken: tokenRef.current, msalResponse: respRef.current };
+    return { msalToken: respRef[0]?.accessToken, msalResponse: respRef[0] };
 
 }
