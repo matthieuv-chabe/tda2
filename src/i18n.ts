@@ -62,12 +62,13 @@ const resources = {
       "missionEndsAt": "Booking ending at",
 	  "endOfMissionNotAvailable": "End time not available",
 	  'canceled': 'Canceled',
+    'noMissions': 'No upcoming bookings to display'
     }
   },
   fr: {
     translation: {
       "showImminentArrivals": "Afficher les Arrivées imminentes",
-      "showAllMissions": "Afficher toutes les missions", 
+      "c": "Afficher toutes les missions", 
       "allMissions": "Toutes les missions",
       "imminentArrivals": "Arrivées imminentes",
       "search": "Rechercher",
@@ -121,6 +122,7 @@ const resources = {
       "missionEndsAt": "Fin mission à",
 	  "endOfMissionNotAvailable": "Heure de fin non indiquée",
 	  'canceled': 'Annulée',
+    'noMissions': 'Aucune mission à afficher'
     }
   }
 };
