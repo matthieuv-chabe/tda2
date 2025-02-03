@@ -1,4 +1,4 @@
-import { AdvancedMarker, Pin } from "@vis.gl/react-google-maps"
+import { Marker, Pin } from "@vis.gl/react-google-maps"
 import { paths } from "../../../../generated/openapi"
 import { paths as geolocpaths } from "../../../../generated/openapi_geolocation"
 
@@ -11,12 +11,19 @@ export const MissionMapDisplay = (props: {
 
     return (
         <>
-            <AdvancedMarker
+            <Marker
                 position={{ lat: props.geolocations.geolocation.lat, lng: props.geolocations.geolocation.lng }}
-                title={"hji"}
+                icon={{
+                    url: '/public/logocargrey.svg',
+                    scaledSize: new google.maps.Size(30, 30),
+                }}
+            />
+
+            {/* <AdvancedMarker
+                position={{ lat: props.geolocations.geolocation.lat, lng: props.geolocations.geolocation.lng }}
             >
                 <Pin />
-            </AdvancedMarker>
+            </AdvancedMarker> */}
 
         </>
     )
