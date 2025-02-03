@@ -153,6 +153,7 @@ export interface components {
                 id?: number;
                 firstname?: string;
                 lastname?: string;
+                name?: string;
                 wayniumid?: string;
             }[];
             passengerCount: number;
@@ -240,6 +241,7 @@ export interface operations {
                             id?: number;
                             firstname?: string;
                             lastname?: string;
+                            name?: string;
                             wayniumid?: string;
                         }[];
                         passengerCount: number;
@@ -302,6 +304,7 @@ export interface operations {
                             id?: number;
                             firstname?: string;
                             lastname?: string;
+                            name?: string;
                             wayniumid?: string;
                         }[];
                         passengerCount: number;
@@ -364,6 +367,7 @@ export interface operations {
                             id?: number;
                             firstname?: string;
                             lastname?: string;
+                            name?: string;
                             wayniumid?: string;
                         }[];
                         passengerCount: number;
@@ -447,6 +451,7 @@ export interface operations {
                             id?: number;
                             firstname?: string;
                             lastname?: string;
+                            name?: string;
                             wayniumid?: string;
                         }[];
                         passengerCount: number;
@@ -509,6 +514,7 @@ export interface operations {
                             id?: number;
                             firstname?: string;
                             lastname?: string;
+                            name?: string;
                             wayniumid?: string;
                         }[];
                         passengerCount: number;
@@ -571,6 +577,7 @@ export interface operations {
                             id?: number;
                             firstname?: string;
                             lastname?: string;
+                            name?: string;
                             wayniumid?: string;
                         }[];
                         passengerCount: number;
@@ -684,6 +691,7 @@ export interface operations {
                             id?: number;
                             firstname?: string;
                             lastname?: string;
+                            name?: string;
                             wayniumid?: string;
                         }[];
                         passengerCount: number;
@@ -746,6 +754,7 @@ export interface operations {
                             id?: number;
                             firstname?: string;
                             lastname?: string;
+                            name?: string;
                             wayniumid?: string;
                         }[];
                         passengerCount: number;
@@ -808,6 +817,7 @@ export interface operations {
                             id?: number;
                             firstname?: string;
                             lastname?: string;
+                            name?: string;
                             wayniumid?: string;
                         }[];
                         passengerCount: number;
@@ -882,6 +892,7 @@ export interface operations {
                         id?: number;
                         firstname?: string;
                         lastname?: string;
+                        name?: string;
                         wayniumid?: string;
                     }[];
                     passengerCount?: number;
@@ -943,6 +954,7 @@ export interface operations {
                         id?: number;
                         firstname?: string;
                         lastname?: string;
+                        name?: string;
                         wayniumid?: string;
                     }[];
                     passengerCount?: number;
@@ -1004,6 +1016,7 @@ export interface operations {
                         id?: number;
                         firstname?: string;
                         lastname?: string;
+                        name?: string;
                         wayniumid?: string;
                     }[];
                     passengerCount?: number;
@@ -1074,6 +1087,7 @@ export interface operations {
                             id?: number;
                             firstname?: string;
                             lastname?: string;
+                            name?: string;
                             wayniumid?: string;
                         }[];
                         passengerCount: number;
@@ -1136,6 +1150,7 @@ export interface operations {
                             id?: number;
                             firstname?: string;
                             lastname?: string;
+                            name?: string;
                             wayniumid?: string;
                         }[];
                         passengerCount: number;
@@ -1198,6 +1213,7 @@ export interface operations {
                             id?: number;
                             firstname?: string;
                             lastname?: string;
+                            name?: string;
                             wayniumid?: string;
                         }[];
                         passengerCount: number;
