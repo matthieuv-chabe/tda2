@@ -15,7 +15,7 @@ export const LeftBarSmall = (props: {
                 id="midscreencolorchangediv"
             >
                 {missions_to_show?.map((mission) => (
-                    <OneMission mission={mission} />
+                    <OneMission key={mission.id} mission={mission} />
                 ))}
             </div>
         </>
