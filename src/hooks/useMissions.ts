@@ -11,7 +11,7 @@ export function useMissions(wayniumclientids: string[]) {
             
 
             const response = await fetch(
-                'http://localhost:2999/v1/missions/filter',
+                'https://api.phoenixsoftware.fr/v1/missions/filter',
                 {
                     method: 'POST',
                     headers: {

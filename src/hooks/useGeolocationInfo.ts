@@ -11,7 +11,7 @@ export function useGeolocationInfo(wayniumMissionIds: string[]) {
             
 
             const response = await fetch(
-                'http://localhost:3004/v1/geolocation/missions/tda',
+                'https://api.phoenixsoftware.fr/v1/geolocation/missions/tda',
                 {
                     method: 'POST',
                     headers: {

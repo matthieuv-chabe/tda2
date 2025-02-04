@@ -53,7 +53,7 @@ export const OneMission = (props: {
                         </div>
 
                         <div style={{flex: 1}}>
-                            {props.mission.id}-{props.mission.wayniumid}
+                            {props.mission.id}-{props.mission.wayniumid}-T{props.mission.type}
                         </div>
 
 
