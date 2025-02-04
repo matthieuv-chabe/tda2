@@ -1,8 +1,8 @@
-export function searchValueInObject(obj, searchValue) {
+export function searchValueInObject(obj: object, searchValue: string) {
     let found = false;
     const searchStr = String(searchValue).toLowerCase();
 
-    function recursiveSearch(currentObj) {
+    function recursiveSearch(currentObj: object) {
         if (found) return; // Exit early if found
         for (let key in currentObj) {
             if (currentObj.hasOwnProperty(key)) {
