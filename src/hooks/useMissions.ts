@@ -19,8 +19,8 @@ export function useMissions(wayniumclientids: string[]) {
                         // Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({
-                        "dayFrom": "2025-02-03",
-                        "dayTo": "2025-02-03",
+                        "dayFrom": new Date().toISOString().split('T')[0],
+                        "dayTo": new Date().toISOString().split('T')[0],
                         "clientWayniumId": wayniumclientids,
                         "limit": 1000,
                         "offset": 0

@@ -22,6 +22,9 @@ export const LeftBarBig = (props: {
                 >
                     <TableRow>
                         <TableCell>
+                            <b>{t("ID")}</b>
+                        </TableCell>
+                        <TableCell>
                             <b>{t("passenger")}</b>
                         </TableCell>
                         <TableCell align="left">
@@ -67,11 +70,14 @@ export const LeftBarBig = (props: {
                                             : "white",
                                 }}
                             >
+                                <TableCell>
+                                    {row.wayniumid}
+                                </TableCell>
                                 <TableCell
                                     component="th"
                                     scope="row"
                                 >
-                                    { /* Passengers */ }
+                                    { /* Passengers */}
                                     {row.passengers[0]?.name || t("unknownPassenger")}
                                 </TableCell>
                                 <TableCell align="left">
@@ -89,13 +95,13 @@ export const LeftBarBig = (props: {
                                     {row.vehicle.plate} - {row.vehicle.brand}
                                 </TableCell>
                                 <TableCell align="right">
-                                    { row.chauffeur.firstname }
-                                    { row.chauffeur.lastname }
+                                    {row.chauffeur.firstname}
+                                    {row.chauffeur.lastname}
                                 </TableCell>
                                 <TableCell align="right">
                                     {/* {row.w.MIS_SMI_ID == "7" ? "Passager à bord" : "/"} */}
                                     {/* {t(parseStatusFromRequest(row.w))} */}
-                                    { row.status }
+                                    {row.status}
                                 </TableCell>
 
                             </TableRow>
