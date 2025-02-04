@@ -2,6 +2,8 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import { paths } from "../../../../generated/openapi"
 import { useTranslation } from "react-i18next";
 import { useUserSelectionContext } from "../RightMap/UserSelectionContext";
+import { should } from "chai";
+import { searchValueInObject } from "../../../core/searchValueInObject";
 
 export const LeftBarBig = (props: {
     missions: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"]
@@ -62,19 +64,21 @@ export const LeftBarBig = (props: {
                         {
                             props.missions
                                 .filter(m => {
+
+                                    let shouldShow = true;
+
                                     if (userSelection.onlyShowCancelled) {
-                                        return m.status >= 8
+                                        shouldShow = false;
                                     }
 
                                     // TODO : MeetGreet
 
-                                    const fullstr = (Object.values(m).join(" ") || "").toLowerCase()
-                                    const srch = (userSelection.textfilter || "").toLowerCase()
-                                    if (srch.length > 0) {
-                                        return false;
+                                    const matching = (searchValueInObject(m, userSelection.textfilter || ""))
+                                    if (!matching) {
+                                        shouldShow = false;
                                     }
 
-                                    return true;
+                                    return shouldShow;
                                 })
                                 .map((row, idx) => (
                                     <TableRow
@@ -92,8 +96,6 @@ export const LeftBarBig = (props: {
                                     >
                                         <TableCell>
                                             {row.wayniumid}
-                                            -+{(userSelection.textfilter || "").toLowerCase()}+-
-                                            {userSelection.onlyShowMeetGreets ? "MG" : "XD"}
                                         </TableCell>
                                         <TableCell
                                             component="th"
