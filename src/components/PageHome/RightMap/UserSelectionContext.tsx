@@ -4,8 +4,13 @@ export type UserSelectionContextType = {
     selectedMission: number | null;
     hasUserMovedMap: boolean;
     textfilter: string;
+    onlyShowCancelled: boolean;
+    onlyShowMeetGreets: boolean;
     setSelectedMission: (missionId: number | null) => void;
     setHasUserMovedMap: (hasUserMovedMap: boolean) => void;
+    setTextFilter: (textFilter: string) => void;
+    setOnlyShowCancelled: (onlyShowCancelled: boolean) => void;
+    setOnlyShowMeetGreets: (onlyShowMeetGreets: boolean) => void;
 };
 
 const UserSelectionContext = createContext<UserSelectionContextType | null>(null);

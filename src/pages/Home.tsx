@@ -7,12 +7,12 @@ import { useMsalToken } from "../hooks/useMsalToken"
 import { useBsHabilitations } from "../hooks/useBsHabilitations"
 import { useMissions } from "../hooks/useMissions"
 import { useGeolocationInfo } from "../hooks/useGeolocationInfo"
-import UserSelectionContext, { UserSelectionContextType } from "../components/PageHome/RightMap/UserSelectionContext"
-import { useState } from "react"
+import UserSelectionContext from "../components/PageHome/RightMap/UserSelectionContext"
+import { memo, useState } from "react"
 import { useMissionFilter } from "../hooks/useMissionFilter"
 
 
-export const PageHome = () => {
+export const PageHome = memo(() => {
 
     const { instance } = useMsal()
     const { msalToken } = useMsalToken(instance)
@@ -27,6 +27,9 @@ export const PageHome = () => {
         textFilter: "",
     });
     const setHasUserMovedMap = (hasUserMovedMap: boolean) => { setUserSelectionContext({...userSelectionContext, hasUserMovedMap: hasUserMovedMap}) }
+    const setTextFilter = (textFilter: string) => { setUserSelectionContext({...userSelectionContext, textFilter: textFilter}) }
+    const setOnlyShowCancelled = (onlyShowCancelled: boolean) => { setUserSelectionContext({...userSelectionContext, onlyShowCancelled: onlyShowCancelled}) }
+    const setOnlyShowMeetGreets = (onlyShowMeetGreets: boolean) => { setUserSelectionContext({...userSelectionContext, onlyShowMeetGreets: onlyShowMeetGreets}) }
     const setSelectedMission = (missionId: number) => {
         // Scroll to the mission
         document.getElementById("OneMission-"+missionId)?.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
@@ -35,9 +38,9 @@ export const PageHome = () => {
     }
 
     return (
-        <UserSelectionContext.Provider value={{...userSelectionContext, setSelectedMission, setHasUserMovedMap}}>
+        <UserSelectionContext.Provider value={{...userSelectionContext, setSelectedMission, setHasUserMovedMap, setTextFilter, setOnlyShowCancelled, setOnlyShowMeetGreets}}>
             <LeftBar missions={filteredMissions || []} />
             <RightMap missions={filteredMissions || []} geolocations={geoloc || []} />
         </UserSelectionContext.Provider>
     )
-}
+})

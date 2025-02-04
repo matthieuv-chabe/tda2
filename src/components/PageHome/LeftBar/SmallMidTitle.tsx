@@ -1,18 +1,13 @@
 import { FormControlLabel, FormGroup, Input, Switch, ToggleButton } from "@mui/material"
 import { useTranslation } from "react-i18next"
+import { useUserSelectionContext } from "../RightMap/UserSelectionContext"
 
 const MidTitleWithSearch = (props: {}) => {
 
     const { t } = useTranslation()
+    const userSelection = useUserSelectionContext()
 
-
-    // Placeholders for DEBUG
-    let search = ""
-    let showAcc = false
-    let showClosed = false
-    let setSearch = (e: any) => { }
-    let setShowAcc = (e: any) => { }
-    let setShowClosed = (e: any) => { }
+    if(!userSelection) return null;
 
     return (
         <>
@@ -27,17 +22,19 @@ const MidTitleWithSearch = (props: {}) => {
                     <Input
                         style={{ flex: 1 }}
                         placeholder={t("search")}
-                        value={search}
+                        value={userSelection.textfilter}
                         onChange={(e) =>
-                            setSearch(e.target.value)
+                            userSelection.setTextFilter(e.target.value)
                         }
                     />
                     <FormControlLabel
                         control={
                             <Switch
-                                defaultChecked={showAcc}
+                                checked={userSelection.onlyShowMeetGreets}
                                 onChange={(e) =>
-                                    setShowAcc(e)
+                                    userSelection.setOnlyShowMeetGreets(
+                                        e.target.checked
+                                    )
                                 }
                             />
                         }
@@ -46,9 +43,11 @@ const MidTitleWithSearch = (props: {}) => {
                     <FormControlLabel
                         control={
                             <Switch
-                                checked={showClosed}
-                                onChange={(e, v) =>
-                                    setShowClosed(e)
+                                checked={userSelection.onlyShowCancelled}
+                                onChange={(e) =>
+                                    userSelection.setOnlyShowCancelled(
+                                        e.target.checked
+                                    )
                                 }
                             />
                         }
@@ -67,6 +66,7 @@ export const MidTitle = (props: {
     setIncreasedMiddleSize: (increasedMiddleSize: boolean) => void,
 }) => {
 
+    const userSelection = useUserSelectionContext()
     const { t } = useTranslation()
 
     return (
