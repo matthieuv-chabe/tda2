@@ -26,8 +26,8 @@ export const LeftBar = (props: {
                 setIncreasedMiddleSize={setIncreasedMiddleSize}
             />
 
-            {increasedMiddleSize && <LeftBarBig />}
-            {!increasedMiddleSize && <LeftBarSmall missions={props.missions} />}
+            {increasedMiddleSize && <LeftBarBig missions={props.missions} />}
+            {!increasedMiddleSize && <LeftBarSmall missions={props.missions.filter(m => (m.status < 8) && (m.status > 4))} />}
 
         </div>
     )
