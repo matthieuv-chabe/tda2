@@ -14,7 +14,6 @@ export const LeftBarBig = (props: {
 
     return (
         <>
-        {JSON.stringify(userSelection.textfilter)}
             <TableContainer component={Paper} style={{ overflowY: 'visible' }}>
                 <Table
                     sx={{ minWidth: 650 }}
