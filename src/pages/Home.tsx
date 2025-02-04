@@ -8,11 +8,11 @@ import { useBsHabilitations } from "../hooks/useBsHabilitations"
 import { useMissions } from "../hooks/useMissions"
 import { useGeolocationInfo } from "../hooks/useGeolocationInfo"
 import UserSelectionContext from "../components/PageHome/RightMap/UserSelectionContext"
-import { memo, useState } from "react"
+import { useState } from "react"
 import { useMissionFilter } from "../hooks/useMissionFilter"
 
 
-export const PageHome = memo(() => {
+export const PageHome = () => {
 
     const { instance } = useMsal()
     const { msalToken } = useMsalToken(instance)
@@ -24,12 +24,12 @@ export const PageHome = memo(() => {
     const [userSelectionContext, setUserSelectionContext] = useState<any>({
         hasUserMovedMap: false,
         selectedMission: null,
-        textFilter: "",
+        textfilter: "",
     });
-    const setHasUserMovedMap = (hasUserMovedMap: boolean) => { setUserSelectionContext({...userSelectionContext, hasUserMovedMap: hasUserMovedMap}) }
-    const setTextFilter = (textFilter: string) => { setUserSelectionContext({...userSelectionContext, textFilter: textFilter}) }
-    const setOnlyShowCancelled = (onlyShowCancelled: boolean) => { setUserSelectionContext({...userSelectionContext, onlyShowCancelled: onlyShowCancelled}) }
-    const setOnlyShowMeetGreets = (onlyShowMeetGreets: boolean) => { setUserSelectionContext({...userSelectionContext, onlyShowMeetGreets: onlyShowMeetGreets}) }
+    const setHasUserMovedMap = (hasUserMovedMap: boolean)       => { setUserSelectionContext({...userSelectionContext, hasUserMovedMap: hasUserMovedMap         }) }
+    const setTextFilter = (textfilter: string)                  => { setUserSelectionContext({...userSelectionContext, textfilter: textfilter                   }) }
+    const setOnlyShowCancelled = (onlyShowCancelled: boolean)   => { setUserSelectionContext({...userSelectionContext, onlyShowCancelled: onlyShowCancelled     }) }
+    const setOnlyShowMeetGreets = (onlyShowMeetGreets: boolean) => { setUserSelectionContext({...userSelectionContext, onlyShowMeetGreets: onlyShowMeetGreets   }) }
     const setSelectedMission = (missionId: number) => {
         // Scroll to the mission
         document.getElementById("OneMission-"+missionId)?.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
@@ -43,4 +43,4 @@ export const PageHome = memo(() => {
             <RightMap missions={filteredMissions || []} geolocations={geoloc || []} />
         </UserSelectionContext.Provider>
     )
-})
+}

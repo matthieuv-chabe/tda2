@@ -23,9 +23,9 @@ const MidTitleWithSearch = (props: {}) => {
                         style={{ flex: 1 }}
                         placeholder={t("search")}
                         value={userSelection.textfilter}
-                        onChange={(e) =>
+                        onChange={(e) => {
                             userSelection.setTextFilter(e.target.value)
-                        }
+                        }}
                     />
                     <FormControlLabel
                         control={
