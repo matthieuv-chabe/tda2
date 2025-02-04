@@ -262,8 +262,9 @@ export interface operations {
                             id: number;
                             phoenixid: number | null;
                             datetime: Record<string, never> | null;
+                            eta: Record<string, never> | null;
                             wayniumid: string;
-                            locations: string;
+                            locations: unknown;
                             has_mission_started: boolean;
                             has_chauffeur_reached_end: boolean;
                             chauffeur_clicked_pob_at: Record<string, never> | null;
@@ -285,8 +286,9 @@ export interface operations {
                             id: number;
                             phoenixid: number | null;
                             datetime: Record<string, never> | null;
+                            eta: Record<string, never> | null;
                             wayniumid: string;
-                            locations: string;
+                            locations: unknown;
                             has_mission_started: boolean;
                             has_chauffeur_reached_end: boolean;
                             chauffeur_clicked_pob_at: Record<string, never> | null;
@@ -308,8 +310,9 @@ export interface operations {
                             id: number;
                             phoenixid: number | null;
                             datetime: Record<string, never> | null;
+                            eta: Record<string, never> | null;
                             wayniumid: string;
-                            locations: string;
+                            locations: unknown;
                             has_mission_started: boolean;
                             has_chauffeur_reached_end: boolean;
                             chauffeur_clicked_pob_at: Record<string, never> | null;

@@ -3,9 +3,11 @@ import { LeftBarSmall } from "./LeftBarSmall"
 import { LeftBarBig } from "./LeftBarBig"
 import { MidTitle } from "./SmallMidTitle"
 import { paths } from "../../../../generated/openapi"
+import { paths as geolocpaths } from "../../../../generated/openapi_geolocation"
 
 export const LeftBar = (props: {
-    missions: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"]
+    missions: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"],
+    geolocations: geolocpaths['/v1/geolocation/missions/tda']['post']['responses']['200']['content']['application/json']
 }) => {
 
     const [increasedMiddleSize, setIncreasedMiddleSize] = useState(false)
@@ -27,7 +29,7 @@ export const LeftBar = (props: {
             />
 
             {increasedMiddleSize && <LeftBarBig missions={props.missions} />}
-            {!increasedMiddleSize && <LeftBarSmall missions={props.missions.filter(m => (m.status < 8) && (m.status > 4))} />}
+            {!increasedMiddleSize && <LeftBarSmall missions={props.missions.filter(m => (m.status < 8) && (m.status > 4))} geolocations={props.geolocations} />}
 
         </div>
     )

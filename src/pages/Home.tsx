@@ -38,7 +38,7 @@ export const PageHome = () => {
 
     return (
         <UserSelectionContext.Provider value={{...userSelectionContext, setSelectedMission, setHasUserMovedMap, setTextFilter, setOnlyShowCancelled, setOnlyShowMeetGreets}}>
-            <LeftBar missions={filteredMissions || []} />
+            <LeftBar missions={filteredMissions || []} geolocations={geoloc || []} />
             <RightMap missions={filteredMissions || []} geolocations={geoloc || []} />
         </UserSelectionContext.Provider>
     )

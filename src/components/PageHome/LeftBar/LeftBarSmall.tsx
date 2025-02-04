@@ -1,10 +1,13 @@
 import { Button, Typography } from "@mui/material"
 import { paths } from "../../../../generated/openapi"
+import { paths as geolocpaths } from "../../../../generated/openapi_geolocation"
 import { OneMission } from "./OneMission"
 import { useTranslation } from "react-i18next"
 
 export const LeftBarSmall = (props: {
-    missions: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"]
+    missions: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"],
+    geolocations: geolocpaths['/v1/geolocation/missions/tda']['post']['responses']['200']['content']['application/json']
+
 }) => {
 
     if (props.missions.length == 0) {
@@ -17,9 +20,12 @@ export const LeftBarSmall = (props: {
                 style={{ width: "100%" }}
                 id="midscreencolorchangediv"
             >
-                {props.missions?.map((mission) => (
-                    <OneMission key={mission.id} mission={mission} />
-                ))}
+                {props.missions?.map((mission) => {
+                    const matching_geolocation = props.geolocations.find(g => g.mission.wayniumid === mission.wayniumid)
+                    return (
+                        <OneMission key={mission.id} mission={mission} geolocation={matching_geolocation} />
+                    )
+                })}
             </div>
         </>
     )
@@ -45,7 +51,7 @@ const LeftBarNoMission = () => {
                     textAlign: "center",
                 }}
             >
-                {t("noMissions")}                
+                {t("noMissions")}
 
                 <div
                     style={{ marginTop: 10 }}

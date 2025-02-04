@@ -1,10 +1,12 @@
 import { Accordion, AccordionSummary } from "@mui/material"
 import { paths } from "../../../../generated/openapi"
+import { paths as geolocpaths } from "../../../../generated/openapi_geolocation"
 import { useTranslation } from "react-i18next"
 import { useUserSelectionContext } from "../RightMap/UserSelectionContext"
 
 export const OneMission = (props: {
-    mission: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][0]
+    mission: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][number],
+    geolocation: geolocpaths['/v1/geolocation/missions/tda']['post']['responses']['200']['content']['application/json'][number]
 }) => {
 
     const userselection = useUserSelectionContext();    
@@ -14,6 +16,10 @@ export const OneMission = (props: {
     const passenger_text = props.mission.passengers[0]?.name
         ? <p>{props.mission.passengers[0]?.name}</p>
         : <p style={{color: 'grey'}}>{t("unknownPassenger")}</p>
+
+    const eta_text = props.geolocation?.mission.eta ?
+        <p>{new Date(props.geolocation?.mission.eta as unknown as string).toLocaleTimeString()}</p>
+        : <p style={{color: 'grey'}}>{t("unknownETA")}</p>
 
     return (
         <Accordion
@@ -33,19 +39,20 @@ export const OneMission = (props: {
                             width: "100%",
                         }}
                     >
-                        <div title={""+props.mission.id}>
+                        <div style={{flex: 1}} title={""+props.mission.id}>
                             {passenger_text}
                         </div>
 
-                        <div>
-                            {props.mission.startTime}
+                        <div style={{flex: 1}}>
+                            {/* {props.mission.startTime}- */}
+                            {eta_text}
                         </div>  
 
-                        <div>
+                        <div style={{flex: 1}}>
                             {props.mission.status}
                         </div>
 
-                        <div>
+                        <div style={{flex: 1}}>
                             {props.mission.id}-{props.mission.wayniumid}
                         </div>
 
