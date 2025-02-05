@@ -15,8 +15,8 @@ export const Eta = (props: {
     const eta = new Date(props.geolocation?.mission.eta as unknown as string)
     const now = new Date()
     const diff = eta.getTime() - now.getTime()
-    if(diff < 5*60*1000) {
-        return <p style={{color: 'red'}}>{new Date(diff).toLocaleTimeString()}</p>
+    if(diff > 0 && diff < 5*60*1000) {
+        return <p style={{color: 'red'}}>T-{new Date(diff).toLocaleTimeString()}</p>
     }
 
     // Else, display the time

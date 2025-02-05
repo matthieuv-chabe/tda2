@@ -21,6 +21,7 @@ export const LeftBarSmall = (props: {
                 id="midscreencolorchangediv"
             >
                 {props.missions?.map((mission) => {
+                    if(mission.type != "A_TO_B") return null;
                     const matching_geolocation = props.geolocations.find(g => g.mission.wayniumid === mission.wayniumid)
                     return (
                         <OneMission key={mission.id} mission={mission} geolocation={matching_geolocation} />

@@ -143,7 +143,7 @@ export interface components {
                 name?: string;
                 wayniumid?: string;
             };
-            type: number | null;
+            type: string | null;
             status: number;
             locations: {
                 id?: number;
@@ -231,7 +231,7 @@ export interface operations {
                             name?: string;
                             wayniumid?: string;
                         };
-                        type: number | null;
+                        type: string | null;
                         status: number;
                         locations: {
                             id?: number;
@@ -294,7 +294,7 @@ export interface operations {
                             name?: string;
                             wayniumid?: string;
                         };
-                        type: number | null;
+                        type: string | null;
                         status: number;
                         locations: {
                             id?: number;
@@ -357,7 +357,7 @@ export interface operations {
                             name?: string;
                             wayniumid?: string;
                         };
-                        type: number | null;
+                        type: string | null;
                         status: number;
                         locations: {
                             id?: number;
@@ -441,7 +441,7 @@ export interface operations {
                             name?: string;
                             wayniumid?: string;
                         };
-                        type: number | null;
+                        type: string | null;
                         status: number;
                         locations: {
                             id?: number;
@@ -504,7 +504,7 @@ export interface operations {
                             name?: string;
                             wayniumid?: string;
                         };
-                        type: number | null;
+                        type: string | null;
                         status: number;
                         locations: {
                             id?: number;
@@ -567,7 +567,7 @@ export interface operations {
                             name?: string;
                             wayniumid?: string;
                         };
-                        type: number | null;
+                        type: string | null;
                         status: number;
                         locations: {
                             id?: number;
@@ -681,7 +681,7 @@ export interface operations {
                             name?: string;
                             wayniumid?: string;
                         };
-                        type: number | null;
+                        type: string | null;
                         status: number;
                         locations: {
                             id?: number;
@@ -744,7 +744,7 @@ export interface operations {
                             name?: string;
                             wayniumid?: string;
                         };
-                        type: number | null;
+                        type: string | null;
                         status: number;
                         locations: {
                             id?: number;
@@ -807,7 +807,7 @@ export interface operations {
                             name?: string;
                             wayniumid?: string;
                         };
-                        type: number | null;
+                        type: string | null;
                         status: number;
                         locations: {
                             id?: number;
@@ -882,7 +882,7 @@ export interface operations {
                         name?: string;
                         wayniumid?: string;
                     };
-                    type?: number | null;
+                    type?: string | null;
                     status?: number;
                     locations: {
                         id?: number;
@@ -944,7 +944,7 @@ export interface operations {
                         name?: string;
                         wayniumid?: string;
                     };
-                    type?: number | null;
+                    type?: string | null;
                     status?: number;
                     locations: {
                         id?: number;
@@ -1006,7 +1006,7 @@ export interface operations {
                         name?: string;
                         wayniumid?: string;
                     };
-                    type?: number | null;
+                    type?: string | null;
                     status?: number;
                     locations: {
                         id?: number;
@@ -1077,7 +1077,7 @@ export interface operations {
                             name?: string;
                             wayniumid?: string;
                         };
-                        type: number | null;
+                        type: string | null;
                         status: number;
                         locations: {
                             id?: number;
@@ -1140,7 +1140,7 @@ export interface operations {
                             name?: string;
                             wayniumid?: string;
                         };
-                        type: number | null;
+                        type: string | null;
                         status: number;
                         locations: {
                             id?: number;
@@ -1203,7 +1203,7 @@ export interface operations {
                             name?: string;
                             wayniumid?: string;
                         };
-                        type: number | null;
+                        type: string | null;
                         status: number;
                         locations: {
                             id?: number;

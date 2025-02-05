@@ -7,12 +7,13 @@ import { Eta } from "./Eta"
 
 export const OneMission = (props: {
     mission: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][number],
-    geolocation: geolocpaths['/v1/geolocation/missions/tda']['post']['responses']['200']['content']['application/json'][number]
+    geolocation?: geolocpaths['/v1/geolocation/missions/tda']['post']['responses']['200']['content']['application/json'][number]
 }) => {
 
     const userselection = useUserSelectionContext();    
-
     const { t } = useTranslation()
+
+    if(!props.geolocation) return null;
     
     const passenger_text = props.mission.passengers[0]?.name
         ? <p>{props.mission.passengers[0]?.name}</p>
