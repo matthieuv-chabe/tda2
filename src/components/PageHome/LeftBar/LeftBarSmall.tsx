@@ -1,7 +1,7 @@
 import { Button, Typography } from "@mui/material"
 import { paths } from "../../../../generated/openapi"
 import { paths as geolocpaths } from "../../../../generated/openapi_geolocation"
-import { OneMission } from "./OneMission"
+import { OneMission } from "./OneMission/OneMission"
 import { useTranslation } from "react-i18next"
 
 export const LeftBarSmall = (props: {

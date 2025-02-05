@@ -1,8 +1,8 @@
 import { Accordion, AccordionSummary } from "@mui/material"
-import { paths } from "../../../../generated/openapi"
-import { paths as geolocpaths } from "../../../../generated/openapi_geolocation"
+import { paths } from "../../../../../generated/openapi"
+import { paths as geolocpaths } from "../../../../../generated/openapi_geolocation"
 import { useTranslation } from "react-i18next"
-import { useUserSelectionContext } from "../RightMap/UserSelectionContext"
+import { useUserSelectionContext } from "../../RightMap/UserSelectionContext"
 
 export const OneMission = (props: {
     mission: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][number],
