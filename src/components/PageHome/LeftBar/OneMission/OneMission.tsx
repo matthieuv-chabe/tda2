@@ -3,6 +3,7 @@ import { paths } from "../../../../../generated/openapi"
 import { paths as geolocpaths } from "../../../../../generated/openapi_geolocation"
 import { useTranslation } from "react-i18next"
 import { useUserSelectionContext } from "../../RightMap/UserSelectionContext"
+import { Eta } from "./Eta"
 
 export const OneMission = (props: {
     mission: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][number],
@@ -45,7 +46,7 @@ export const OneMission = (props: {
 
                         <div style={{flex: 1}}>
                             {/* {props.mission.startTime}- */}
-                            {eta_text}
+                            <Eta geolocation={props.geolocation} />
                         </div>  
 
                         <div style={{flex: 1}}>
