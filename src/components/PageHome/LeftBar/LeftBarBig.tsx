@@ -2,7 +2,6 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import { paths } from "../../../../generated/openapi"
 import { useTranslation } from "react-i18next";
 import { useUserSelectionContext } from "../RightMap/UserSelectionContext";
-import { should } from "chai";
 import { searchValueInObject } from "../../../core/searchValueInObject";
 
 export const LeftBarBig = (props: {
@@ -64,14 +63,26 @@ export const LeftBarBig = (props: {
                             props.missions
                                 .filter(m => {
 
+                                    // We dont immediately return to allow for stacking filters
                                     let shouldShow = true;
 
-                                    if (userSelection.onlyShowCancelled) {
+                                    // Status filter rules
+                                    if (userSelection.onlyShowCancelled && m.status != 8) {
+                                        // If we only want to show cancelled missions, we should not show any other status
+                                        shouldShow = false;
+                                    } else if (!userSelection.onlyShowCancelled && m.status == 8) {
+                                        // If we don't want to show cancelled missions, we should not show any cancelled mission
                                         shouldShow = false;
                                     }
 
-                                    // TODO : MeetGreet
+                                    // Meet & Greet filter rules
+                                    if(userSelection.onlyShowMeetGreets && m.type != 'MEET_GREET') {
+                                        shouldShow = false;
+                                    } else if (!userSelection.onlyShowMeetGreets && m.type == 'MEET_GREET') {
+                                        shouldShow = false;
+                                    }
 
+                                    // Text filter ruless
                                     const matching = (searchValueInObject(m, userSelection.textfilter || ""))
                                     if (!matching) {
                                         shouldShow = false;
@@ -124,7 +135,7 @@ export const LeftBarBig = (props: {
                                         <TableCell align="right">
                                             {/* {row.w.MIS_SMI_ID == "7" ? "Passager à bord" : "/"} */}
                                             {/* {t(parseStatusFromRequest(row.w))} */}
-                                            {row.status}
+                                            {t("status." + row.status)}
                                         </TableCell>
 
                                     </TableRow>

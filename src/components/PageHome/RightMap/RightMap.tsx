@@ -12,7 +12,8 @@ export const RightMap = (props: {
 }) => {
 
     const userselection = useUserSelectionContext();   
-    
+
+    const missions_to_show = props.missions.filter(m => m.type == "A_TO_B" && m.status < 8 && m.status > 4)
 
     return (
         <div className="vertical-right" style={{ color: 'white', height: '200', overflow: 'hidden' }}>
@@ -32,7 +33,8 @@ export const RightMap = (props: {
 
                         {
                             props.geolocations.map(g => {
-                                const mis = props.missions.find(m => m.wayniumid === g.mission.wayniumid);
+                                const mis = missions_to_show.find(m => m.wayniumid === g.mission.wayniumid);
+                                if (!mis) return null;
                                 return <MissionMapDisplay key={g.mission.id} mission={mis} geolocations={g} />
                             })
                         }

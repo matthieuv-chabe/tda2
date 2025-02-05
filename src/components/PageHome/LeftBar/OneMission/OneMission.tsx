@@ -13,7 +13,7 @@ export const OneMission = (props: {
     const userselection = useUserSelectionContext();    
     const { t } = useTranslation()
 
-    if(!props.geolocation) return null;
+    // if(!props.geolocation) return null;
     
     const passenger_text = props.mission.passengers[0]?.name
         ? <p>{props.mission.passengers[0]?.name}</p>
