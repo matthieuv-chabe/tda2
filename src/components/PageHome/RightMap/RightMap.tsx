@@ -17,10 +17,10 @@ export const RightMap = (props: {
     return (
         <div className="vertical-right" style={{ color: 'white', height: '200', overflow: 'hidden' }}>
             <Wrapper
-                apiKey="AIzaSyDMZQ3-mM6E1c95TXCnuVmqB9xXwD-M_iY"
+                apiKey="AIzaSyB-WItzMk3oqLm8PUjhsrPNSlX09wiLDcQ"
             >
                 <APIProvider
-                    apiKey={'AIzaSyDp4CFGl9RpEloPpG7A-i2o_RRfGeCpVN8'}
+                    apiKey={'AIzaSyB-WItzMk3oqLm8PUjhsrPNSlX09wiLDcQ'}
                 >
                     <Map
                         mapId={'f375369fdfba970b'}
