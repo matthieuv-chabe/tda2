@@ -15,7 +15,7 @@ export const MissionMapDisplay = (props: {
 
     const map = useMap()
 
-    usePolylineForMission(props.geolocations.mission.last_google_path_result, userselection.selectedMission == props.mission!.id)
+    usePolylineForMission(props.geolocations.mission.last_google_path_result, userselection.selectedMission === props.mission?.id)
 
     if (!props.mission || !props.geolocations) return null;
 
