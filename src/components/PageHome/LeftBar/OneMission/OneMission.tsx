@@ -12,16 +12,10 @@ export const OneMission = (props: {
 
     const userselection = useUserSelectionContext();    
     const { t } = useTranslation()
-
-    // if(!props.geolocation) return null;
     
     const passenger_text = props.mission.passengers[0]?.name
         ? <p>{props.mission.passengers[0]?.name}</p>
         : <p style={{color: 'grey'}}>{t("unknownPassenger")}</p>
-
-    const eta_text = props.geolocation?.mission.eta ?
-        <p>{new Date(props.geolocation?.mission.eta as unknown as string).toLocaleTimeString()}</p>
-        : <p style={{color: 'grey'}}>{t("unknownETA")}</p>
 
     return (
         <Accordion
