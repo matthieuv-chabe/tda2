@@ -82,7 +82,7 @@ export const LeftBarBig = (props: {
                                         shouldShow = false;
                                     }
 
-                                    // Text filter ruless
+                                    // Text filter rules
                                     const matching = (searchValueInObject(m, userSelection.textfilter || ""))
                                     if (!matching) {
                                         shouldShow = false;
