@@ -20,7 +20,7 @@ export const LeftBarSmall = (props: {
                 style={{ width: "100%" }}
                 id="midscreencolorchangediv"
             >
-                {props.missions?.map((mission) => {
+                {props.missions?.sort((a,b) => new Date(b.endTime || 0).getTime() - new Date(a.endTime || 0).getTime()).map((mission) => {
                     if(mission.type != "A_TO_B") return null;
                     const matching_geolocation = props.geolocations.find(g => g.mission.wayniumid === mission.wayniumid)
                     return (
