@@ -22,12 +22,14 @@ export const LeftBarSmall = (props: {
                 style={{ width: "100%" }}
                 id="midscreencolorchangediv"
             >
-                {missions_to_show?.sort((a,b) => new Date(b.endTime || 0).getTime() - new Date(a.endTime || 0).getTime()).map((mission) => {
-                    const matching_geolocation = props.geolocations.find(g => g.mission.wayniumid === mission.wayniumid)
-                    return (
-                        <OneMission key={mission.id} mission={mission} geolocation={matching_geolocation} />
-                    )
-                })}
+                {
+                    missions_to_show?.sort((a, b) => new Date(b.endTime || 0).getTime() - new Date(a.endTime || 0).getTime()).map((mission) => {
+                        const matching_geolocation = props.geolocations.find(g => g.mission.wayniumid === mission.wayniumid)
+                        return (
+                            <OneMission key={mission.id} mission={mission} geolocation={matching_geolocation} />
+                        )
+                    })
+                }
             </div>
         </>
     )
