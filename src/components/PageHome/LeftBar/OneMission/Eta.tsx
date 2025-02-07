@@ -20,7 +20,9 @@ export const Eta = (props: {
     const now = new Date()
     const diff = eta.getTime() - now.getTime()
     if(diff > 0 && diff < 5*60*1000) {
-        return <p style={{color: 'red'}}>T-{new Date(diff).toLocaleTimeString()}</p>
+        return <p style={{color: 'red'}}>T-{Math.floor(diff / (60 * 1000))}min</p>
+    } else if (diff <= 0) {
+        return <p style={{color: 'red'}}>Chauffeur sur site</p>
     }
 
     // Else, display the time
