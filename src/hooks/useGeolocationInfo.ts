@@ -3,6 +3,8 @@ import type { paths } from "../../generated/openapi_geolocation"
 
 type response = paths['/v1/geolocation/missions/tda']['post']['responses']['200']['content']['application/json']
 
+const geolocation_url = document.location.hostname === 'localhost' ? 'http://localhost:3004/v1/geolocation/missions/tda' : 'https://api.phoenixsoftware.fr/v1/geolocation/missions/tda'
+
 export function useGeolocationInfo(wayniumMissionIds: string[]) {
     return useQuery<response>({
         queryKey: ['geolocations'],
@@ -11,7 +13,7 @@ export function useGeolocationInfo(wayniumMissionIds: string[]) {
             
 
             const response = await fetch(
-                'https://api.phoenixsoftware.fr/v1/geolocation/missions/tda',
+                geolocation_url,
                 {
                     method: 'POST',
                     headers: {

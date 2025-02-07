@@ -50,10 +50,15 @@ export const OneMission = (props: {
 
                         <div style={{flex: 1}}>
                             {props.mission.id}-{props.mission.wayniumid}-T{props.mission.type}
+                            <a href="https://chabe.way-plan.com/bop3/C_Gen_Mission/planning/?COM_ID=58815&MIS_NUMERO=577" rel="noreferrer" referrerPolicy="no-referrer">Waynium?</a>
                         </div>
 
-
                     </div>
+
+                    <div>
+                        {props.mission.locations[0]?.name} {'->'} {props.mission.locations[1]?.name}
+                    </div>
+
                 </div>
             </AccordionSummary>
         </Accordion>

@@ -7,8 +7,11 @@ export const Eta = (props: {
 
     const { t } = useTranslation()
 
+    if(!props.geolocation) {
+        return <p style={{color: 'grey'}}>-nogeo-</p>
+    }
+
     if(!props.geolocation?.mission?.eta) {
-        // Includes the case where props.geolocation is undefined
         return <p style={{color: 'grey'}}>{t('unknownETA')}</p>
     }
 

@@ -3,6 +3,8 @@ import type { paths } from "../../generated/openapi"
 
 type response = paths['/v1/missions/filter']['post']['responses']['200']['content']['application/json']
 
+const mission_url = document.location.hostname === 'localhost' ? 'http://localhost:2999/v1/missions/filter' : 'https://api.phoenixsoftware.fr/v1/missions/filter'
+
 export function useMissions(wayniumclientids: string[]) {
     return useQuery<response>({
         queryKey: ['missions'],
@@ -11,7 +13,7 @@ export function useMissions(wayniumclientids: string[]) {
             
 
             const response = await fetch(
-                'https://api.phoenixsoftware.fr/v1/missions/filter',
+                mission_url,
                 {
                     method: 'POST',
                     headers: {

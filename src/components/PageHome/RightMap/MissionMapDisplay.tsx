@@ -18,13 +18,22 @@ export const MissionMapDisplay = (props: {
 
     if (!props.mission || !props.geolocations) return null;
 
-    const is_geolocation_old = new Date(props.geolocations.geolocation.timestamp as unknown as string).getTime() < Date.now() - 1000 * 60 * 5;
+    const is_geolocation_old = !props.geolocations.geolocation || new Date(props.geolocations.geolocation.timestamp as unknown as string).getTime() < Date.now() - 1000 * 60 * 5;
 
     useEffect(() => {
-        if (userselection.selectedMission == props.mission!.id && !userselection.hasUserMovedMap) {
+        if (
+            userselection.selectedMission == props.mission!.id
+            && !userselection.hasUserMovedMap
+            && props.geolocations.geolocation?.lat
+        ) {
             map?.setCenter({ lat: props.geolocations.geolocation.lat, lng: props.geolocations.geolocation.lng })
         }
     }, [userselection])
+
+    if(!props.geolocations?.geolocation?.lat || !props.geolocations?.geolocation?.lng) {
+        // Full extrapolation fuck
+        return null
+    }
 
     return (
         <>
