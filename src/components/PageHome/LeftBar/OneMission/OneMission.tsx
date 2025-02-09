@@ -10,6 +10,7 @@ import { ArrowForward } from "@mui/icons-material";
 import arrowDown from "../../../../../public/arrowBottom.svg"
 
 import { Eta } from "./Eta"
+import { useEffect } from "react"
 
 export const OneMission = (props: {
     mission: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][number],
@@ -24,6 +25,11 @@ export const OneMission = (props: {
         : <p style={{ color: 'grey' }}>{t("unknownPassenger")}</p>
 
     const selected = userselection.selectedMission == props.mission.id
+
+    useEffect(() => {
+        if(selected)
+            console.log({m: props.mission, g: props.geolocation})
+    }, [selected])
 
     return (
         <Accordion
