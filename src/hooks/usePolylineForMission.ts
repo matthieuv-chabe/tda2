@@ -7,6 +7,9 @@ export const usePolylineForMission = (
     enabled: boolean
 ) => {
 
+    // We decided to disable the polyline draw due to the uncertainty of the position that could
+    //  move the location outside of the predicted path hence confusing the users.
+    return false;
     
     const geometryLibrary = useMapsLibrary('geometry')
     const map = useMap()

@@ -65,8 +65,15 @@ const resources = {
       'noMissions': 'No upcoming bookings to display',
 
       "status.0": "Booking not started",
+      "status.2": "Booking not started",
+      "status.3": "Booking not started",
+      "status.4": "Booking not started",
+      "status.5": "Booking not started",
+      "status.6": "Booking not started",
       "status.7": "Passenger on board",
       "status.8": "Booking completed",
+
+      "unknownEta": "Unknown estimated time of arrival",
     }
   },
   fr: {
@@ -129,8 +136,16 @@ const resources = {
       'noMissions': 'Aucune mission de transfert à afficher',
 
       "status.0": "Mission non démarrée",
+      "status.2": "Mission non démarrée",
+      "status.3": "Mission non démarrée",
+      "status.4": "Mission non démarrée",
+      "status.5": "Mission non démarrée",
+      "status.6": "Mission non démarrée",
       "status.7": "Passager à bord",
       "status.8": "Mission terminée",
+
+      "unknownEta": "Estimation d'arrivée inconnue",
+
     }
   }
 };

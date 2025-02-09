@@ -12,7 +12,7 @@ export const Eta = (props: {
     }
 
     if(!props.geolocation?.mission?.eta) {
-        return <p style={{color: 'grey'}}>{t('unknownETA')}</p>
+        return <p style={{color: 'grey'}}>{t('unknownEta')}</p>
     }
 
     // If ETA < now+5min, display the remaining time in red
