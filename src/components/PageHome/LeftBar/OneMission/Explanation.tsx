@@ -82,6 +82,13 @@ export const Explanation = (props: {
         }
 
         const geolocdate = new Date(props.geolocation.geolocation?.timestamp)
+
+        if(!props.geolocation.geolocation || !geolocdate) {
+            return <p style={{ color: 'orange' }}>
+                Extrapolation complète
+            </p>
+        }
+
         if(geolocdate && fns.differenceInMinutes(new Date(), geolocdate) > 5) {
             return <p style={{ color: 'orange' }}>
                 Dernière position connue il y a {fns.differenceInMinutes(new Date(), geolocdate)} minutes
