@@ -39,7 +39,7 @@ export const OneMission = (props: {
             style={{ width: "100%" }}
         >
             <AccordionSummary>
-                <div style={{ width: "100%" }} id={"OneMission-" + props.mission.id}>
+                <div style={{ width: "100%" }} id={"OneMission-" + props.mission.id}> { /* the ID is used for the scrollTo when clicking on a car on the map */}
                     <div
                         style={{
                             display: "flex",
