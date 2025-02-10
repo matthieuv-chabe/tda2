@@ -257,18 +257,20 @@ export interface operations {
                             lng: number;
                             lat: number;
                             has_chauffeur_reached_end: boolean;
-                        };
+                        } | null;
                         mission: {
                             id: number;
                             phoenixid: number | null;
                             datetime: Record<string, never> | null;
                             eta: Record<string, never> | null;
                             wayniumid: string;
+                            type: string;
                             locations: unknown;
                             has_mission_started: boolean;
                             has_chauffeur_reached_end: boolean;
                             chauffeur_clicked_pob_at: Record<string, never> | null;
                             chauffeur_clicked_arrived_at: Record<string, never> | null;
+                            had_at_least_one_real_geolocation: boolean;
                             last_google_path_result: string;
                         };
                     }[];
@@ -281,18 +283,20 @@ export interface operations {
                             lng: number;
                             lat: number;
                             has_chauffeur_reached_end: boolean;
-                        };
+                        } | null;
                         mission: {
                             id: number;
                             phoenixid: number | null;
                             datetime: Record<string, never> | null;
                             eta: Record<string, never> | null;
                             wayniumid: string;
+                            type: string;
                             locations: unknown;
                             has_mission_started: boolean;
                             has_chauffeur_reached_end: boolean;
                             chauffeur_clicked_pob_at: Record<string, never> | null;
                             chauffeur_clicked_arrived_at: Record<string, never> | null;
+                            had_at_least_one_real_geolocation: boolean;
                             last_google_path_result: string;
                         };
                     }[];
@@ -305,18 +309,20 @@ export interface operations {
                             lng: number;
                             lat: number;
                             has_chauffeur_reached_end: boolean;
-                        };
+                        } | null;
                         mission: {
                             id: number;
                             phoenixid: number | null;
                             datetime: Record<string, never> | null;
                             eta: Record<string, never> | null;
                             wayniumid: string;
+                            type: string;
                             locations: unknown;
                             has_mission_started: boolean;
                             has_chauffeur_reached_end: boolean;
                             chauffeur_clicked_pob_at: Record<string, never> | null;
                             chauffeur_clicked_arrived_at: Record<string, never> | null;
+                            had_at_least_one_real_geolocation: boolean;
                             last_google_path_result: string;
                         };
                     }[];

@@ -6,11 +6,12 @@ import { useUserSelectionContext } from "../../RightMap/UserSelectionContext"
 import { ArrowForward } from "@mui/icons-material";
 
 
-// @ts-expect-error ?????????????
+// @ts-expect-error somehow it doesnt find this file ?
 import arrowDown from "../../../../../public/arrowBottom.svg"
 
 import { Eta } from "./Eta"
 import { useEffect } from "react"
+import { Explanation } from "./Explanation"
 
 export const OneMission = (props: {
     mission: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][number],
@@ -27,8 +28,8 @@ export const OneMission = (props: {
     const selected = userselection.selectedMission == props.mission.id
 
     useEffect(() => {
-        if(selected)
-            console.log({m: props.mission, g: props.geolocation})
+        if (selected)
+            console.log({ m: props.mission, g: props.geolocation })
     }, [selected])
 
     return (
@@ -72,9 +73,6 @@ export const OneMission = (props: {
                             <Eta geolocation={props.geolocation} />
                         </div>
 
-
-
-
                         <div>
                             <img
                                 title={t('showImminentArrivals')}
@@ -86,6 +84,12 @@ export const OneMission = (props: {
                             />
                         </div>
                     </div>
+
+                    <div>
+                        <Explanation mission={props.mission} geolocation={props.geolocation} />
+                    </div>
+
+
                 </div>
             </AccordionSummary>
             <AccordionDetails>
