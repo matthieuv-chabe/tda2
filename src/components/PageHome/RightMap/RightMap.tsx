@@ -4,7 +4,7 @@ import { Wrapper } from "@googlemaps/react-wrapper";
 import { APIProvider, ControlPosition, Map, MapControl } from '@vis.gl/react-google-maps';
 import { MissionMapDisplay } from "./MissionMapDisplay";
 import { useUserSelectionContext } from "./UserSelectionContext";
-import { Checkbox, FormControlLabel, FormGroup, ToggleButton } from "@mui/material";
+import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { Traffic } from "./Traffic";
 import { useTranslation } from "react-i18next";
 
@@ -50,7 +50,7 @@ export const RightMap = (props: {
                                 }}
                             >
                                 <FormGroup>
-                                    <FormControlLabel style={{color: 'black'}} control={<Checkbox checked={userselection.showTraffic} />} label={t("showTraffic")} onChange={(e, c) => userselection.setShowTraffic(c)} />
+                                    <FormControlLabel style={{color: 'black'}} control={<Checkbox checked={userselection.showTraffic} />} label={t("showTraffic")} onChange={(_, c) => userselection.setShowTraffic(c)} />
                                 </FormGroup>
                             </div>
 

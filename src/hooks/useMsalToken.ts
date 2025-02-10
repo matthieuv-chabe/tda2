@@ -1,5 +1,5 @@
 import { AuthenticationResult, IPublicClientApplication } from "@azure/msal-browser";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export async function getAccessToken(instance: IPublicClientApplication) {
 	const accessTokenRequest = {

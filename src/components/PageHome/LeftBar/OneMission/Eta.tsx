@@ -5,14 +5,12 @@ export const Eta = (props: {
         geolocation?: geolocpaths['/v1/geolocation/missions/tda']['post']['responses']['200']['content']['application/json'][number]
 }) => {
 
-    const { t } = useTranslation()
 
     if(!props.geolocation) {
         return ""
     }
 
     if(!props.geolocation?.mission?.eta) {
-        // return <p style={{color: 'grey'}}>{t('unknownEta')}</p> // Hiding unknown ?
         return ""
     }
 

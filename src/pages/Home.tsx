@@ -10,6 +10,7 @@ import { useGeolocationInfo } from "../hooks/useGeolocationInfo"
 import UserSelectionContext from "../components/PageHome/RightMap/UserSelectionContext"
 import { useMissionFilter } from "../hooks/useMissionFilter"
 
+// TODO : Wrap this to clean up the code
 
 export const PageHome = () => {
 
