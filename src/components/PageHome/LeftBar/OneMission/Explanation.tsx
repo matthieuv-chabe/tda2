@@ -23,6 +23,21 @@ export const Explanation = (props: {
         </p>
     }
 
+    const geolocdate = new Date(props.geolocation.geolocation?.timestamp)
+        if(!props.geolocation.geolocation || !geolocdate) {
+            return <p style={{ color: 'orange' }}>
+                Extrapolation complète
+            </p>
+        } else if (fns.differenceInMinutes(new Date(), geolocdate) > 5) {
+            return <p style={{ color: 'orange' }}>
+                Dernière position connue il y a {fns.differenceInMinutes(new Date(), geolocdate)} minutes
+            </p>
+        } else {
+            return <p style={{ color: 'green' }}>
+                Mission à jour
+            </p>
+        }
+
     // If the chauffeur did NOT click on POB, and the mission is not planned to start yet, then it probably means it didn't start.
     if (
         !props.geolocation?.mission.chauffeur_clicked_pob_at
