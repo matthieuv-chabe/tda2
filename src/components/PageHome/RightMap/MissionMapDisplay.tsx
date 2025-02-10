@@ -18,8 +18,6 @@ export const MissionMapDisplay = (props: {
 
     if (!props.mission || !props.geolocations) return null;
 
-    const is_geolocation_old = !props.geolocations.geolocation || new Date(props.geolocations.geolocation.timestamp as unknown as string).getTime() < Date.now() - 1000 * 60 * 5;
-
     useEffect(() => {
         if (
             userselection.selectedMission == props.mission!.id
@@ -45,8 +43,9 @@ export const MissionMapDisplay = (props: {
                     scaledSize: new google.maps.Size(30, 30),
                 }}
                 opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
-                title={is_geolocation_old ? "Old geolocation" : ""}
+                // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
             />
+
         </>
     )
 }

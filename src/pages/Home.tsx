@@ -24,11 +24,13 @@ export const PageHome = () => {
         hasUserMovedMap: false,
         selectedMission: null,
         textfilter: "",
+        showTraffic: false,
     });
     const setHasUserMovedMap = (hasUserMovedMap: boolean)       => { setUserSelectionContext({...userSelectionContext, hasUserMovedMap: hasUserMovedMap         }) }
     const setTextFilter = (textfilter: string)                  => { setUserSelectionContext({...userSelectionContext, textfilter: textfilter                   }) }
     const setOnlyShowCancelled = (onlyShowCancelled: boolean)   => { setUserSelectionContext({...userSelectionContext, onlyShowCancelled: onlyShowCancelled     }) }
     const setOnlyShowMeetGreets = (onlyShowMeetGreets: boolean) => { setUserSelectionContext({...userSelectionContext, onlyShowMeetGreets: onlyShowMeetGreets   }) }
+    const setShowTraffic = (showTraffic: boolean)               => { setUserSelectionContext({...userSelectionContext, showTraffic: showTraffic                 }) }
     const setSelectedMission = (missionId: number) => {
         // Scroll to the mission
         document.getElementById("OneMission-"+missionId)?.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
@@ -37,7 +39,7 @@ export const PageHome = () => {
     }
 
     return (
-        <UserSelectionContext.Provider value={{...userSelectionContext, setSelectedMission, setHasUserMovedMap, setTextFilter, setOnlyShowCancelled, setOnlyShowMeetGreets}}>
+        <UserSelectionContext.Provider value={{...userSelectionContext, setSelectedMission, setHasUserMovedMap, setTextFilter, setOnlyShowCancelled, setOnlyShowMeetGreets, setShowTraffic}}>
             <LeftBar missions={filteredMissions || []} geolocations={geoloc || []} />
             <RightMap missions={filteredMissions || []} geolocations={geoloc || []} />
         </UserSelectionContext.Provider>

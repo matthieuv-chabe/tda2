@@ -1,9 +1,11 @@
 import { paths } from "../../../../generated/openapi"
 import { paths as geolocpaths } from "../../../../generated/openapi_geolocation"
 import { Wrapper } from "@googlemaps/react-wrapper";
-import { APIProvider, Map } from '@vis.gl/react-google-maps';
+import { APIProvider, ControlPosition, Map, MapControl } from '@vis.gl/react-google-maps';
 import { MissionMapDisplay } from "./MissionMapDisplay";
 import { useUserSelectionContext } from "./UserSelectionContext";
+import { Checkbox, FormControlLabel, FormGroup, ToggleButton } from "@mui/material";
+import { Traffic } from "./Traffic";
 
 
 export const RightMap = (props: {
@@ -11,7 +13,7 @@ export const RightMap = (props: {
     geolocations: geolocpaths['/v1/geolocation/missions/tda']['post']['responses']['200']['content']['application/json']
 }) => {
 
-    const userselection = useUserSelectionContext();   
+    const userselection = useUserSelectionContext();
 
     const missions_to_show = props.missions.filter(m => m.type == "A_TO_B" && m.status < 8 && m.status > 4)
 
@@ -30,6 +32,28 @@ export const RightMap = (props: {
 
                         onDrag={() => userselection.setHasUserMovedMap(true)}
                     >
+
+                        <MapControl position={ControlPosition.TOP_LEFT}>
+
+                            <div
+                                style={{
+                                    backgroundColor: 'white',
+                                    margin: '10px',
+                                    padding: '0 10px',
+                                    boxShadow: '0 2px 4px 0 rgba(0,0,0,0.1)',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <FormGroup>
+                                    <FormControlLabel style={{color: 'black'}} control={<Checkbox checked={userselection.showTraffic} />} label="Afficher le trafic" onChange={(e, c) => userselection.setShowTraffic(c)} />
+                                </FormGroup>
+                            </div>
+
+                        </MapControl>
+                        
+                        <Traffic />
 
                         {
                             props.geolocations.map(g => {
