@@ -74,6 +74,7 @@ const resources = {
       "status.8": "Booking completed",
 
       "unknownEta": "Unknown estimated time of arrival",
+      "showTraffic": "Show Traffic",
     }
   },
   fr: {
@@ -145,6 +146,7 @@ const resources = {
       "status.8": "Mission terminée",
 
       "unknownEta": "Estimation d'arrivée inconnue",
+      "showTraffic": "Afficher le trafic",
 
     }
   }

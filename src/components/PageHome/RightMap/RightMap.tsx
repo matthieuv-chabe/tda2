@@ -6,6 +6,7 @@ import { MissionMapDisplay } from "./MissionMapDisplay";
 import { useUserSelectionContext } from "./UserSelectionContext";
 import { Checkbox, FormControlLabel, FormGroup, ToggleButton } from "@mui/material";
 import { Traffic } from "./Traffic";
+import { useTranslation } from "react-i18next";
 
 
 export const RightMap = (props: {
@@ -13,6 +14,7 @@ export const RightMap = (props: {
     geolocations: geolocpaths['/v1/geolocation/missions/tda']['post']['responses']['200']['content']['application/json']
 }) => {
 
+    const { t } = useTranslation();
     const userselection = useUserSelectionContext();
 
     const missions_to_show = props.missions.filter(m => m.type == "A_TO_B" && m.status < 8 && m.status > 4)
@@ -31,6 +33,7 @@ export const RightMap = (props: {
                         defaultCenter={{ lat: 48.8566, lng: 2.3522 }}
 
                         onDrag={() => userselection.setHasUserMovedMap(true)}
+                        disableDefaultUI={true}
                     >
 
                         <MapControl position={ControlPosition.TOP_LEFT}>
@@ -47,7 +50,7 @@ export const RightMap = (props: {
                                 }}
                             >
                                 <FormGroup>
-                                    <FormControlLabel style={{color: 'black'}} control={<Checkbox checked={userselection.showTraffic} />} label="Afficher le trafic" onChange={(e, c) => userselection.setShowTraffic(c)} />
+                                    <FormControlLabel style={{color: 'black'}} control={<Checkbox checked={userselection.showTraffic} />} label={t("showTraffic")} onChange={(e, c) => userselection.setShowTraffic(c)} />
                                 </FormGroup>
                             </div>
 
