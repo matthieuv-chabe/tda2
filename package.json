@@ -33,6 +33,7 @@
     "antd": "^5.22.2",
     "appmetrics-dash": "^5.3.0",
     "axios": "^1.7.8",
+    "date-fns": "^4.1.0",
     "i18next": "^24.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

@@ -1,6 +1,7 @@
 
 import { paths } from "../../../../../generated/openapi"
 import { paths as geolocpaths } from "../../../../../generated/openapi_geolocation"
+import * as fns from "date-fns"
 
 type missionT = paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][number]
 type geolocationT = geolocpaths['/v1/geolocation/missions/tda']['post']['responses']['200']['content']['application/json'][number]
@@ -9,6 +10,12 @@ export const Explanation = (props: {
     mission: missionT,
     geolocation?: geolocationT
 }) => {
+
+    if(props.mission.locations.filter(m => m.name != "").length < 2) {
+        return <p style={{ color: 'orange' }}>
+            Lieux non définis, suivi impossible.
+        </p>
+    }
 
     if (!props.geolocation) {
         return <p style={{ color: 'grey' }}>
@@ -28,9 +35,17 @@ export const Explanation = (props: {
             const timestr = props.mission.startTime
             const date = new Date(`${datestr}T${timestr}`)
 
+            // If the start date is in the past, the mission is fully extrapolated
+            if (fns.isBefore(date, new Date())) {
+                return <p style={{ color: 'orange' }}>
+                    Extrapolation complète
+                </p>
+            }
+
             return <p style={{ color: 'green' }}>
                 La mission est prévue pour {date.toLocaleTimeString()}
             </p>
+
         } else /* No start time information */ {
             return <p style={{ color: 'green' }}>
                 La mission n'a pas encore commencé.
@@ -52,27 +67,35 @@ export const Explanation = (props: {
             </p>
         }
 
+        // No ETA but we have 2 steps and the mission is not finished
+        return <p style={{ color: 'orange' }}>
+            status={props.mission.status}
+        </p>
+
     } else /* ETA exists */ {
 
-        if (props.geolocation.mission.had_at_least_one_real_geolocation) {
-            return <p style={{ color: 'green' }}>
-                Le chauffeur a commencé la mission.
-            </p>
-        } else /* No real geolocation */ {
+
+        if(props.geolocation.mission.chauffeur_clicked_pob_at == null) {
             return <p style={{ color: 'orange' }}>
-                Le chauffeur n'a pas encore commencé la mission.
+                Le chauffeur n'a pas encore cliqué sur "POB", l'extrapolation considère un départ à {props.mission.startTime}
+            </p>
+        }
+
+        const geolocdate = new Date(props.geolocation.geolocation?.timestamp)
+        if(geolocdate && fns.differenceInMinutes(new Date(), geolocdate) > 5) {
+            return <p style={{ color: 'orange' }}>
+                Dernière position connue il y a {fns.differenceInMinutes(new Date(), geolocdate)} minutes
+            </p>
+        } else {
+            return <p style={{ color: 'green' }}>
+                Mission à jour
             </p>
         }
 
     }
 
 
-    return (
-        <>
-
-            Explanation.
-
-        </>
-    )
+    return "????"
+    return null;
 
 }

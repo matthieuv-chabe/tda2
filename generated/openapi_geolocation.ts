@@ -265,6 +265,7 @@ export interface operations {
                             eta: Record<string, never> | null;
                             wayniumid: string;
                             type: string;
+                            status: number;
                             locations: unknown;
                             has_mission_started: boolean;
                             has_chauffeur_reached_end: boolean;
@@ -291,6 +292,7 @@ export interface operations {
                             eta: Record<string, never> | null;
                             wayniumid: string;
                             type: string;
+                            status: number;
                             locations: unknown;
                             has_mission_started: boolean;
                             has_chauffeur_reached_end: boolean;
@@ -317,6 +319,7 @@ export interface operations {
                             eta: Record<string, never> | null;
                             wayniumid: string;
                             type: string;
+                            status: number;
                             locations: unknown;
                             has_mission_started: boolean;
                             has_chauffeur_reached_end: boolean;
