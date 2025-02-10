@@ -23,6 +23,19 @@ export const Explanation = (props: {
         </p>
     }
 
+    if (
+        !props.geolocation?.mission.chauffeur_clicked_pob_at
+        && props.mission.status < 8
+    ) {
+        // @ts-expect-error We know it's a string.
+        const datestr = new Date(props.mission.date).toISOString().split('T')[0]
+        const timestr = props.mission.startTime
+        const date = new Date(`${datestr}T${timestr}`)
+        return <p style={{ color: 'green' }}>
+                Mission prévue pour {date.toLocaleTimeString()}
+            </p>
+    }
+
     const geolocdate = new Date(props.geolocation.geolocation?.timestamp)
         if(!props.geolocation.geolocation || !geolocdate) {
             return <p style={{ color: 'orange' }}>
@@ -34,7 +47,7 @@ export const Explanation = (props: {
             </p>
         } else {
             return <p style={{ color: 'green' }}>
-                Mission à jour
+                Mission en cours
             </p>
         }
 

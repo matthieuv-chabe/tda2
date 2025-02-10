@@ -25,5 +25,5 @@ export const Eta = (props: {
     }
 
     // Else, display the time
-    return <p>{eta.toLocaleTimeString()}</p>
+    return <p>ETA {eta.toLocaleTimeString().substring(0, 5)}</p>
 }

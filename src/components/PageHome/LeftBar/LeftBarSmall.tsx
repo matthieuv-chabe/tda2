@@ -10,7 +10,12 @@ export const LeftBarSmall = (props: {
 
 }) => {
 
-    const missions_to_show = props.missions.filter(m => m.type == "A_TO_B")
+    const missions_to_show = props.missions
+        .filter(m => m.type == "A_TO_B")
+        .map(m => ({
+            ...m,
+            eta: (props.geolocations.find(g => g.mission.wayniumid === m.wayniumid)?.mission?.eta) as unknown as string || ""
+        }))
 
     if (missions_to_show.length == 0) {
         return <LeftBarNoMission />
@@ -23,12 +28,14 @@ export const LeftBarSmall = (props: {
                 id="midscreencolorchangediv"
             >
                 {
-                    missions_to_show?.sort((a, b) => new Date(b.endTime || 0).getTime() - new Date(a.endTime || 0).getTime()).map((mission) => {
-                        const matching_geolocation = props.geolocations.find(g => g.mission.wayniumid === mission.wayniumid)
-                        return (
-                            <OneMission key={mission.id} mission={mission} geolocation={matching_geolocation} />
-                        )
-                    })
+                    missions_to_show
+                        ?.sort((a, b) => new Date(b.eta).getTime() || 0 - new Date(a.eta).getTime() || 0)
+                        .map((mission) => {
+                            const matching_geolocation = props.geolocations.find(g => g.mission.wayniumid === mission.wayniumid)
+                            return (
+                                <OneMission key={mission.id} mission={mission} geolocation={matching_geolocation} />
+                            )
+                        })
                 }
             </div>
         </>
