@@ -52,7 +52,7 @@ export const OneMission = (props: {
                     >
 
                         <div style={{ flex: 1 }}>
-                            <p
+                            <span
                                 style={{
                                     textAlign: "left",
                                     maxWidth: "100%",
@@ -64,7 +64,7 @@ export const OneMission = (props: {
 
                             >
                                 {passenger_text}
-                            </p>
+                            </span>
 
                         </div>
 
