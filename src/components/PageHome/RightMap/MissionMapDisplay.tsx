@@ -1,8 +1,8 @@
-import { Marker, useMap } from "@vis.gl/react-google-maps"
+import { AdvancedMarker, Marker, Pin, useMap } from "@vis.gl/react-google-maps"
 import { paths } from "../../../../generated/openapi"
 import { paths as geolocpaths } from "../../../../generated/openapi_geolocation"
 import { useUserSelectionContext } from "./UserSelectionContext"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { usePolylineForMission } from "../../../hooks/usePolylineForMission"
 
 export const MissionMapDisplay = (props: {
@@ -11,6 +11,7 @@ export const MissionMapDisplay = (props: {
 }) => {
 
     const userselection = useUserSelectionContext();
+	const [has_been_centered, setHasBeenCentered] = useState(false)
 
     const map = useMap()
 
@@ -23,18 +24,40 @@ export const MissionMapDisplay = (props: {
             userselection.selectedMission == props.mission!.id
             && !userselection.hasUserMovedMap
             && props.geolocations.geolocation?.lat
+			&& !has_been_centered
         ) {
-            map?.setCenter({ lat: props.geolocations.geolocation.lat, lng: props.geolocations.geolocation.lng })
+			setHasBeenCentered(true)
+
+			const bounds = new google.maps.LatLngBounds()
+			bounds.extend(new google.maps.LatLng(props.geolocations.geolocation.lat, props.geolocations.geolocation.lng))
+			bounds.extend(new google.maps.LatLng(props.geolocations.mission.locations.at(-1).lat, props.geolocations.mission.locations.at(-1).lng))
+
+			map?.fitBounds(bounds, { top: 100, right: 100, bottom: 100, left: 100 })
+            // map?.setCenter({ lat: props.geolocations.geolocation.lat, lng: props.geolocations.geolocation.lng })
         }
     }, [userselection])
 
     if(!props.geolocations?.geolocation?.lat || !props.geolocations?.geolocation?.lng) {
-        // Full extrapolation fuck
+        // Full extrapolation removed for debug
         return null
     }
 
     return (
         <>
+
+			{
+				// Show the arrival with a pin if the mission is seslected
+				userselection.selectedMission == props.mission.id &&
+				<AdvancedMarker
+					position={new google.maps.LatLng(
+						props.geolocations.mission.locations.at(-1).lat,
+						props.geolocations.mission.locations.at(-1).lng
+					)}
+				>
+					<Pin />
+				</AdvancedMarker>
+			}
+
             <Marker
                 onClick={() => userselection.setSelectedMission(props.mission!.id)}
                 position={{ lat: props.geolocations.geolocation.lat, lng: props.geolocations.geolocation.lng }}
