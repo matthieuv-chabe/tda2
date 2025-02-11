@@ -44,7 +44,7 @@ export const LeftBarBig = (props: {
                                 <b>{t("vehicle")}</b>
                             </TableCell>
                             <TableCell align="right">
-                                <b>{t("driver")}</b>
+                                <b>{t("chauffeur")}</b>
                             </TableCell>
                             <TableCell align="right">
                                 <b>{t("status")}</b>

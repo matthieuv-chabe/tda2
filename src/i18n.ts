@@ -63,6 +63,7 @@ const resources = {
       "endOfMissionNotAvailable": "End time not available",
       'canceled': 'Canceled',
       'noMissions': 'No upcoming bookings to display',
+      'chauffeur': 'CHAUFFEUR',
 
       "status.0": "Booking not started",
       "status.2": "Booking not started",
@@ -135,6 +136,7 @@ const resources = {
       "endOfMissionNotAvailable": "Heure de fin non indiquée",
       'canceled': 'Annulée',
       'noMissions': 'Aucune mission de transfert à afficher',
+      'chauffeur': 'CHAUFFEUR',
 
       "status.0": "Mission non démarrée",
       "status.2": "Mission non démarrée",

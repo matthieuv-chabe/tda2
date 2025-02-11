@@ -4,12 +4,10 @@ import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import { GoogleRouteV2Result } from "../core/googleUtils";
 import * as turf from "@turf/turf";
 
-export const usePolylineForMission = (
+export const useExtrapol = (
     geolocation: paths["/v1/geolocation/missions/tda"]["post"]["responses"]["200"]["content"]["application/json"][number]['mission'],
     enabled: boolean
 ) => {
-
-    return false;
 
     // We decided to disable the polyline draw due to the uncertainty of the position that could
     //  move the location outside of the predicted path hence confusing the users.
@@ -21,7 +19,7 @@ export const usePolylineForMission = (
     const [polyline, setPolyline] = useState<google.maps.Polyline | null>(null)
     const [itv, setItv] = useState<NodeJS.Timeout | null>(null)
 
-    const [marker, setMarker] = useState<google.maps.Marker | null>(null)
+    const [posExtrapol, setPosExtrapol] = useState<[number, number] | null>(null)
 
     const missionDef = geolocation.last_google_path_result;
 
@@ -74,7 +72,8 @@ export const usePolylineForMission = (
 
                     const line = turf.lineString(geometryLibrary.encoding.decodePath(step.polyline.encodedPolyline).map(latLng => [latLng.lng(), latLng.lat()]))
                     const loc = turf.along(line, distance_in_this_segment, { units: 'meters' }).geometry.coordinates as [number, number];
-
+                    
+                    setPosExtrapol(loc)
 
                     break;
     
@@ -99,12 +98,6 @@ export const usePolylineForMission = (
 
     }, [geometryLibrary, map, enabled])
 
-    useEffect(() => {
-        return () => {
-            clearAll()
-        }
-    }, [])
-
     
-
+    return posExtrapol;
 }

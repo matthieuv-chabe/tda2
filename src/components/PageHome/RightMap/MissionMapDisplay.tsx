@@ -4,6 +4,7 @@ import { paths } from "../../../../generated/openapi"
 import { paths as geolocpaths } from "../../../../generated/openapi_geolocation"
 import { useUserSelectionContext } from "./UserSelectionContext"
 import { usePolylineForMission } from "../../../hooks/usePolylineForMission"
+import { useExtrapol } from "../../../hooks/useExtrapol"
 
 export const MissionMapDisplay = (props: {
     mission: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][number] | undefined,
@@ -11,11 +12,12 @@ export const MissionMapDisplay = (props: {
 }) => {
 
     const userselection = useUserSelectionContext();
-	const [has_been_centered, setHasBeenCentered] = useState(false)
+    const [has_been_centered, setHasBeenCentered] = useState(false)
 
     const map = useMap()
 
-    usePolylineForMission(props.geolocations.mission.last_google_path_result, userselection.selectedMission === props.mission?.id)
+    usePolylineForMission(props.geolocations.mission, userselection.selectedMission === props.mission?.id)
+    const extrapolPos = useExtrapol(props.geolocations.mission, userselection.selectedMission === props.mission?.id)
 
     // Can't happen
     if (!props.mission || !props.geolocations) return null;
@@ -23,45 +25,56 @@ export const MissionMapDisplay = (props: {
     useEffect(() => {
         setHasBeenCentered(false)
     }, [props.mission, userselection])
-    
+
     useEffect(() => {
         if (
             userselection.selectedMission == props.mission!.id
             && !userselection.hasUserMovedMap
             && props.geolocations.geolocation?.lat
-			&& !has_been_centered
+            && !has_been_centered
         ) {
-			setHasBeenCentered(true)
+            setHasBeenCentered(true)
 
-			const bounds = new google.maps.LatLngBounds()
-			bounds.extend(new google.maps.LatLng(props.geolocations.geolocation.lat, props.geolocations.geolocation.lng))
-			bounds.extend(new google.maps.LatLng(props.geolocations.mission.locations.at(-1).lat, props.geolocations.mission.locations.at(-1).lng))
+            const bounds = new google.maps.LatLngBounds()
+            bounds.extend(new google.maps.LatLng(props.geolocations.geolocation.lat, props.geolocations.geolocation.lng))
+            bounds.extend(new google.maps.LatLng(props.geolocations.mission.locations.at(-1).lat, props.geolocations.mission.locations.at(-1).lng))
 
-			map?.fitBounds(bounds, { top: 100, right: 100, bottom: 100, left: 100 })
+            map?.fitBounds(bounds, { top: 100, right: 100, bottom: 100, left: 100 })
             // map?.setCenter({ lat: props.geolocations.geolocation.lat, lng: props.geolocations.geolocation.lng })
         }
     }, [userselection])
 
-    if(!props.geolocations?.geolocation?.lat || !props.geolocations?.geolocation?.lng) {
-        // Full extrapolation removed for debug
-        return null
+    if (!props.geolocations?.geolocation?.lat || !props.geolocations?.geolocation?.lng) {
+
+        if(!extrapolPos) return null;
+
+        return <Marker
+            onClick={() => userselection.setSelectedMission(props.mission!.id)}
+            position={{ lat: extrapolPos[1], lng: extrapolPos[0] }}
+            icon={{
+                url: '/public/logocarorange.svg',
+                scaledSize: new google.maps.Size(30, 30),
+            }}
+            opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
+        // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
+        />
     }
 
     return (
         <>
 
-			{
-				// Show the arrival with a pin if the mission is seslected
-				userselection.selectedMission == props.mission.id &&
-				<AdvancedMarker
-					position={new google.maps.LatLng(
-						props.geolocations.mission.locations.at(-1).lat,
-						props.geolocations.mission.locations.at(-1).lng
-					)}
-				>
-					<Pin />
-				</AdvancedMarker>
-			}
+            {
+                // Show the arrival with a pin if the mission is seslected
+                userselection.selectedMission == props.mission.id &&
+                <AdvancedMarker
+                    position={new google.maps.LatLng(
+                        props.geolocations.mission.locations.at(-1).lat,
+                        props.geolocations.mission.locations.at(-1).lng
+                    )}
+                >
+                    <Pin />
+                </AdvancedMarker>
+            }
 
             <Marker
                 onClick={() => userselection.setSelectedMission(props.mission!.id)}
@@ -71,7 +84,7 @@ export const MissionMapDisplay = (props: {
                     scaledSize: new google.maps.Size(30, 30),
                 }}
                 opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
-                // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
+            // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
             />
 
         </>
