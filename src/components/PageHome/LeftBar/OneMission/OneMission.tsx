@@ -11,7 +11,8 @@ import arrowDown from "../../../../../public/arrowBottom.svg"
 
 import { Eta } from "./Eta"
 import { useEffect } from "react"
-import { Explanation } from "./Explanation"
+import { ExplanationMission } from "./ExplanationMission"
+import { ExplanationEta } from "./ExplanationEta"
 
 export const OneMission = (props: {
     mission: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][number],
@@ -85,8 +86,16 @@ export const OneMission = (props: {
                         </div>
                     </div>
 
-                    <div>
-                        <Explanation mission={props.mission} geolocation={props.geolocation} />
+                    <div
+                        style={{
+                            width: '100%',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        <ExplanationMission mission={props.mission} geolocation={props.geolocation} />
+                        <ExplanationEta mission={props.mission} geolocation={props.geolocation} />
                     </div>
 
 

@@ -17,8 +17,13 @@ export const MissionMapDisplay = (props: {
 
     usePolylineForMission(props.geolocations.mission.last_google_path_result, userselection.selectedMission === props.mission?.id)
 
+    // Can't happen
     if (!props.mission || !props.geolocations) return null;
 
+    useEffect(() => {
+        setHasBeenCentered(false)
+    }, [props.mission, userselection])
+    
     useEffect(() => {
         if (
             userselection.selectedMission == props.mission!.id
