@@ -1,8 +1,8 @@
+import { useEffect, useState } from "react"
 import { AdvancedMarker, Marker, Pin, useMap } from "@vis.gl/react-google-maps"
 import { paths } from "../../../../generated/openapi"
 import { paths as geolocpaths } from "../../../../generated/openapi_geolocation"
 import { useUserSelectionContext } from "./UserSelectionContext"
-import { useEffect, useState } from "react"
 import { usePolylineForMission } from "../../../hooks/usePolylineForMission"
 
 export const MissionMapDisplay = (props: {

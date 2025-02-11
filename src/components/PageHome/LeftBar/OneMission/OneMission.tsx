@@ -160,6 +160,8 @@ export const OneMission = (props: {
                     </div>
                     <div style={{ flex: 1, textAlign: 'center' }}>
                         {props.mission.chauffeur.firstname} {props.mission.chauffeur.lastname}
+						<br />
+						{props.mission.chauffeur.phone}
                     </div>
                 </div>
 
