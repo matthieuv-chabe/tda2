@@ -24,7 +24,6 @@ export const useExtrapol = (
     const missionDef = geolocation.last_google_path_result;
 
     const clearAll = () => {
-        console.log("Clearing all")
         if(polyline) polyline.setMap(null)
         if(itv) clearInterval(itv)        
     }
