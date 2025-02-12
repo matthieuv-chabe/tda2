@@ -5,6 +5,7 @@ import { paths as geolocpaths } from "../../../../generated/openapi_geolocation"
 import { useUserSelectionContext } from "./UserSelectionContext"
 import { usePolylineForMission } from "../../../hooks/usePolylineForMission"
 import { useExtrapol } from "../../../hooks/useExtrapol"
+import * as fns from "date-fns"
 
 export const MissionMapDisplay = (props: {
     mission: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][number] | undefined,
@@ -26,6 +27,8 @@ export const MissionMapDisplay = (props: {
         setHasBeenCentered(false)
     }, [props.mission, userselection])
 
+    const displayExtrapolation = !props.geolocations.geolocation || fns.differenceInMinutes(new Date(), new Date(props.geolocations.geolocation.timestamp)) > 5
+
     useEffect(() => {
         if (
             userselection.selectedMission == props.mission!.id
@@ -46,7 +49,7 @@ export const MissionMapDisplay = (props: {
 
     if (!props.geolocations?.geolocation?.lat || !props.geolocations?.geolocation?.lng) {
 
-        if(!extrapolPos) return null;
+        if (!extrapolPos) return null;
 
         return <Marker
             onClick={() => userselection.setSelectedMission(props.mission!.id)}
@@ -76,16 +79,32 @@ export const MissionMapDisplay = (props: {
                 </AdvancedMarker>
             }
 
-            <Marker
-                onClick={() => userselection.setSelectedMission(props.mission!.id)}
-                position={{ lat: props.geolocations.geolocation.lat, lng: props.geolocations.geolocation.lng }}
-                icon={{
-                    url: userselection.selectedMission == props.mission.id ? '/public/logocar.svg' : '/public/logocargrey.svg',
-                    scaledSize: new google.maps.Size(30, 30),
-                }}
-                opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
-            // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
-            />
+            {extrapolPos && displayExtrapolation &&
+                <Marker
+                    onClick={() => userselection.setSelectedMission(props.mission!.id)}
+                    position={{ lat: extrapolPos[1], lng: extrapolPos[0] }}
+                    icon={{
+                        url: '/public/logocarorange.svg',
+                        scaledSize: new google.maps.Size(30, 30),
+                    }}
+                    opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
+                // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
+                />
+            }
+
+            {
+                !displayExtrapolation &&
+                <Marker
+                    onClick={() => userselection.setSelectedMission(props.mission!.id)}
+                    position={{ lat: props.geolocations.geolocation.lat, lng: props.geolocations.geolocation.lng }}
+                    icon={{
+                        url: userselection.selectedMission == props.mission.id ? '/public/logocar.svg' : '/public/logocargrey.svg',
+                        scaledSize: new google.maps.Size(30, 30),
+                    }}
+                    opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
+                // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
+                />
+            }
 
         </>
     )
