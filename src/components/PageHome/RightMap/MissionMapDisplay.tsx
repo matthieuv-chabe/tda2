@@ -18,7 +18,7 @@ export const MissionMapDisplay = (props: {
     const map = useMap()
 
     usePolylineForMission(props.geolocations.mission, userselection.selectedMission === props.mission?.id)
-    const extrapolPos = useExtrapol(props.geolocations.mission, userselection.selectedMission === props.mission?.id)
+    const extrapolPos = useExtrapol(props.geolocations.mission, true)// userselection.selectedMission === props.mission?.id)s
 
     // Can't happen
     if (!props.mission || !props.geolocations) return null;
@@ -27,7 +27,7 @@ export const MissionMapDisplay = (props: {
         setHasBeenCentered(false)
     }, [props.mission, userselection])
 
-    const displayExtrapolation = !props.geolocations.geolocation || fns.differenceInMinutes(new Date(), new Date(props.geolocations.geolocation.timestamp)) > 5
+    const displayExtrapolation = !props.geolocations.geolocation || (fns.differenceInMinutes(new Date(), new Date(props.geolocations.geolocation.timestamp)) > 5)
 
     useEffect(() => {
         if (
@@ -38,6 +38,8 @@ export const MissionMapDisplay = (props: {
         ) {
             setHasBeenCentered(true)
 
+            console.log("display extrapol ? ", displayExtrapolation)
+
             const bounds = new google.maps.LatLngBounds()
             bounds.extend(new google.maps.LatLng(props.geolocations.geolocation.lat, props.geolocations.geolocation.lng))
             bounds.extend(new google.maps.LatLng(props.geolocations.mission.locations.at(-1).lat, props.geolocations.mission.locations.at(-1).lng))
@@ -46,22 +48,6 @@ export const MissionMapDisplay = (props: {
             // map?.setCenter({ lat: props.geolocations.geolocation.lat, lng: props.geolocations.geolocation.lng })
         }
     }, [userselection])
-
-    if (!props.geolocations?.geolocation?.lat || !props.geolocations?.geolocation?.lng) {
-
-        if (!extrapolPos) return null;
-
-        return <Marker
-            onClick={() => userselection.setSelectedMission(props.mission!.id)}
-            position={{ lat: extrapolPos[1], lng: extrapolPos[0] }}
-            icon={{
-                url: '/public/logocarorange.svg',
-                scaledSize: new google.maps.Size(30, 30),
-            }}
-            opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
-        // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
-        />
-    }
 
     return (
         <>
