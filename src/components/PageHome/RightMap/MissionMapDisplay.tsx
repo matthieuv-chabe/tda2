@@ -18,7 +18,9 @@ export const MissionMapDisplay = (props: {
     const map = useMap()
 
     usePolylineForMission(props.geolocations.mission, userselection.selectedMission === props.mission?.id)
-    const extrapolPos = useExtrapol(props.geolocations.mission, true)// userselection.selectedMission === props.mission?.id)s
+    const extrapolPos = useExtrapol(props.geolocations.mission, true)// userselection.selectedMission === props.mission?.id)
+
+    usePolylineForMission(props.geolocations.mission, userselection.selectedMission === props.mission?.id)
 
     // Can't happen
     if (!props.mission || !props.geolocations) return null;
