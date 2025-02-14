@@ -15,11 +15,11 @@ export const ExplanationMission = (props: {
     if (isNaN(m_date.getTime())) return "Date invalide"
 
     if (fns.isBefore(m_date, new Date())) {
-        return <p style={{ color: 'green' }}>Mission en cours</p>
+        return <p style={{ fontSize:'smaller', color: 'green' }}>Mission en cours</p>
     }
 
     if(fns.isAfter(m_date, new Date())) {
-        return <p style={{ color: 'black' }}>
+        return <p style={{ fontSize:'smaller', color: 'black' }}>
             Mission prévue pour {fns.format(m_date, "HH:mm")}
         </p>
     }

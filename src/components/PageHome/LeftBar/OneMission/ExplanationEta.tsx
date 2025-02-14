@@ -14,9 +14,16 @@ export const ExplanationEta = (props: {
     const eta = new Date(props.geolocation?.mission.eta as unknown as string);
     if (isNaN(eta.getTime()) || eta.getTime() == 0) return null;
 
+    // If not started yet
+    if(fns.isBefore(new Date(props.mission.startTime), new Date()) && props.mission.status == 6) {
+        return <p style={{ fontSize:'smaller', color: 'black' }}>
+            Chauffeur en attente pour Pick-Up
+        </p>
+    }
+
     // If ETA is in the past, we display the vehicle is in position for drop-offs
     if (fns.isBefore(eta, new Date())) {
-        return <p style={{ color: 'green' }}>
+        return <p style={{ fontSize:'smaller', color: 'green' }}>
             Vehicule en position pour Drop-Off
         </p>
     }
@@ -33,24 +40,24 @@ export const ExplanationEta = (props: {
                 : `${Math.floor(minutes_since_last_geo / 60)}h ${minutes_since_last_geo % 60}`
 
             if(isNaN(minutes_since_last_geo)) {
-                return <p style={{color: 'orange'}}>
+                return <p style={{ fontSize:'smaller',color: 'orange'}}>
                     Aucune géolocalisation connue
                 </p>
             }
             if(minutes_since_last_geo > 30) {
-                return <p style={{ color: 'red' }}>
+                return <p style={{ fontSize:'smaller', color: 'red' }}>
                     Dernière géolocalisation il y a {formatted_time_last_geo} minutes
                 </p>
             } else if(minutes_since_last_geo > 5) {
-                return <p style={{ color: 'orange' }}>
+                return <p style={{ fontSize:'smaller', color: 'orange' }}>
                     Dernière géolocalisation il y a {minutes_since_last_geo} minutes
                 </p>
             } else if (minutes_since_last_geo < 2) {
-                return <p style={{ color: 'black' }}>
+                return <p style={{ fontSize:'smaller', color: 'black' }}>
                     Dernière géolocalisation maintenant
                 </p>
             } else {
-                return <p style={{ color: 'black' }}>
+                return <p style={{ fontSize:'smaller', color: 'black' }}>
                     Dernière géolocalisation il y a {formatted_time_last_geo} minutes
                 </p>
             }

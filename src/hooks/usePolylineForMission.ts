@@ -25,43 +25,60 @@ export const usePolylineForMission = (
     const missionDef = geolocation.last_google_path_result;
 
     const clearAll = () => {
+        polyline?.setMap(null)
+
         if(polyline) polyline.setMap(null)
         if(itv) clearInterval(itv)        
     }
     
     useEffect(() => {
+        polyline?.setMap(null)
+
+        if(enabled)
+        console.log("redraw")
+
         if(!geometryLibrary) return;
         if(!map) return;
 
-        let obj = {} as unknown as GoogleRouteV2Result;
+        const go = () => {
+            let obj = {} as unknown as GoogleRouteV2Result;
+
+            polyline?.setMap(null)
         
-        try {
-            obj = JSON.parse(missionDef);
-        } catch {
-            obj = {} as unknown as GoogleRouteV2Result;
+            try {
+                obj = JSON.parse(missionDef);
+            } catch {
+                obj = {} as unknown as GoogleRouteV2Result;
+            }
+            
+            if(!missionDef || !obj || Object.keys(obj).length == 0) return;
+    
+            if(!enabled) {
+                clearAll()
+                return;
+            }    
+    
+            setPolyline(new google.maps.Polyline({
+                path: geometryLibrary.encoding.decodePath(obj.routes[0].polyline.encodedPolyline), // Decode the polyline
+                geodesic: true,
+                strokeColor: "#00007F",
+                strokeOpacity: 1.0,
+                strokeWeight: 4,
+                map
+            }))
+            setTimeout(() => {
+                polyline?.setMap(null)
+            }, 1000 * 60)
         }
-        
-        if(!missionDef || !obj || Object.keys(obj).length == 0) return;
 
-        if(!enabled) {
-            clearAll()
-            return;
-        }    
-
-        setPolyline(new google.maps.Polyline({
-            path: geometryLibrary.encoding.decodePath(obj.routes[0].polyline.encodedPolyline), // Decode the polyline
-            geodesic: true,
-            strokeColor: "#00007F",
-            strokeOpacity: 1.0,
-            strokeWeight: 4,
-            map
-        }))
+        go();
+        setItv(setInterval(go, 1000))
 
         return () => {
             clearAll()
         }
 
-    }, [geometryLibrary, map, enabled])
+    }, [geometryLibrary, map, enabled, geolocation, geolocation.last_google_path_result])
 
     useEffect(() => {
         return () => {

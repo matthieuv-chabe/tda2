@@ -81,7 +81,7 @@ export const MissionMapDisplay = (props: {
             }
 
             {
-                !displayExtrapolation &&
+                (!extrapolPos || !displayExtrapolation) &&
                 <Marker
                     onClick={() => userselection.setSelectedMission(props.mission!.id)}
                     position={{ lat: props.geolocations.geolocation.lat, lng: props.geolocations.geolocation.lng }}
