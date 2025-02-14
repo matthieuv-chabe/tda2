@@ -44,7 +44,16 @@ export const MissionMapDisplay = (props: {
 
             const bounds = new google.maps.LatLngBounds()
             bounds.extend(new google.maps.LatLng(props.geolocations.geolocation.lat, props.geolocations.geolocation.lng))
-            bounds.extend(new google.maps.LatLng(props.geolocations.mission.locations.at(-1).lat, props.geolocations.mission.locations.at(-1).lng))
+
+            if (!displayExtrapolation) // No extrapolation, zoom on car
+            {
+                // alert("Zooming on car")
+                bounds.extend(new google.maps.LatLng(props.geolocations.mission.locations.at(-1).lat, props.geolocations.mission.locations.at(-1).lng))
+            }
+            else {
+                // alert("Zooming on extrapolation")
+                bounds.extend(new google.maps.LatLng({lat: extrapolPos[1], lng: extrapolPos[0]}))
+            }
 
             map?.fitBounds(bounds, { top: 100, right: 100, bottom: 100, left: 100 })
             // map?.setCenter({ lat: props.geolocations.geolocation.lat, lng: props.geolocations.geolocation.lng })
@@ -81,7 +90,7 @@ export const MissionMapDisplay = (props: {
             }
 
             {
-                (!extrapolPos || !displayExtrapolation) &&
+                (!extrapolPos || !displayExtrapolation) && (props.geolocations.geolocation) &&
                 <Marker
                     onClick={() => userselection.setSelectedMission(props.mission!.id)}
                     position={{ lat: props.geolocations.geolocation.lat, lng: props.geolocations.geolocation.lng }}

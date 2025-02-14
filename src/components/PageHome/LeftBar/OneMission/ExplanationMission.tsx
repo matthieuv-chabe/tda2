@@ -11,7 +11,7 @@ export const ExplanationMission = (props: {
     geolocation?: geolocationT
 }) => {
 
-    const m_date = new Date(props.mission.date.substring(0,10) + "T" + props.mission.startTime);
+    const m_date = new Date(props.mission.date.substring(0,10) + "T" + props.mission.startTime + ':00');
     if (isNaN(m_date.getTime())) return "Date invalide"
 
     if (fns.isBefore(m_date, new Date())) {

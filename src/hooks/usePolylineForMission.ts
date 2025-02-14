@@ -13,7 +13,7 @@ export const usePolylineForMission = (
     // We decided to disable the polyline draw due to the uncertainty of the position that could
     //  move the location outside of the predicted path hence confusing the users.
     // return false;
-    
+
     const geometryLibrary = useMapsLibrary('geometry')
     const map = useMap()
 
@@ -27,52 +27,47 @@ export const usePolylineForMission = (
     const clearAll = () => {
         polyline?.setMap(null)
 
-        if(polyline) polyline.setMap(null)
-        if(itv) clearInterval(itv)        
+        if (polyline) polyline.setMap(null)
+        if (itv) clearInterval(itv)
     }
-    
+
     useEffect(() => {
         polyline?.setMap(null)
 
-        if(enabled)
-        console.log("redraw")
+        console.log("Something changed, should redraw line !")
 
-        if(!geometryLibrary) return;
-        if(!map) return;
+        if (enabled)
+            console.log("redraw")
 
-        const go = () => {
-            let obj = {} as unknown as GoogleRouteV2Result;
+        if (!geometryLibrary) return;
+        if (!map) return;
 
-            polyline?.setMap(null)
-        
-            try {
-                obj = JSON.parse(missionDef);
-            } catch {
-                obj = {} as unknown as GoogleRouteV2Result;
-            }
-            
-            if(!missionDef || !obj || Object.keys(obj).length == 0) return;
-    
-            if(!enabled) {
-                clearAll()
-                return;
-            }    
-    
-            setPolyline(new google.maps.Polyline({
-                path: geometryLibrary.encoding.decodePath(obj.routes[0].polyline.encodedPolyline), // Decode the polyline
-                geodesic: true,
-                strokeColor: "#00007F",
-                strokeOpacity: 1.0,
-                strokeWeight: 4,
-                map
-            }))
-            setTimeout(() => {
-                polyline?.setMap(null)
-            }, 1000 * 60)
+        let obj = {} as unknown as GoogleRouteV2Result;
+
+        polyline?.setMap(null)
+
+        try {
+            obj = JSON.parse(missionDef);
+        } catch {
+            obj = {} as unknown as GoogleRouteV2Result;
         }
 
-        go();
-        setItv(setInterval(go, 1000))
+        if (!missionDef || !obj || Object.keys(obj).length == 0) return;
+
+        if (!enabled) {
+            clearAll()
+            return;
+        }
+
+        setPolyline(new google.maps.Polyline({
+            path: geometryLibrary.encoding.decodePath(obj.routes[0].polyline.encodedPolyline), // Decode the polyline
+            geodesic: true,
+            strokeColor: "#00007F",
+            strokeOpacity: 1.0,
+            strokeWeight: 4,
+            map
+        }))
+
 
         return () => {
             clearAll()
@@ -86,6 +81,6 @@ export const usePolylineForMission = (
         }
     }, [])
 
-    
+
 
 }
