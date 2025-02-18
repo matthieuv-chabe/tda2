@@ -44,7 +44,7 @@ export const LeftBarBig = (props: {
                                 <b>{t("vehicle")}</b>
                             </TableCell>
                             <TableCell align="right">
-                                <b>{t("driver")}</b>
+                                <b>{t("chauffeur")}</b>
                             </TableCell>
                             <TableCell align="right">
                                 <b>{t("status")}</b>
@@ -131,6 +131,8 @@ export const LeftBarBig = (props: {
                                         <TableCell align="right">
                                             {row.chauffeur.firstname}{" "}
                                             {row.chauffeur.lastname}
+                                            <br />
+                                            {row.chauffeur.phone}
                                         </TableCell>
                                         <TableCell align="right">
                                             {/* {row.w.MIS_SMI_ID == "7" ? "Passager à bord" : "/"} */}

@@ -273,6 +273,7 @@ export interface operations {
                             chauffeur_clicked_arrived_at: Record<string, never> | null;
                             had_at_least_one_real_geolocation: boolean;
                             last_google_path_result: string;
+                            google_path_result_age: Record<string, never> | null;
                         };
                     }[];
                     "multipart/form-data": {
@@ -300,6 +301,7 @@ export interface operations {
                             chauffeur_clicked_arrived_at: Record<string, never> | null;
                             had_at_least_one_real_geolocation: boolean;
                             last_google_path_result: string;
+                            google_path_result_age: Record<string, never> | null;
                         };
                     }[];
                     "text/plain": {
@@ -327,6 +329,7 @@ export interface operations {
                             chauffeur_clicked_arrived_at: Record<string, never> | null;
                             had_at_least_one_real_geolocation: boolean;
                             last_google_path_result: string;
+                            google_path_result_age: Record<string, never> | null;
                         };
                     }[];
                 };

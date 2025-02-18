@@ -37,7 +37,23 @@ export const LeftBarSmall = (props: {
 			>
 				{
 					missions_to_show
-						?.sort((a, b) => new Date(b.eta).getTime() || 0 - new Date(a.eta).getTime() || 0)
+						?.sort((a, b) => {
+
+							if(!a.eta && !!b.eta) return 1
+							if(!!a.eta && !b.eta) return -1
+
+							if (a.eta > b.eta) return 1
+							if (a.eta < b.eta) return -1
+
+							// Then sort by time
+							const a_date = new Date(a.date.substring(0, 10) + "T" + a.startTime)
+							const b_date = new Date(b.date.substring(0, 10) + "T" + b.startTime)
+
+							if (a_date < b_date) return -1
+							if (a_date > b_date) return 1
+							
+							return -1
+						})
 						.map((mission) => {
 							const matching_geolocation = props.geolocations.find(g => g.mission.wayniumid === mission.wayniumid)
 							return (

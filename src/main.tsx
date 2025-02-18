@@ -23,10 +23,10 @@ const persister = createSyncStoragePersister({
     storage: window.localStorage,
 })
 
-	persistQueryClient({
-		queryClient,
-		persister,
-	})
+	// persistQueryClient({
+	// 	queryClient,
+	// 	persister,
+	// })
 
 ReactDOM.createRoot(document.body).render(
 	<React.StrictMode>
