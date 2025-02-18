@@ -14,7 +14,7 @@ const resources = {
       "search": "Search",
       "showGreetings": "Show Meet & Greet",
       "showCompletedMissions": "Show Completed Bookings",
-      "loadingMissions": "Loading missions...",
+      "loadingMissions": "Loading bookings...",
       "refreshPage": "Refresh Page",
       "connectionError": "Unable to connect to server",
       "apologize": "We apologize for the inconvenience.",

@@ -49,10 +49,13 @@ export const MissionMapDisplay = (props: {
 				// Show the arrival with a pin if the mission is seslected
 				userselection.selectedMission == props.mission.id &&
 				<AdvancedMarker
+
 					position={new google.maps.LatLng(
 						props.geolocations.mission.locations.at(-1).lat,
 						props.geolocations.mission.locations.at(-1).lng
 					)}
+
+					title={"Destination"}
 				>
 					<Pin />
 				</AdvancedMarker>

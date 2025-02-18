@@ -17,15 +17,19 @@ export const RightMap = (props: {
     const { t } = useTranslation();
     const userselection = useUserSelectionContext();
 
+	if(props.missions.length == 0) {
+		return "Chargement de la carte..."
+	}
+
     const missions_to_show = props.missions.filter(m => m.type == "A_TO_B" && m.status < 8 && m.status > 4)
 
     return (
         <div className="vertical-right" style={{ color: 'white', height: '200', overflow: 'hidden' }}>
             <Wrapper
-                apiKey="AIzaSyB-WItzMk3oqLm8PUjhsrPNSlX09wiLDcQ"
+                apiKey="AIzaSyAyNBvmfrG-2Je3S_eNK0bb8jpqzFHFXVs"
             >
                 <APIProvider
-                    apiKey={'AIzaSyB-WItzMk3oqLm8PUjhsrPNSlX09wiLDcQ'}
+                    apiKey={'AIzaSyAyNBvmfrG-2Je3S_eNK0bb8jpqzFHFXVs'}
                 >
                     <Map
                         mapId={'f375369fdfba970b'}
