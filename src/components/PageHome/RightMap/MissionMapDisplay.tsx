@@ -90,7 +90,7 @@ export const MissionMapDisplay = (props: {
                     icon={{
                         url: '/public/logocarorange.svg',
                         scaledSize: new google.maps.Size(30, 30),
-                        origin: new google.maps.Point(15, 15),
+                        anchor: new google.maps.Point(15, 15),
                     }}
                     opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
                 // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
@@ -105,7 +105,7 @@ export const MissionMapDisplay = (props: {
                     icon={{
                         url: userselection.selectedMission == props.mission.id ? '/public/logocar.svg' : '/public/logocargrey.svg',
                         scaledSize: new google.maps.Size(30, 30),
-                        origin: new google.maps.Point(15, 15),
+                        anchor: new google.maps.Point(15, 15),
                     }}
                     opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
                 // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
