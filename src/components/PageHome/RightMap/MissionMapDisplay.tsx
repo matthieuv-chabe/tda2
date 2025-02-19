@@ -62,10 +62,13 @@ export const MissionMapDisplay = (props: {
 
     return (
         <>
-
 			{
-				// Show the arrival with a pin if the mission is seslected
-				userselection.selectedMission == props.mission.id &&
+				// Show the arrival with a pin if the mission is selected
+				userselection.selectedMission == props.mission.id
+                && props.geolocations.mission.locations.length > 0
+                && props.geolocations.mission.locations.at(-1).lat
+                && props.geolocations.mission.locations.at(-1).lng
+                &&
 				<AdvancedMarker
 
 					position={new google.maps.LatLng(
