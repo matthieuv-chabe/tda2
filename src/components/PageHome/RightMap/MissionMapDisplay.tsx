@@ -53,7 +53,10 @@ export const MissionMapDisplay = (props: {
             }
             else {
                 // alert("Zooming on extrapolation")
-                bounds.extend(new google.maps.LatLng({lat: extrapolPos[1], lng: extrapolPos[0]}))
+                if(extrapolPos && extrapolPos[0] && extrapolPos[1])
+                {
+                    bounds.extend(new google.maps.LatLng({lat: extrapolPos[1], lng: extrapolPos[0]}))
+                }
             }
 
             map?.fitBounds(bounds, { top: 100, right: 100, bottom: 100, left: 100 })
