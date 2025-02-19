@@ -6,6 +6,7 @@ import { useUserSelectionContext } from "./UserSelectionContext"
 import { usePolylineForMission } from "../../../hooks/usePolylineForMission"
 import { useExtrapol } from "../../../hooks/useExtrapol"
 import * as fns from "date-fns"
+import './MissionMapDisplay.css';
 
 export const MissionMapDisplay = (props: {
     mission: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][number] | undefined,
@@ -82,13 +83,14 @@ export const MissionMapDisplay = (props: {
 				</AdvancedMarker>
 			}
 
-            {extrapolPos && displayExtrapolation &&
+            {extrapolPos && displayExtrapolation && extrapolPos[0] && extrapolPos[1] &&
                 <Marker
                     onClick={() => userselection.setSelectedMission(props.mission!.id)}
                     position={{ lat: extrapolPos[1], lng: extrapolPos[0] }}
                     icon={{
                         url: '/public/logocarorange.svg',
                         scaledSize: new google.maps.Size(30, 30),
+                        origin: new google.maps.Point(15, 15),
                     }}
                     opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
                 // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
@@ -103,6 +105,7 @@ export const MissionMapDisplay = (props: {
                     icon={{
                         url: userselection.selectedMission == props.mission.id ? '/public/logocar.svg' : '/public/logocargrey.svg',
                         scaledSize: new google.maps.Size(30, 30),
+                        origin: new google.maps.Point(15, 15),
                     }}
                     opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
                 // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
