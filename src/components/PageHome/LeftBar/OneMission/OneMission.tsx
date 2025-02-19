@@ -123,7 +123,7 @@ export const OneMission = (props: {
                         }}
                     >
                         <Typography>{props.mission.locations[0].name}</Typography>
-                        <Typography variant="subtitle2">{(props.mission.startTime)}</Typography>
+                        <Typography variant="subtitle2">{(props.mission.startTime)?.substring(0,5)}</Typography>
                     </div>
 
                     <div>
