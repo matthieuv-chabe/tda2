@@ -46,6 +46,10 @@ export const MissionMapDisplay = (props: {
             const bounds = new google.maps.LatLngBounds()
             bounds.extend(new google.maps.LatLng(props.geolocations.geolocation.lat, props.geolocations.geolocation.lng))
 
+            if(props?.geolocations?.mission?.locations?.length > 0) {
+                bounds.extend(new google.maps.LatLng(props.geolocations.mission.locations.at(-1).lat, props.geolocations.mission.locations.at(-1).lng))
+            }
+
             if (!displayExtrapolation) // No extrapolation, zoom on car
             {
                 // alert("Zooming on car")
