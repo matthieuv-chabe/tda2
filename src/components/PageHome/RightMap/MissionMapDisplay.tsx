@@ -6,6 +6,7 @@ import { useUserSelectionContext } from "./UserSelectionContext"
 import { usePolylineForMission } from "../../../hooks/usePolylineForMission"
 import { useExtrapol } from "../../../hooks/useExtrapol"
 import * as fns from "date-fns"
+import './MissionMapDisplay.css';
 
 export const MissionMapDisplay = (props: {
     mission: paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][number] | undefined,
@@ -45,6 +46,10 @@ export const MissionMapDisplay = (props: {
             const bounds = new google.maps.LatLngBounds()
             bounds.extend(new google.maps.LatLng(props.geolocations.geolocation.lat, props.geolocations.geolocation.lng))
 
+            if(props?.geolocations?.mission?.locations?.length > 0) {
+                bounds.extend(new google.maps.LatLng(props.geolocations.mission.locations.at(-1).lat, props.geolocations.mission.locations.at(-1).lng))
+            }
+
             if (!displayExtrapolation) // No extrapolation, zoom on car
             {
                 // alert("Zooming on car")
@@ -52,7 +57,10 @@ export const MissionMapDisplay = (props: {
             }
             else {
                 // alert("Zooming on extrapolation")
-                bounds.extend(new google.maps.LatLng({lat: extrapolPos[1], lng: extrapolPos[0]}))
+                if(extrapolPos && extrapolPos[0] && extrapolPos[1])
+                {
+                    bounds.extend(new google.maps.LatLng({lat: extrapolPos[1], lng: extrapolPos[0]}))
+                }
             }
 
             map?.fitBounds(bounds, { top: 100, right: 100, bottom: 100, left: 100 })
@@ -62,10 +70,13 @@ export const MissionMapDisplay = (props: {
 
     return (
         <>
-
 			{
-				// Show the arrival with a pin if the mission is seslected
-				userselection.selectedMission == props.mission.id &&
+				// Show the arrival with a pin if the mission is selected
+				userselection.selectedMission == props.mission.id
+                && props.geolocations.mission.locations.length > 0
+                && props.geolocations.mission.locations.at(-1).lat
+                && props.geolocations.mission.locations.at(-1).lng
+                &&
 				<AdvancedMarker
 
 					position={new google.maps.LatLng(
@@ -79,13 +90,14 @@ export const MissionMapDisplay = (props: {
 				</AdvancedMarker>
 			}
 
-            {extrapolPos && displayExtrapolation &&
+            {extrapolPos && displayExtrapolation && extrapolPos[0] && extrapolPos[1] &&
                 <Marker
                     onClick={() => userselection.setSelectedMission(props.mission!.id)}
                     position={{ lat: extrapolPos[1], lng: extrapolPos[0] }}
                     icon={{
                         url: '/public/logocarorange.svg',
                         scaledSize: new google.maps.Size(30, 30),
+                        anchor: new google.maps.Point(15, 15),
                     }}
                     opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
                 // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
@@ -100,6 +112,7 @@ export const MissionMapDisplay = (props: {
                     icon={{
                         url: userselection.selectedMission == props.mission.id ? '/public/logocar.svg' : '/public/logocargrey.svg',
                         scaledSize: new google.maps.Size(30, 30),
+                        anchor: new google.maps.Point(15, 15),
                     }}
                     opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
                 // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}

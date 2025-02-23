@@ -1,4 +1,5 @@
 
+import { useTranslation } from "react-i18next"
 import { paths } from "../../../../../generated/openapi"
 import { paths as geolocpaths } from "../../../../../generated/openapi_geolocation"
 import * as fns from "date-fns"
@@ -11,16 +12,20 @@ export const ExplanationMission = (props: {
     geolocation?: geolocationT
 }) => {
 
+    const { t } = useTranslation()
+
     const m_date = new Date(props.mission.date.substring(0,10) + "T" + props.mission.startTime + ':00');
     if (isNaN(m_date.getTime())) return "Date invalide"
 
     if (fns.isBefore(m_date, new Date())) {
-        return <p style={{ fontSize:'smaller', color: 'green' }}>Mission en cours</p>
+        return <p style={{ fontSize:'smaller', color: 'green' }}>
+            {t("missionInProgress")}
+        </p>
     }
 
     if(fns.isAfter(m_date, new Date())) {
         return <p style={{ fontSize:'smaller', color: 'black' }}>
-            Mission prévue pour {fns.format(m_date, "HH:mm")}
+            {t("missionPlannedFor")} {m_date.toLocaleTimeString().substring(0,5)}
         </p>
     }
 

@@ -2,7 +2,7 @@
 import { paths } from "../../../../../generated/openapi"
 import { paths as geolocpaths } from "../../../../../generated/openapi_geolocation"
 import * as fns from "date-fns"
-
+import { useTranslation } from "react-i18next"
 type missionT = paths["/v1/missions/filter"]["post"]["responses"]["200"]["content"]["application/json"][number]
 type geolocationT = geolocpaths['/v1/geolocation/missions/tda']['post']['responses']['200']['content']['application/json'][number]
 
@@ -11,20 +11,22 @@ export const ExplanationEta = (props: {
     geolocation?: geolocationT
 }) => {
 
+    const { t } = useTranslation()
+
     const eta = new Date(props.geolocation?.mission.eta as unknown as string);
     if (isNaN(eta.getTime()) || eta.getTime() == 0) return null;
 
     // If not started yet
     if(fns.isBefore(new Date(props.mission.startTime), new Date()) && props.mission.status == 6) {
         return <p style={{ fontSize:'smaller', color: 'black' }}>
-            Chauffeur en attente pour Pick-Up
+            {t("driverWaitingForPickUp")}
         </p>
     }
 
     // If ETA is in the past, we display the vehicle is in position for drop-offs
     if (fns.isBefore(eta, new Date())) {
         return <p style={{ fontSize:'smaller', color: 'green' }}>
-            Vehicule en position pour Drop-Off
+            {t("vehicleInPositionForDropOff")}
         </p>
     }
 
@@ -41,24 +43,24 @@ export const ExplanationEta = (props: {
 
             if(isNaN(minutes_since_last_geo)) {
                 return <p style={{ fontSize:'smaller',color: 'orange'}}>
-                    Aucune géolocalisation connue
+                    {t("noPositionForThisMission")}
                 </p>
             }
             if(minutes_since_last_geo > 30) {
                 return <p style={{ fontSize:'smaller', color: 'red' }}>
-                    Dernière géolocalisation il y a {formatted_time_last_geo} minutes
+                    {t("lastKnownPositionOfTheVehicle")} {t("minutesPrefix")} {formatted_time_last_geo} {t("minutesSuffix")}
                 </p>
             } else if(minutes_since_last_geo > 5) {
                 return <p style={{ fontSize:'smaller', color: 'orange' }}>
-                    Dernière géolocalisation il y a {minutes_since_last_geo} minutes
+                    {t("lastKnownPositionOfTheVehicle")} {t("minutesPrefix")} {minutes_since_last_geo} {t("minutesSuffix")}
                 </p>
             } else if (minutes_since_last_geo < 2) {
                 return <p style={{ fontSize:'smaller', color: 'black' }}>
-                    Dernière géolocalisation maintenant
+                    {t("lastKnownPositionOfTheVehicle")} {t("now")}
                 </p>
             } else {
                 return <p style={{ fontSize:'smaller', color: 'black' }}>
-                    Dernière géolocalisation il y a {formatted_time_last_geo} minutes
+                    {t("lastKnownPositionOfTheVehicle")} {t("minutesPrefix")} {formatted_time_last_geo} {t("minutesSuffix")}
                 </p>
             }
 
