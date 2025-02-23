@@ -5,7 +5,7 @@ export const NavBar = () => {
     return (
         <nav id="navbar" className="navbar-chabe">
             <menu>
-                <li style={{ display: "none" }}>
+                {/* <li style={{ display: "none" }}>
                     <a
                         id="nav-dashboard"
                         className="nav-link"
@@ -30,7 +30,7 @@ export const NavBar = () => {
                             alt="Clickable Dashboard button side navigation bar"
                         />
                     </a>
-                </li>
+                </li> */}
                 <li>
                     <a
                         id="nav-tda"
