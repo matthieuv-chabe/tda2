@@ -22,9 +22,11 @@ export const OneMission = (props: {
     const userselection = useUserSelectionContext();
     const { t } = useTranslation()
 
-    const passenger_text = props.mission.passengers[0]?.name
-        ? <p>{props.mission.passengers[0]?.name}</p>
-        : <p style={{ color: 'grey' }}>{t("unknownPassenger")}</p>
+    const passenger_text = props.mission.passengers[0]?.firstname
+        ? <p>{props.mission.passengers[0]?.lastname?.toUpperCase()} {props.mission.passengers[0]?.firstname}</p>
+        : props.mission.passengers[0]?.name
+            ? <p>{props.mission.passengers[0]?.name}</p>
+            : <p>{t('noPassenger')}</p>
 
     const selected = userselection.selectedMission == props.mission.id
 
