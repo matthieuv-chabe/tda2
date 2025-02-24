@@ -47,7 +47,7 @@ export const ExplanationEta = (props: {
                 </p>
             }
             if(minutes_since_last_geo > 30) {
-                return <p style={{ fontSize:'smaller', color: 'red' }}>
+                return <p style={{ fontSize:'smaller', color: 'orange' }}>
                     {t("lastKnownPositionOfTheVehicle")} {t("minutesPrefix")} {formatted_time_last_geo} {t("minutesSuffix")}
                 </p>
             } else if(minutes_since_last_geo > 5) {

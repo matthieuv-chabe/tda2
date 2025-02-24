@@ -55,7 +55,7 @@ const resources = {
       "chauffeurOnLocation": "Chauffeur on location",
       "passengerDroppedOff": "Passenger dropped off",
       "no_position_for_this_mission": "No position for this booking",
-      "last_known_position_of_the_vehicle": "Last known position of the vehicle",
+      "last_known_position_of_the_vehicle": "Last geolocation ",
       "driverArrived": "Driver arrived",
       "estimatedArrivalIn": "Estimated arrival in",
       "minutesSuffix": "min ago",
@@ -64,14 +64,16 @@ const resources = {
       'canceled': 'Canceled',
       'noMissions': 'No upcoming bookings to display',
       'chauffeur': 'CHAUFFEUR',
-      'missionInProgress': 'Mission in progress',
-      'missionPlannedFor': 'Mission planned for ',
+      'missionInProgress': 'Booking in progress',
+      'missionPlannedFor': 'Booking planned for ',
       'driverWaitingForPickUp': 'Driver waiting for Pick-Up',
       'vehicleInPositionForDropOff': 'Vehicle in position for Drop-Off',
       'noPositionForThisMission': 'No position for this mission',
-      'lastKnownPositionOfTheVehicle': 'Last known position of the vehicle',
+      'lastKnownPositionOfTheVehicle': 'Last geolocation ',
       'now': 'now',
       'minutesPrefix': '',
+      'arrivalTime': 'Arrival time',
+      'noPassenger': 'No passenger specified',
 
       "status.0": "Booking not started",
       "status.2": "Booking not started",
@@ -84,6 +86,7 @@ const resources = {
 
       "unknownEta": "Unknown estimated time of arrival",
       "showTraffic": "Show Traffic",
+
     }
   },
   fr: {
@@ -150,9 +153,11 @@ const resources = {
       'driverWaitingForPickUp': 'Chauffeur en attente pour Pick-Up',
       'vehicleInPositionForDropOff': 'Véhicule en position pour Drop-Off',
       'noPositionForThisMission': 'Aucune position connue pour cette mission',
-      'lastKnownPositionOfTheVehicle': 'Dernière position connue du véhicule',
+      'lastKnownPositionOfTheVehicle': 'Dernière géolocalisation à',
       'now': 'maintenant',
       'minutesPrefix': 'il y a ',
+      'arrivalTime': 'Heure d\'arrivée',
+      'noPassenger': 'Aucun passager spécifié',
 
       "status.0": "Mission non démarrée",
       "status.2": "Mission non démarrée",

@@ -5,6 +5,7 @@ export const Eta = (props: {
         geolocation?: geolocpaths['/v1/geolocation/missions/tda']['post']['responses']['200']['content']['application/json'][number]
 }) => {
 
+    const { t } = useTranslation()
 
     if(!props.geolocation) {
         return ""
@@ -21,9 +22,9 @@ export const Eta = (props: {
     if(diff > 0 && diff < 5*60*1000) {
         return <p style={{color: 'red'}}>T-{Math.floor(diff / (60 * 1000))}min</p>
     } else if (diff <= 0) {
-        return <p style={{color: 'red'}}>Chauffeur sur site</p>
+        return <p style={{color: 'black'}}>{t("chauffeurOnLocation")}</p>
     }
 
     // Else, display the time
-    return <p>Heure d'arrivée estimée {eta.toLocaleTimeString().substring(0, 5)}</p>
+    return <p>{t("arrivalTime")} {eta.toLocaleTimeString().substring(0, 5)}</p>
 }
