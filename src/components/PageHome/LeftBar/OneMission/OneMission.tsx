@@ -125,7 +125,7 @@ export const OneMission = (props: {
                         }}
                     >
                         <Typography>{props.mission.locations[0].name}</Typography>
-                        <Typography variant="subtitle2">{(props.mission.startTime)?.substring(0,5)}</Typography>
+                        <Typography variant="subtitle2">{new Date(new Date().toISOString().substring(0,10) + 'T' + props.mission.startTime + ':00').toLocaleTimeString().substring(0,5)}</Typography>
                     </div>
 
                     <div>
