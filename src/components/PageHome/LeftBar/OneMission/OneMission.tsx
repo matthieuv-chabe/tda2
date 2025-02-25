@@ -125,7 +125,7 @@ export const OneMission = (props: {
                         }}
                     >
                         <Typography>{props.mission.locations[0].name}</Typography>
-                        <Typography variant="subtitle2">{new Date(new Date().toISOString().substring(0,10) + 'T' + props.mission.startTime + ':00').toLocaleTimeString().substring(0,5)}</Typography>
+                        <Typography variant="subtitle2">{new Date(new Date().toISOString().substring(0, 10) + 'T' + props.mission.startTime + ':00').toLocaleTimeString().substring(0, 5)}</Typography>
                     </div>
 
                     <div>
@@ -170,9 +170,9 @@ export const OneMission = (props: {
                         {props.mission.vehicle.plate}
                     </div>
                     <div style={{ flex: 1, textAlign: 'center' }}>
-                        {props.mission.chauffeur.firstname} {props.mission.chauffeur.lastname}
-						<br />
-						{props.mission.chauffeur.phone}
+                        {props.mission.chauffeur.lastname} {props.mission.chauffeur.firstname}
+                        <br />
+                        {props.mission.chauffeur.phone}
                     </div>
                 </div>
 
