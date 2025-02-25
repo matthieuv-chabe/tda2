@@ -86,7 +86,10 @@ export const MissionMapDisplay = (props: {
 
 					title={"Destination"}
 				>
-					<Pin />
+					<img src="/public/logoarrival.png" style={{
+						width: 40,
+						height: 40,
+					}}></img>
 				</AdvancedMarker>
 			}
 
@@ -96,7 +99,7 @@ export const MissionMapDisplay = (props: {
                     position={{ lat: extrapolPos[1], lng: extrapolPos[0] }}
                     icon={{
                         url: '/public/logocarorange.svg',
-                        scaledSize: new google.maps.Size(30, 30),
+                        scaledSize: new google.maps.Size(1, 1),
                         anchor: new google.maps.Point(15, 15),
                     }}
                     opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
