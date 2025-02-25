@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { paths } from "../../generated/openapi_geolocation"
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import { GoogleRouteV2Result } from "../core/googleUtils";
@@ -13,6 +13,8 @@ export const usePolylineForMission = (
     // We decided to disable the polyline draw due to the uncertainty of the position that could
     //  move the location outside of the predicted path hence confusing the users.
     // return false;
+
+    const allpoints = useRef<google.maps.LatLng[]>([])
 
     const geometryLibrary = useMapsLibrary('geometry')
     const map = useMap()
@@ -59,8 +61,11 @@ export const usePolylineForMission = (
             return;
         }
 
+        const latlngs = geometryLibrary.encoding.decodePath(obj.routes[0].polyline.encodedPolyline)
+        allpoints.current = latlngs
+
         setPolyline(new google.maps.Polyline({
-            path: geometryLibrary.encoding.decodePath(obj.routes[0].polyline.encodedPolyline), // Decode the polyline
+            path: latlngs, // Decode the polyline
             geodesic: true,
             strokeColor: "#00007F",
             strokeOpacity: 1.0,
@@ -81,6 +86,5 @@ export const usePolylineForMission = (
         }
     }, [])
 
-
-
+    return allpoints.current
 }

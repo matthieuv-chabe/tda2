@@ -42,7 +42,7 @@ export const ExplanationEta = (props: {
                 : `${Math.floor(minutes_since_last_geo / 60)}h ${minutes_since_last_geo % 60}`
 
             if(isNaN(minutes_since_last_geo)) {
-                return <p style={{ fontSize:'smaller',color: 'orange'}}>
+                return <p style={{ fontSize:'smaller',color: 'red'}}>
                     {t("noPositionForThisMission")}
                 </p>
             }
@@ -50,15 +50,17 @@ export const ExplanationEta = (props: {
                 return <p style={{ fontSize:'smaller', color: 'orange' }}>
                     {t("lastKnownPositionOfTheVehicle")} {t("minutesPrefix")} {formatted_time_last_geo} {t("minutesSuffix")}
                 </p>
-            } else if(minutes_since_last_geo > 5) {
+            } else if(minutes_since_last_geo > 7) {
                 return <p style={{ fontSize:'smaller', color: 'orange' }}>
                     {t("lastKnownPositionOfTheVehicle")} {t("minutesPrefix")} {minutes_since_last_geo} {t("minutesSuffix")}
                 </p>
-            } else if (minutes_since_last_geo < 2) {
-                return <p style={{ fontSize:'smaller', color: 'black' }}>
-                    {t("lastKnownPositionOfTheVehicle")} {t("now")}
-                </p>
-            } else {
+            } else
+            // if (minutes_since_last_geo < 2) {
+            //     return <p style={{ fontSize:'smaller', color: 'black' }}>
+            //         {t("lastKnownPositionOfTheVehicle")} {t("now")}
+            //     </p>
+            // } else
+            {
                 return <p style={{ fontSize:'smaller', color: 'black' }}>
                     {t("lastKnownPositionOfTheVehicle")} {t("minutesPrefix")} {formatted_time_last_geo} {t("minutesSuffix")}
                 </p>

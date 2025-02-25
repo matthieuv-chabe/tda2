@@ -18,10 +18,10 @@ export const MissionMapDisplay = (props: {
 
     const map = useMap()
 
-    usePolylineForMission(props.geolocations.mission, userselection.selectedMission === props.mission?.id)
+    // usePolylineForMission(props.geolocations.mission, userselection.selectedMission === props.mission?.id)
     const extrapolPos = useExtrapol(props.geolocations.mission, true)// userselection.selectedMission === props.mission?.id)
 
-    usePolylineForMission(props.geolocations.mission, userselection.selectedMission === props.mission?.id)
+    const allpoints = usePolylineForMission(props.geolocations.mission, userselection.selectedMission === props.mission?.id)
 
     // Can't happen
     if (!props.mission || !props.geolocations) return null;
@@ -45,6 +45,12 @@ export const MissionMapDisplay = (props: {
 
             const bounds = new google.maps.LatLngBounds()
             bounds.extend(new google.maps.LatLng(props.geolocations.geolocation.lat, props.geolocations.geolocation.lng))
+
+            if (allpoints) {
+                allpoints.forEach((point) => {
+                    bounds.extend(point)
+                })
+            }
 
             if(props?.geolocations?.mission?.locations?.length > 0) {
                 bounds.extend(new google.maps.LatLng(props.geolocations.mission.locations.at(-1).lat, props.geolocations.mission.locations.at(-1).lng))
