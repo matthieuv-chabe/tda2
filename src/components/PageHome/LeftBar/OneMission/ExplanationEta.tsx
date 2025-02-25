@@ -55,11 +55,11 @@ export const ExplanationEta = (props: {
                     {t("lastKnownPositionOfTheVehicle")} {t("minutesPrefix")} {minutes_since_last_geo} {t("minutesSuffix")}
                 </p>
             } else
-            // if (minutes_since_last_geo < 2) {
-            //     return <p style={{ fontSize:'smaller', color: 'black' }}>
-            //         {t("lastKnownPositionOfTheVehicle")} {t("now")}
-            //     </p>
-            // } else
+            if (minutes_since_last_geo < 2) {
+                return <p style={{ fontSize:'smaller', color: 'black' }}>
+                    {t("lastKnownPositionOfTheVehicle")} {t("now")}
+                </p>
+            } else
             {
                 return <p style={{ fontSize:'smaller', color: 'black' }}>
                     {t("lastKnownPositionOfTheVehicle")} {t("minutesPrefix")} {formatted_time_last_geo} {t("minutesSuffix")}
