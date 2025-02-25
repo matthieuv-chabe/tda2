@@ -25,28 +25,28 @@ export const LeftBarBig = (props: {
                         }}
                     >
                         <TableRow>
-                            <TableCell>
+                            <TableCell style={{ width: "5%" }}>
                                 <b>{t("ID")}</b>
                             </TableCell>
-                            <TableCell>
+                            <TableCell style={{ width: "15%" }} align="left">
                                 <b>{t("passenger")}</b>
                             </TableCell>
-                            <TableCell align="left">
+                            <TableCell style={{ width: "10%" }} align="left">
                                 <b>{t("time")}</b>
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell style={{ width: "15%" }} align="right">
                                 <b>{t("pickup")}</b>
                             </TableCell>
-                            <TableCell align="left">
+                            <TableCell style={{ width: "15%" }} align="right">
                                 <b>{t("dropoff")}</b>
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell style={{ width: "10%" }} align="right">
                                 <b>{t("vehicle")}</b>
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell style={{ width: "10%" }} align="right">
                                 <b>{t("chauffeur")}</b>
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell style={{ width: "10%" }} align="right">
                                 <b>{t("status")}</b>
                             </TableCell>
 
@@ -76,7 +76,7 @@ export const LeftBarBig = (props: {
                                     }
 
                                     // Meet & Greet filter rules
-                                    if(userSelection.onlyShowMeetGreets && m.type != 'MEET_GREET') {
+                                    if (userSelection.onlyShowMeetGreets && m.type != 'MEET_GREET') {
                                         shouldShow = false;
                                     } else if (!userSelection.onlyShowMeetGreets && m.type == 'MEET_GREET') {
                                         shouldShow = false;
