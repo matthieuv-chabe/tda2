@@ -17,7 +17,7 @@ export const ExplanationEta = (props: {
     if (isNaN(eta.getTime()) || eta.getTime() == 0) return null;
 
     // If not started yet
-    if(fns.isBefore(new Date(props.mission.startTime), new Date()) && props.mission.status == 6) {
+    if(fns.isBefore(new Date(props.mission.startTime + ':00'), new Date()) && props.mission.status == 6) {
         return <p style={{ fontSize:'smaller', color: 'black' }}>
             {t("driverWaitingForPickUp")}
         </p>
