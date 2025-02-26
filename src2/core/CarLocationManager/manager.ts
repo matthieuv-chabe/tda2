@@ -64,6 +64,8 @@ export class CarLocationManagerC {
 		}
 	}
 
+	// TODO LOL ?
+
 	public async Refresh(force = false) {
 		if (!force && new Date().getTime() - this.lastRefresh.getTime() < 1000 * 10) {
 			console.log("CarLocationManager: Refreshing too fast, skipping");
