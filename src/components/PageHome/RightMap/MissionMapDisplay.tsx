@@ -99,18 +99,17 @@ export const MissionMapDisplay = (props: {
 
             {extrapolPos && displayExtrapolation && extrapolPos[0] && extrapolPos[1] &&
             <>
-                {console.log("extrapolPosXXXXXXXX", extrapolPos)}
                 <Marker
                     onClick={() => userselection.setSelectedMission(props.mission!.id)}
-                    // position={{ lat: extrapolPos[1], lng: extrapolPos[0] }}
+                    position={{ lat: extrapolPos[1], lng: extrapolPos[0] }}
                     // Hardcode for test
-                    position={{ lat: 48.8566, lng: 2.3522 }}
+                    // position={{ lat: 48.8566, lng: 2.3522 }}
                     icon={{
                         url: '/public/logocarorange.svg',
-                        scaledSize: new google.maps.Size(1, 1),
+                        scaledSize: new google.maps.Size(30, 30),
                         anchor: new google.maps.Point(15, 15),
                     }}
-                    // opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
+                    opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
                 // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
                 />
             </>
