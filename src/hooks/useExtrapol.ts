@@ -80,7 +80,7 @@ export const useExtrapol = (
                     remaining_seconds -= duration_in_seconds
                 }
             }
-        }, 60_000))        
+        }, 500))        
 
         // setPolyline(new google.maps.Polyline({
         //     path: geometryLibrary.encoding.decodePath(obj.routes[0].polyline.encodedPolyline), // Decode the polyline

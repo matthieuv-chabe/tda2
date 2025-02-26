@@ -155,7 +155,7 @@ const resources = {
       'noPositionForThisMission': 'Aucune position connue pour cette mission',
       'lastKnownPositionOfTheVehicle': 'Dernière géolocalisation connue ',
       'now': 'maintenant',
-      'minutesPrefix': 'il y a ',
+      'minutesPrefix': ': ',
       'arrivalTime': 'Heure d\'arrivée estimée ',
       'noPassenger': 'Aucun passager spécifié',
 
