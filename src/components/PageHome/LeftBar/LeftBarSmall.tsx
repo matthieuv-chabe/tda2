@@ -46,11 +46,13 @@ export const LeftBarSmall = (props: {
 							if (a.eta < b.eta) return -1
 
 							// Then sort by time
-							const a_date = new Date(a.date.substring(0, 10) + "T" + a.startTime)
-							const b_date = new Date(b.date.substring(0, 10) + "T" + b.startTime)
+							const a_date = new Date(a.date.substring(0, 10) + "T" + a.startTime + ":00")
+							const b_date = new Date(b.date.substring(0, 10) + "T" + b.startTime + ":00")
 
 							if (a_date < b_date) return -1
 							if (a_date > b_date) return 1
+
+							console.log("missions", a, b, "not sorted because dates", a_date, b_date)
 							
 							return -1
 						})
