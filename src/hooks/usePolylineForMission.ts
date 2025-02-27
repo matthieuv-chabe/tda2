@@ -3,6 +3,7 @@ import { paths } from "../../generated/openapi_geolocation"
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import { GoogleRouteV2Result } from "../core/googleUtils";
 import * as turf from "@turf/turf";
+import * as fns from "date-fns";
 
 export const usePolylineForMission = (
     geolocation: paths["/v1/geolocation/missions/tda"]["post"]["responses"]["200"]["content"]["application/json"][number]['mission'],
@@ -61,12 +62,23 @@ export const usePolylineForMission = (
             return;
         }
 
-        if(geolocation.has_chauffeur_reached_end) {
+        if (geolocation.has_chauffeur_reached_end) {
             return;
+        }
+
+        if (fns.isBefore(geolocation.eta, new Date())) {
+            return
         }
 
         const latlngs = geometryLibrary.encoding.decodePath(obj.routes[0].polyline.encodedPolyline)
         allpoints.current = latlngs
+
+        // Jira-177
+        map?.data.forEach((feature) => {
+            if(feature.getGeometry()?.getType() == "LineString") {
+                map.data.remove(feature);
+            }
+        })
 
         setPolyline(new google.maps.Polyline({
             path: latlngs, // Decode the polyline
