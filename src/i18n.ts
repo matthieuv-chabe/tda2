@@ -72,7 +72,7 @@ const resources = {
       'lastKnownPositionOfTheVehicle': 'Last known geolocation: ',
       'now': 'now',
       'minutesPrefix': '',
-      'arrivalTime': 'Estimated time to destination',
+      'arrivalTime': 'Estimated time to destination ',
       'noPassenger': 'No passenger specified',
 
       "status.0": "Booking not started",

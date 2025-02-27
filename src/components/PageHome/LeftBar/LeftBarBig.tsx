@@ -121,7 +121,10 @@ export const LeftBarBig = (props: {
                                         </TableCell>
                                         <TableCell align="left">
                                             <div>
-                                                {(row.startTime || "")?.substring(0, 5)}
+												{
+													new Date(row.date + "T" + row.startTime + ":00").toLocaleTimeString()
+												}
+                                                {/* {(row.startTime || "")?.substring(0, 5)} */}
                                             </div>
                                         </TableCell>
                                         <TableCell align="right">
