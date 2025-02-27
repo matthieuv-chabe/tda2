@@ -69,7 +69,7 @@ const resources = {
       'driverWaitingForPickUp': 'Driver waiting for Pick-Up',
       'vehicleInPositionForDropOff': 'Vehicle in position for Drop-Off',
       'noPositionForThisMission': 'No position for this mission',
-      'lastKnownPositionOfTheVehicle': 'Last known geolocation ',
+      'lastKnownPositionOfTheVehicle': 'Last known geolocation: ',
       'now': 'now',
       'minutesPrefix': '',
       'arrivalTime': 'Estimated time to destination',
