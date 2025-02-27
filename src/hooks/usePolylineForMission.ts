@@ -67,7 +67,7 @@ export const usePolylineForMission = (
         setPolyline(new google.maps.Polyline({
             path: latlngs, // Decode the polyline
             geodesic: true,
-            strokeColor: "#00007F",
+            strokeColor: "#001535",
             strokeOpacity: 1.0,
             strokeWeight: 4,
             map
