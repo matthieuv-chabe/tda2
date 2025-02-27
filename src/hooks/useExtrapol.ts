@@ -12,7 +12,7 @@ export const useExtrapol = (
     // We decided to disable the polyline draw due to the uncertainty of the position that could
     //  move the location outside of the predicted path hence confusing the users.
     // return false;
-    
+
     const geometryLibrary = useMapsLibrary('geometry')
     const map = useMap()
 
@@ -24,63 +24,67 @@ export const useExtrapol = (
     const missionDef = geolocation.last_google_path_result;
 
     const clearAll = () => {
-        if(polyline) polyline.setMap(null)
-        if(itv) clearInterval(itv)        
+        if (polyline) polyline.setMap(null)
+        if (itv) clearInterval(itv)
     }
-    
+
     useEffect(() => {
-        if(!geometryLibrary) return;
-        if(!map) return;
+        if (!geometryLibrary) return;
+        if (!map) return;
 
         let obj = {} as unknown as GoogleRouteV2Result;
-        
+
         try {
             obj = JSON.parse(missionDef);
         } catch {
             obj = {} as unknown as GoogleRouteV2Result;
         }
-        
-        if(!missionDef || !obj || Object.keys(obj).length == 0) return;
 
-        if(!enabled) {
+        if (!missionDef || !obj || Object.keys(obj).length == 0) return;
+
+        if (!enabled) {
             clearAll()
             return;
         }
 
-        setItv(setInterval(() => {
-
+        const computePos = () => {
             const calculated_from_time = new Date(geolocation.google_path_result_age);
             const seconds_elapsed = (new Date().getTime() - calculated_from_time.getTime()) / 1000;
     
             let remaining_seconds = seconds_elapsed;
     
-            for(let i = 0 ; i != obj.routes[0].legs[0].steps.length ; i++) {
+            for (let i = 0; i != obj.routes[0].legs[0].steps.length; i++) {
     
                 const step = obj.routes[0].legs[0].steps[i];
                 const duration_in_seconds = parseInt(step.staticDuration.substring(0, step.staticDuration.length - 1));
     
                 // console.log({remaining_seconds, duration_in_seconds, staticDuration: step.staticDuration})
     
-                if(remaining_seconds < duration_in_seconds) {
-
+                if (remaining_seconds < duration_in_seconds) {
+    
                     const time_in_this_segment = remaining_seconds;
                     const total_segment_time = duration_in_seconds;
-
+    
                     const percent_of_this_segment = time_in_this_segment / total_segment_time;
                     const distance_in_this_segment = step.distanceMeters * percent_of_this_segment;
-
+    
                     const line = turf.lineString(geometryLibrary.encoding.decodePath(step.polyline.encodedPolyline).map(latLng => [latLng.lng(), latLng.lat()]))
                     const loc = turf.along(line, distance_in_this_segment, { units: 'meters' }).geometry.coordinates as [number, number];
-                    
+    
                     setPosExtrapol(loc)
-
+    
                     break;
     
                 } else {
                     remaining_seconds -= duration_in_seconds
                 }
             }
-        }, 500))        
+        }
+
+        computePos();
+        setItv(setInterval(() => {
+            computePos()
+        }, 60000))
 
         // setPolyline(new google.maps.Polyline({
         //     path: geometryLibrary.encoding.decodePath(obj.routes[0].polyline.encodedPolyline), // Decode the polyline
@@ -97,6 +101,6 @@ export const useExtrapol = (
 
     }, [geometryLibrary, map, enabled])
 
-    
+
     return posExtrapol;
 }
