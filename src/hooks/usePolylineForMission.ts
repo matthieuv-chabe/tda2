@@ -61,6 +61,10 @@ export const usePolylineForMission = (
             return;
         }
 
+        if(geolocation.has_chauffeur_reached_end) {
+            return;
+        }
+
         const latlngs = geometryLibrary.encoding.decodePath(obj.routes[0].polyline.encodedPolyline)
         allpoints.current = latlngs
 
