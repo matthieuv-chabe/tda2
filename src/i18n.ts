@@ -68,7 +68,7 @@ const resources = {
       'missionPlannedFor': 'Booking planned for ',
       'driverWaitingForPickUp': 'Driver waiting for Pick-Up',
       'vehicleInPositionForDropOff': 'Vehicle in position for Drop-Off',
-      'noPositionForThisMission': 'No position for this mission',
+      'noPositionForThisMission': 'No position for this booking',
       'lastKnownPositionOfTheVehicle': 'Last known geolocation: ',
       'now': 'now',
       'minutesPrefix': '',
