@@ -21,10 +21,17 @@ export const MissionMapDisplay = (props: {
     // usePolylineForMission(props.geolocations.mission, userselection.selectedMission === props.mission?.id)
     const extrapolPos = useExtrapol(props.geolocations.mission, true)// userselection.selectedMission === props.mission?.id)
 
-    const allpoints = usePolylineForMission(props.geolocations.mission, userselection.selectedMission === props.mission?.id)
+    const [allpoints, polyline] = usePolylineForMission(props.geolocations.mission, userselection.selectedMission === props.mission?.id)
 
     // Can't happen
-    if (!props.mission || !props.geolocations) return null;
+    // if (!props.mission || !props.geolocations) return null;
+
+	useEffect(() => {
+		return () => {
+			if(polyline)
+				polyline.setMap(null);
+		}
+	}, [])
 
     useEffect(() => {
         setHasBeenCentered(false)

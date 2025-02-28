@@ -67,10 +67,27 @@ export const useExtrapol = (
     
                     const percent_of_this_segment = time_in_this_segment / total_segment_time;
                     const distance_in_this_segment = step.distanceMeters * percent_of_this_segment;
-    
+					if(!distance_in_this_segment) {
+						console.error("No distance found for mission", geolocation)
+						return;
+					}
+
                     const line = turf.lineString(geometryLibrary.encoding.decodePath(step.polyline.encodedPolyline).map(latLng => [latLng.lng(), latLng.lat()]))
-                    const loc = turf.along(line, distance_in_this_segment, { units: 'meters' }).geometry.coordinates as [number, number];
+                    if(!line) {
+						console.error("No Line found for mission", geolocation)
+						return;
+					}
+					
+					let loc;
+					try {
+						loc = turf.along(line, distance_in_this_segment, { units: 'meters' })
+						loc = loc.geometry
+						loc = loc.coordinates as [number, number];
     
+					} catch (e) {
+						debugger;
+					}
+
                     setPosExtrapol(loc)
     
                     break;

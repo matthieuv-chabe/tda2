@@ -8,7 +8,7 @@ const geolocation_url = false ? 'http://localhost:3004/v1/geolocation/missions/t
 export function useGeolocationInfo(wayniumMissionIds: string[]) {
     return useQuery<response>({
         queryKey: ['geolocations'],
-        refetchInterval: 60_000,
+        refetchInterval: 30_000,
         queryFn: async (): Promise<response> => {
             
 

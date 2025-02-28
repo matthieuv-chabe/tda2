@@ -102,5 +102,5 @@ export const usePolylineForMission = (
         }
     }, [])
 
-    return allpoints.current
+    return [allpoints.current, polyline] as const
 }
