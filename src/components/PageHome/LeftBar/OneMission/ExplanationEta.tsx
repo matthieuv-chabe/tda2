@@ -50,7 +50,7 @@ export const ExplanationEta = (props: {
                 return <p style={{ fontSize:'smaller', color: 'orange', marginRight: 30 }}>
                     {t("lastKnownPositionOfTheVehicle")} {t("minutesPrefix")} {formatted_time_last_geo} {t("minutesSuffix")}
                 </p>
-            } else if(minutes_since_last_geo > 7) {
+            } else if(minutes_since_last_geo > 5) {
                 return <p style={{ fontSize:'smaller', color: 'orange', marginRight: 30 }}>
                     {t("lastKnownPositionOfTheVehicle")} {t("minutesPrefix")} {minutes_since_last_geo} {t("minutesSuffix")}
                 </p>
