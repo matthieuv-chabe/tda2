@@ -42,7 +42,7 @@ export const ExplanationEta = (props: {
                 : `${Math.floor(minutes_since_last_geo / 60)}h ${minutes_since_last_geo % 60}`
 
             if(isNaN(minutes_since_last_geo)) {
-                return <p style={{ fontSize:'smaller',color: 'red'}}>
+                return <p style={{ fontSize:'smaller',color: 'red', marginRight: 30 }}>
                     {t("noPositionForThisMission")}
                 </p>
             }
