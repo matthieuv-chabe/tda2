@@ -134,7 +134,7 @@ export const LeftBarBig = (props: {
                                             {row.locations[row.locations.length - 1]?.name}
                                         </TableCell>
                                         <TableCell align="right">
-                                            {row.vehicle.plate} - {row.vehicle.brand}
+                                            {row.vehicle.plate} <br /> {row.vehicle.brand}
                                         </TableCell>
                                         <TableCell align="right">
                                             {row.chauffeur.firstname}{" "}
