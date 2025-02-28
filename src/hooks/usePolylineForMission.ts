@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react"
 import { paths } from "../../generated/openapi_geolocation"
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import { GoogleRouteV2Result } from "../core/googleUtils";
-import * as turf from "@turf/turf";
 import * as fns from "date-fns";
 
 export const usePolylineForMission = (

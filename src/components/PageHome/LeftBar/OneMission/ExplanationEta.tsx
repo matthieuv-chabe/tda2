@@ -14,7 +14,7 @@ export const ExplanationEta = (props: {
     const { t } = useTranslation()
 
     // If not started yet
-    if(fns.isBefore(new Date(props.mission.startTime + ':00'), new Date()) && props.mission.status == 6) {
+    if(fns.isBefore(new Date(props.mission.date.substring(0,10) + "T" + props.mission.startTime + ':00'), new Date()) && props.mission.status == 6) {
         return <p style={{ fontSize:'smaller', color: 'black' }}>
             {t("driverWaitingForPickUp")}
         </p>
