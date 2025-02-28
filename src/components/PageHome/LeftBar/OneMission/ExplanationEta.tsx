@@ -14,10 +14,11 @@ export const ExplanationEta = (props: {
     const { t } = useTranslation()
 
     // If not started yet
-    if(fns.isBefore(new Date(props.mission.date.substring(0,10) + "T" + props.mission.startTime + ':00'), new Date()) && props.mission.status == 6) {
-        return <p style={{ fontSize:'smaller', color: 'black' }}>
+    if(fns.isAfter(new Date(props.mission.date.substring(0,10) + "T" + props.mission.startTime + ':00'), new Date()) && props.mission.status == 6) {
+        return <p style={{ fontSize:'smaller', color: 'black', marginRight: 30  }}>
             {t("driverWaitingForPickUp")}
         </p>
+        
     }
 
     const eta = new Date(props.geolocation?.mission.eta as unknown as string);
@@ -25,7 +26,7 @@ export const ExplanationEta = (props: {
 
     // If ETA is in the past, we display the vehicle is in position for drop-offs
     if (fns.isBefore(eta, new Date())) {
-        return <p style={{ fontSize:'smaller', color: 'green' }}>
+        return <p style={{ fontSize:'smaller', color: 'green', marginRight: 30  }}>
             {t("vehicleInPositionForDropOff")}
         </p>
     }

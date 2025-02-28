@@ -54,7 +54,7 @@ export const MissionMapDisplay = (props: {
             bounds.extend(new google.maps.LatLng(props.geolocations.geolocation.lat, props.geolocations.geolocation.lng))
 
             if (allpoints) {
-                allpoints.forEach((point) => {
+                allpoints?.forEach?.((point) => {
                     bounds.extend(point)
                 })
             }
