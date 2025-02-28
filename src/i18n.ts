@@ -83,6 +83,7 @@ const resources = {
       "status.6": "Booking not started",
       "status.7": "Passenger on board",
       "status.8": "Booking completed",
+      "status.20": "Booking canceled",
 
       "unknownEta": "Unknown estimated time of arrival",
       "showTraffic": "Show Traffic",
@@ -167,6 +168,7 @@ const resources = {
       "status.6": "Mission non démarrée",
       "status.7": "Passager à bord",
       "status.8": "Mission terminée",
+      "status.20": "Mission annulée",
 
       "unknownEta": "Estimation d'arrivée inconnue",
       "showTraffic": "Afficher le trafic",
