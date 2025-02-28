@@ -67,10 +67,10 @@ export const LeftBarBig = (props: {
                                     let shouldShow = true;
 
                                     // Status filter rules
-                                    if (userSelection.onlyShowCancelled && m.status != 8) {
+                                    if (userSelection.onlyShowCancelled && (m.status != 8 && m.status != 20)) {
                                         // If we only want to show cancelled missions, we should not show any other status
                                         shouldShow = false;
-                                    } else if (!userSelection.onlyShowCancelled && m.status == 8) {
+                                    } else if (!userSelection.onlyShowCancelled && (m.status == 8 || m.status == 20)) {
                                         // If we don't want to show cancelled missions, we should not show any cancelled mission
                                         shouldShow = false;
                                     }

@@ -13,15 +13,15 @@ export const ExplanationEta = (props: {
 
     const { t } = useTranslation()
 
-    const eta = new Date(props.geolocation?.mission.eta as unknown as string);
-    if (isNaN(eta.getTime()) || eta.getTime() == 0) return null;
-
     // If not started yet
     if(fns.isBefore(new Date(props.mission.startTime + ':00'), new Date()) && props.mission.status == 6) {
         return <p style={{ fontSize:'smaller', color: 'black' }}>
             {t("driverWaitingForPickUp")}
         </p>
     }
+
+    const eta = new Date(props.geolocation?.mission.eta as unknown as string);
+    if (isNaN(eta.getTime()) || eta.getTime() == 0) return null;
 
     // If ETA is in the past, we display the vehicle is in position for drop-offs
     if (fns.isBefore(eta, new Date())) {

@@ -26,15 +26,14 @@ export const MissionMapDisplay = (props: {
     // Can't happen
     // if (!props.mission || !props.geolocations) return null;
 
-	useEffect(() => {
-		return () => {
-			if(polyline)
-				{
-                    // alert("settiung map to null")
-                    polyline.setMap(null);
-                }
-		}
-	}, [])
+    useEffect(() => {
+        return () => {
+            if (polyline) {
+                // alert("settiung map to null")
+                polyline.setMap(null);
+            }
+        }
+    }, [])
 
     useEffect(() => {
         setHasBeenCentered(false)
@@ -60,7 +59,7 @@ export const MissionMapDisplay = (props: {
                 })
             }
 
-            if(props?.geolocations?.mission?.locations?.length > 0) {
+            if (props?.geolocations?.mission?.locations?.length > 0) {
                 bounds.extend(new google.maps.LatLng(props.geolocations.mission.locations.at(-1).lat, props.geolocations.mission.locations.at(-1).lng))
             }
 
@@ -71,9 +70,8 @@ export const MissionMapDisplay = (props: {
             }
             else {
                 // alert("Zooming on extrapolation")
-                if(extrapolPos && extrapolPos[0] && extrapolPos[1])
-                {
-                    bounds.extend(new google.maps.LatLng({lat: extrapolPos[1], lng: extrapolPos[0]}))
+                if (extrapolPos && extrapolPos[0] && extrapolPos[1]) {
+                    bounds.extend(new google.maps.LatLng({ lat: extrapolPos[1], lng: extrapolPos[0] }))
                 }
             }
 
@@ -84,45 +82,45 @@ export const MissionMapDisplay = (props: {
 
     return (
         <>
-			{
-				// Show the arrival with a pin if the mission is selected
-				userselection.selectedMission == props.mission.id
+            {
+                // Show the arrival with a pin if the mission is selected
+                userselection.selectedMission == props.mission.id
                 && props.geolocations.mission.locations.length > 0
                 && props.geolocations.mission.locations.at(-1).lat
                 && props.geolocations.mission.locations.at(-1).lng
                 &&
-				<AdvancedMarker
+                <AdvancedMarker
 
-					position={new google.maps.LatLng(
-						props.geolocations.mission.locations.at(-1).lat,
-						props.geolocations.mission.locations.at(-1).lng
-					)}
+                    position={new google.maps.LatLng(
+                        props.geolocations.mission.locations.at(-1).lat,
+                        props.geolocations.mission.locations.at(-1).lng
+                    )}
 
-					title={"Destination"}
-				>
-					<img src="/public/logoarrival.png" style={{
-						width: 40,
-						height: 40,
-					}}></img>
-				</AdvancedMarker>
-			}
+                    title={"Destination"}
+                >
+                    <img src="/public/logoarrival.png" style={{
+                        width: 40,
+                        height: 40,
+                    }}></img>
+                </AdvancedMarker>
+            }
 
             {extrapolPos && displayExtrapolation && extrapolPos[0] && extrapolPos[1] &&
-            <>
-                <Marker
-                    onClick={() => userselection.setSelectedMission(props.mission!.id)}
-                    position={{ lat: extrapolPos[1], lng: extrapolPos[0] }}
-                    // Hardcode for test
-                    // position={{ lat: 48.8566, lng: 2.3522 }}
-                    icon={{
-                        url: '/public/logocarorange.svg',
-                        scaledSize: new google.maps.Size(30, 30),
-                        anchor: new google.maps.Point(15, 15),
-                    }}
-                    opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
-                // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
-                />
-            </>
+                <>
+                    <Marker
+                        onClick={() => userselection.setSelectedMission(props.mission!.id)}
+                        position={{ lat: extrapolPos[1], lng: extrapolPos[0] }}
+                        // Hardcode for test
+                        // position={{ lat: 48.8566, lng: 2.3522 }}
+                        icon={{
+                            url: '/public/logocarorange.svg',
+                            scaledSize: new google.maps.Size(30, 30),
+                            anchor: new google.maps.Point(15, 15),
+                        }}
+                        opacity={userselection.selectedMission == props.mission.id ? 1 : 0.5}
+                    // title={new Date(props.geolocations.geolocation.timestamp).toLocaleString()}
+                    />
+                </>
             }
 
             {
