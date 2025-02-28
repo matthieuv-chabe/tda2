@@ -4,6 +4,8 @@ import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import { GoogleRouteV2Result } from "../core/googleUtils";
 import * as fns from "date-fns";
 
+window.allPolyline = []
+
 export const usePolylineForMission = (
     geolocation: paths["/v1/geolocation/missions/tda"]["post"]["responses"]["200"]["content"]["application/json"][number]['mission'],
     enabled: boolean
@@ -35,6 +37,10 @@ export const usePolylineForMission = (
 
     useEffect(() => {
         polyline?.setMap(null)
+
+        window.allPolyline.forEach((pl) => {
+            pl.setMap(null)
+        })
 
         console.log("Something changed, should redraw line !")
 
@@ -79,14 +85,17 @@ export const usePolylineForMission = (
             }
         })
 
-        setPolyline(new google.maps.Polyline({
+        const pl = new google.maps.Polyline({
             path: latlngs, // Decode the polyline
             geodesic: true,
             strokeColor: "#001535",
             strokeOpacity: 1.0,
             strokeWeight: 4,
             map
-        }))
+        })
+
+        setPolyline(pl)
+        window.allPolyline.push(pl)
 
 
         return () => {
