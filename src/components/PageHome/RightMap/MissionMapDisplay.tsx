@@ -29,7 +29,10 @@ export const MissionMapDisplay = (props: {
 	useEffect(() => {
 		return () => {
 			if(polyline)
-				polyline.setMap(null);
+				{
+                    // alert("settiung map to null")
+                    polyline.setMap(null);
+                }
 		}
 	}, [])
 

@@ -40,6 +40,10 @@ export const PageHome = () => {
                 map.setCenter({ lat: 51.5074, lng: -0.1278 })
                 map.setZoom(10)
                 break;
+            case "chabese": // Nice/Cannes
+                map.setCenter({ lat: 43.7102, lng: 7.2620 })
+                map.setZoom(11)
+                break;
         }
 
     }, [map, habilitation])
